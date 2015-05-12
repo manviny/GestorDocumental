@@ -14,10 +14,6 @@
     var bucket_name = 'jrcnaturalsystems';
     var bucket_path = 'prueba';
 
-    // var df_DSP_URL = 'http://indinet.es';
-    // var df_DSP_API_KEY = 'lamemoriagraficaApp'; //name of the app
-    // var bucket_name = 'mny-tiles';
-    // var bucket_path = 'spain/6/30';
 
 // Define our application module and add dependencies
 angular.module('angularjsAuthTutorialApp', [
