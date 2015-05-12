@@ -26,6 +26,7 @@ angular.module('angularjsAuthTutorialApp', [
         'ngSanitize',
         'ngRoute',
         'dfUserManagement',
+        'ngDreamFactory',
         'smart-table'
     ])
     // Set our constants for our DreamFactory Modules

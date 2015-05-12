@@ -18,3 +18,32 @@
 	</tr>
 	</tbody>
 </table>
+
+<table st-table="rowCollection2" class="table table-striped">
+	<thead>
+	<tr>
+		<th>first name</th>
+		<th>last name</th>
+		<th>birth date</th>
+		<th>balance</th>
+		<th>email</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="row in rowCollection">
+		<td>{{row.firstName}}</td>
+		<td>{{row.lastName}}</td>
+		<td>{{row.birthDate}}</td>
+		<td>{{row.balance}}</td>
+		<td>{{row.email}}</td>
+	</tr>
+	</tbody>
+</table>
+<h2>folders</h2>
+<!-- <ul> <li ng-repeat="item in folders[0]"> {{item}} </li> </ul> -->
+<ul> <li ng-repeat="item in folders[0]"> <a href="{{item.path}}">{{item.name}}</a> </li> </ul>
+<h2>files</h2>
+<ul> <li ng-repeat="item in files[0]"> <a href="{{item.path}}">{{item.name}}</a> </li> </ul>
+
+
+
