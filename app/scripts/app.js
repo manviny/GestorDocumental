@@ -25,7 +25,8 @@ angular.module('angularjsAuthTutorialApp', [
         'ngResource',
         'ngSanitize',
         'ngRoute',
-        'dfUserManagement'
+        'dfUserManagement',
+        'smart-table'
     ])
     // Set our constants for our DreamFactory Modules
     .constant('DSP_URL', df_DSP_URL)
