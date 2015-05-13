@@ -41,9 +41,9 @@
 </table>
 <h2>folders</h2>
 <!-- <ul> <li ng-repeat="item in folders[0]"> {{item}} </li> </ul> -->
-<ul> <li ng-repeat="item in folders[0]"> <a href="{{item.path}}">{{item.name}}</a> </li> </ul>
+<ul> <li ng-repeat="item in folders"> <a href="{{item.path}}">{{item.name}}: {{item.path}}</a> </li> </ul>
 <h2>files</h2>
-<ul> <li ng-repeat="item in files[0]"> <a href="{{item.path}}">{{item.name}}</a> </li> </ul>
+<ul> <li ng-repeat="item in files"> <a href="{{item.path}}">{{item.name}}: {{item.path}}</a> </li> </ul>
 
 
 

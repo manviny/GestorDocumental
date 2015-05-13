@@ -27,7 +27,7 @@ angular.module('angularjsAuthTutorialApp')
   		 */
   		
   		var getBucketInfo = function (bucket_name) {
-  			console.debug("NOMBRE",bucket_name);
+
 			var deferred = $q.defer();
 		     DreamFactory.api.S3.getContainer({
 		     	container: bucket_name,
@@ -50,31 +50,34 @@ angular.module('angularjsAuthTutorialApp')
 		 * @type {Array}
 		 */
 
-        var bucketRecursive = function (actualBucket) {
-        	// console.debug(arrayFolders, arrayFolders.length);
-            // console.debug("SIZE",arrayFolders.length);
+        var bucketRecursive = function (n, actualBucket) {
+
             if (arrayFolders.length > 0) {     										// RECURSIVA FINAL
                 									
 				getBucketInfo(actualBucket)
 				.then(function(response){
-					actualBucket = arrayFolders[0].path;
+					
+					arrayFolders = _.rest(arrayFolders);							// quita el path recien leido
 
-				    arrayFolders = _.rest(arrayFolders);
-				    arrayFolders.push(response.folder);
-				    arrayFolders = _.flatten(arrayFolders,true);
-				    
-					$scope.folders.push(response.folder);
-					$scope.files.push(response.file);
+					// añade los nuevos paths
+					_.forEach(response.folder, function(folder) {
+					  	arrayFolders.push(folder.path);
+					  	folders.push({ path: folder.path, name: folder.name, nivel: n });
+					});
 
-				 	bucketRecursive(actualBucket);                  				// RECURSIVA SIGUIENTE CASO
-    
+					// añade los ficheros
+					_.forEach(response.file, function(file) {
+					  	files.push({ path: file.path, name: file.name, nivel: n });
+					});		    
+
+				 	bucketRecursive(n+1, arrayFolders[0]);                  		// RECURSIVA SIGUIENTE CASO
 				})
 
             }
             else{ 
-
-              return;
- 
+            	$scope.folders = folders;
+            	$scope.files = files;
+              	return;
             }
         }
 
@@ -86,10 +89,12 @@ angular.module('angularjsAuthTutorialApp')
   		$scope.files = [];
 
   		var arrayFolders = [];
-  		arrayFolders.push({path:bucket_name});
+  		var folders = [];
+  		var files = [];
+  		arrayFolders.push(bucket_name);
   		console.debug("arrayFolders",arrayFolders);
         
-        bucketRecursive(arrayFolders[0].path);                            					//  RECURSIVA INICIAL
+        bucketRecursive(1, arrayFolders[0]);                            					//  RECURSIVA INICIAL
 
 
 
