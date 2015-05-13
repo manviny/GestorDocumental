@@ -9,16 +9,78 @@
  */
 angular.module('angularjsAuthTutorialApp')
   .controller('DocumentosCtrl', function ($scope, dfapi, $q, DreamFactory) {
-    $scope.rowCollection = [
-        {firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com'},
-        {firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com'},
-        {firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com'}
-    ];
-    $scope.rowCollection2 = [
-        {firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com'},
-        {firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com'},
-        {firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com'}
-    ];
+
+
+  		/**
+  		 * CONFIGURACION
+  		 */
+ 		var colTitles = { 
+ 			facturas: ["cliente", "tipo", "año", "trimestre", "documento"], 
+ 			intervenciones: ["cliente", "tipo", "fecha"], 
+ 			gastos: ["cliente", "tipo"] 
+ 		};
+
+ 		// Crea botones de tipos de documentos
+ 		$scope.horasLibres = {};
+		Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 		
+  		
+  		// Selecciona un solo elemento de botones de tipos de documentos
+		$scope.selectModelo = function(index) {
+			Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 
+			$scope.horasLibres[index] = true;
+			$scope.tableTitles = colTitles[index];
+		}
+
+  		/**
+  		 * Crea Rows a partir de paths
+  		 */
+  		var creaRows = function (folders, files) {
+  			var arrayFolder = [];
+  			var arrayFiles = [];
+
+  			$scope.rowCollection = [];
+
+  			// Si el último elemento es una cadena vacia -> folder
+  			// _.forEach(folders, function(folder) {
+  			// 	console.debug("FOLDER", folder.path.split('/'));
+  			// 	arrayFolder = folder.path.split('/');
+  			// 	console.debug("arrayFolder",arrayFolder[0]);
+  		
+  			// 	$scope.rowCollection.push( { 
+  			// 		cliente: arrayFolder[0], 
+  			// 		tipo: arrayFolder[1], 
+  			// 		anyo: arrayFolder[2], 
+  			// 		trimestre: arrayFolder[3], 
+  			// 		documento: arrayFolder[4] 
+  			// 	});
+  	
+  			// });
+
+      	Object.keys(colTitles).forEach(function(key) {
+      		console.debug("Objeto",key);  // facturas | recibos
+      		console.debug("Objeto datos",colTitles[key]);  // ["cliente","tipo"]  
+		});
+      		console.debug("___Object.keys(colTitles)____",Object.keys(colTitles)[0]);  //   primera llave del Objeto
+
+
+
+
+  			// Si el último elemento es contiene datos -> nombre del fichero
+  			_.forEach(files, function(file) {
+
+  				arrayFiles = file.path.split('/');				// convierte el path en un array
+
+  				$scope.rowCollection.push( { 
+  					cliente: arrayFiles[0], 
+  					tipo: arrayFiles[1], 
+  					anyo: arrayFiles[2], 
+  					trimestre: arrayFiles[3], 
+  					documento: arrayFiles[4] 
+  				});  				
+
+  			});
+  			console.debug("$scope.rowCollection",$scope.rowCollection);
+		}
 
 
 
@@ -77,6 +139,7 @@ angular.module('angularjsAuthTutorialApp')
             else{ 
             	$scope.folders = folders;
             	$scope.files = files;
+            	creaRows(folders, files);
               	return;
             }
         }

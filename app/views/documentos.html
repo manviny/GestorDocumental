@@ -1,44 +1,32 @@
+
+
+<div class="form-group">
+    <div class="col-sm-12">
+        <div class="btn-group pull-right">
+            <label class="btn btn-default"  style="padding:6px 3px" ng-repeat="(horaLibre, enabled) in horasLibres" ng-model="horasLibres[horaLibre]" btn-checkbox ng-change="selectModelo(horaLibre)">{{horaLibre}}</label>
+        </div>
+    </div>
+</div> 
+
+
 <table st-table="rowCollection" class="table table-striped">
 	<thead>
 	<tr>
-		<th>first name</th>
-		<th>last name</th>
-		<th>birth date</th>
-		<th>balance</th>
-		<th>email</th>
+		<th ng-repeat="title in tableTitles">{{title}}</th>
+
 	</tr>
 	</thead>
 	<tbody>
-	<tr ng-repeat="row in rowCollection">
-		<td>{{row.firstName}}</td>
-		<td>{{row.lastName}}</td>
-		<td>{{row.birthDate}}</td>
-		<td>{{row.balance}}</td>
-		<td>{{row.email}}</td>
-	</tr>
+<!-- 	<tr ng-repeat="row in rowCollection">
+		<td>{{row.cliente}}</td>
+		<td>{{row.tipo}}</td>
+		<td>{{row.anyo}}</td>
+		<td>{{row.trimestre}}</td>
+		<td>{{row.documento}}</td>
+	</tr> -->
 	</tbody>
 </table>
 
-<table st-table="rowCollection2" class="table table-striped">
-	<thead>
-	<tr>
-		<th>first name</th>
-		<th>last name</th>
-		<th>birth date</th>
-		<th>balance</th>
-		<th>email</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr ng-repeat="row in rowCollection">
-		<td>{{row.firstName}}</td>
-		<td>{{row.lastName}}</td>
-		<td>{{row.birthDate}}</td>
-		<td>{{row.balance}}</td>
-		<td>{{row.email}}</td>
-	</tr>
-	</tbody>
-</table>
 <h2>folders</h2>
 <!-- <ul> <li ng-repeat="item in folders[0]"> {{item}} </li> </ul> -->
 <ul> <li ng-repeat="item in folders"> <a href="{{item.path}}">{{item.name}}: {{item.path}}</a> </li> </ul>
