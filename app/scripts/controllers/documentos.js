@@ -75,46 +75,27 @@ angular.module('angularjsAuthTutorialApp')
       	Object.keys(colTitles).forEach(function(key) {
       		console.debug("Objeto",key);  // facturas | recibos
       		console.debug("Objeto datos",colTitles[key]);  // ["cliente","tipo"]  
-		});
-      		console.debug("___Object.keys(colTitles)____",Object.keys(colTitles)[0]);  //   primera llave del Objeto
+		    });
+      	console.debug("___Object.keys(colTitles)____",Object.keys(colTitles)[0]);  //   primera llave del Objeto
 
 
 
   			// Si el último elemento es contiene datos -> nombre del fichero
   			_.forEach(files, function(file) {
 
-  				arrayFiles = file.path.split('/');				// convierte el path en un array
-  console.debug("FFFFFF", colTitles[tipo][0]); 
-console.debug("ddddd",colTitles[tipo]);
-				
-				var este = {};
-				colTitles[tipo].forEach(function(col, index){
-					console.debug("indes",index);
-					var temp = colTitles[tipo][index];
-					este[temp] = arrayFiles[index];
-					$scope.rowCollection.push(este[temp])
-				})
-  				// var temp = colTitles[tipo][0];
-  				// var temp1 = colTitles[tipo][1];
-  				// var este = {};
-  				// este[temp] = arrayFiles[0];
-  				// este[temp1] = arrayFiles[1];
-  				console.debug("este",este);
-  				// var el1[temp] =  arrayFiles[0] ;  
-  				// colTitles[tipo][0]= '33'; 
-  				// el1.push(colTitles);
-  				// console.debug("el1",el1);
+    				arrayFiles = file.path.split('/');				// convierte el path en un array
   				
-  				// $scope.rowCollection = este; 
-  				// $scope.rowCollection.push( { 
-  				// 	este, 
-  				// 	tipo: arrayFiles[1], 
-  				// 	anyo: arrayFiles[2], 
-  				// 	trimestre: arrayFiles[3], 
-  				// 	documento: arrayFiles[4] 
-  				// });  				
-
+    				var este = {};
+    				colTitles[tipo].forEach(function(col, index){
+              var temp = colTitles[tipo][index];
+              este[temp] =  arrayFiles[index];
+    					$scope.rowCollection.push(este)
+    				}) 				
   			});
+        $scope.rowCollection = $scope.rowCollection[0];
+
+
+
   			console.debug("$scope.rowCollection",$scope.rowCollection);
 		}
 
