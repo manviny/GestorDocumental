@@ -15,26 +15,42 @@ angular.module('angularjsAuthTutorialApp')
   		 * CONFIGURACION
   		 */
  		var colTitles = { 
- 			facturas: ["cliente", "tipo", "año", "trimestre", "documento"], 
- 			intervenciones: ["cliente", "tipo", "fecha"], 
- 			gastos: ["cliente", "tipo"] 
+ 			facturas: ["cliente", "asunto", "año", "trimestre", "documento"], 
+ 			gastos: ["cliente", "asunto", "documento"],
+ 			intervenciones: ["cliente", "tipo", "fecha"] 
  		};
+
+  		$scope.folders = [];							// carpetas de S3
+  		$scope.files = [];								// ficheros de S3
+
+  		var arrayFolders = [];							// contenedor temporal de todos los paths
+  		var folders = [];								// contenedor temporal de folders
+  		var files = [];									// contenedor temporal de ficheros
+
 
  		// Crea botones de tipos de documentos
  		$scope.horasLibres = {};
 		Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 		
   		
+
+
   		// Selecciona un solo elemento de botones de tipos de documentos
-		$scope.selectModelo = function(index) {
+		$scope.selectModelo = function(tipo) {
 			Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 
-			$scope.horasLibres[index] = true;
-			$scope.tableTitles = colTitles[index];
+			$scope.horasLibres[tipo] = true;
+			$scope.tableTitles = colTitles[tipo];
+
+			$scope.folders = [];  $scope.files = []; folders = []; files = [];				// borra datos de la tabla
+			arrayFolders.push(bucket_name);
+			bucketRecursive(1, arrayFolders[0], tipo);                            					//  RECURSIVA INICIAL
 		}
+
+
 
   		/**
   		 * Crea Rows a partir de paths
   		 */
-  		var creaRows = function (folders, files) {
+  		var creaRows = function (folders, files, tipo) {
   			var arrayFolder = [];
   			var arrayFiles = [];
 
@@ -64,19 +80,39 @@ angular.module('angularjsAuthTutorialApp')
 
 
 
-
   			// Si el último elemento es contiene datos -> nombre del fichero
   			_.forEach(files, function(file) {
 
   				arrayFiles = file.path.split('/');				// convierte el path en un array
-
-  				$scope.rowCollection.push( { 
-  					cliente: arrayFiles[0], 
-  					tipo: arrayFiles[1], 
-  					anyo: arrayFiles[2], 
-  					trimestre: arrayFiles[3], 
-  					documento: arrayFiles[4] 
-  				});  				
+  console.debug("FFFFFF", colTitles[tipo][0]); 
+console.debug("ddddd",colTitles[tipo]);
+				
+				var este = {};
+				colTitles[tipo].forEach(function(col, index){
+					console.debug("indes",index);
+					var temp = colTitles[tipo][index];
+					este[temp] = arrayFiles[index];
+					$scope.rowCollection.push(este[temp])
+				})
+  				// var temp = colTitles[tipo][0];
+  				// var temp1 = colTitles[tipo][1];
+  				// var este = {};
+  				// este[temp] = arrayFiles[0];
+  				// este[temp1] = arrayFiles[1];
+  				console.debug("este",este);
+  				// var el1[temp] =  arrayFiles[0] ;  
+  				// colTitles[tipo][0]= '33'; 
+  				// el1.push(colTitles);
+  				// console.debug("el1",el1);
+  				
+  				// $scope.rowCollection = este; 
+  				// $scope.rowCollection.push( { 
+  				// 	este, 
+  				// 	tipo: arrayFiles[1], 
+  				// 	anyo: arrayFiles[2], 
+  				// 	trimestre: arrayFiles[3], 
+  				// 	documento: arrayFiles[4] 
+  				// });  				
 
   			});
   			console.debug("$scope.rowCollection",$scope.rowCollection);
@@ -112,7 +148,7 @@ angular.module('angularjsAuthTutorialApp')
 		 * @type {Array}
 		 */
 
-        var bucketRecursive = function (n, actualBucket) {
+        var bucketRecursive = function (n, actualBucket, tipo) {
 
             if (arrayFolders.length > 0) {     										// RECURSIVA FINAL
                 									
@@ -121,46 +157,28 @@ angular.module('angularjsAuthTutorialApp')
 					
 					arrayFolders = _.rest(arrayFolders);							// quita el path recien leido
 
-					// añade los nuevos paths
+					// añade los nuevos paths si son del tipo seleccionado [factura | gasto | intervencion ]
 					_.forEach(response.folder, function(folder) {
 					  	arrayFolders.push(folder.path);
-					  	folders.push({ path: folder.path, name: folder.name, nivel: n });
+					  	if(folder.path.indexOf(tipo) > -1) folders.push({ path: folder.path, name: folder.name, nivel: n });
 					});
 
-					// añade los ficheros
+					// añade los ficheros si son del tipo seleccionado [factura | gasto | intervencion ]
 					_.forEach(response.file, function(file) {
-					  	files.push({ path: file.path, name: file.name, nivel: n });
+						if(file.path.indexOf(tipo) > -1) files.push({ path: file.path, name: file.name, nivel: n });
 					});		    
 
-				 	bucketRecursive(n+1, arrayFolders[0]);                  		// RECURSIVA SIGUIENTE CASO
+				 	bucketRecursive(n+1, arrayFolders[0], tipo);                  		// RECURSIVA SIGUIENTE CASO
 				})
 
             }
             else{ 
             	$scope.folders = folders;
             	$scope.files = files;
-            	creaRows(folders, files);
+            	creaRows(folders, files, tipo);
               	return;
             }
         }
-
-        /**
-         * Inicia la carga de documentos
-         * @type {Array}
-         */
-  		$scope.folders = [];
-  		$scope.files = [];
-
-  		var arrayFolders = [];
-  		var folders = [];
-  		var files = [];
-  		arrayFolders.push(bucket_name);
-  		console.debug("arrayFolders",arrayFolders);
-        
-        bucketRecursive(1, arrayFolders[0]);                            					//  RECURSIVA INICIAL
-
-
-
 
 
 
