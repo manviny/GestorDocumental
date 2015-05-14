@@ -10,6 +10,13 @@
 angular.module('angularjsAuthTutorialApp')
   .controller('DocumentosCtrl', function ($scope, dfapi, $q, DreamFactory) {
 
+/**
+ *  COGE files QUE TENGAN ES SU PATH EL TIPO INDICADO
+ *  el nombre seleccinado en colTitles debe ser unico
+ *  no podemos usar por ej facturas en dos tipos diferentes de datos
+ *   jrcnaturalsystems/gastos/
+ *   jrcnaturalsystems/facturas/2015/1er trimester/
+ */
 
   		/**
   		 * CONFIGURACION
@@ -75,11 +82,11 @@ angular.module('angularjsAuthTutorialApp')
   	
   			// });
 
-      	Object.keys(colTitles).forEach(function(key) {
-      		console.debug("Objeto",key);  // facturas | recibos
-      		console.debug("Objeto datos",colTitles[key]);  // ["cliente","tipo"]  
-		    });
-      	console.debug("___Object.keys(colTitles)____",Object.keys(colTitles)[0]);  //   primera llave del Objeto
+      // 	Object.keys(colTitles).forEach(function(key) {
+      // 		console.debug("Objeto",key);  // facturas | recibos
+      // 		console.debug("Objeto datos",colTitles[key]);  // ["cliente","tipo"]  
+		    // });
+      // 	console.debug("___Object.keys(colTitles)____",Object.keys(colTitles)[0]);  //   primera llave del Objeto
 
 
       		/**
@@ -89,18 +96,15 @@ angular.module('angularjsAuthTutorialApp')
 
     			arrayFiles = file.path.split('/');				// convierte el path en un array
   				
-  				// 1.- este crea un objeto para cada item de este array ["cliente", "asunto", "documento"]
+  				// 1.- este objetos 
     			var este = {};
     			colTitles[tipo].forEach(function(col, index){
              		var temp = colTitles[tipo][index];
               		este[temp] =  arrayFiles[index];
-    				$scope.rowCollection.push(este)
+    				
     			}) 				
-
-    			// 2.- pero deberia crear un objeto por cada item en $scope.files
-    			$scope.files.forEach(function(){
-
-    			})
+				$scope.rowCollection.push(este)
+ 
 
   			});
 
@@ -149,11 +153,15 @@ angular.module('angularjsAuthTutorialApp')
 					// añade los nuevos paths si son del tipo seleccionado [factura | gasto | intervencion ]
 					_.forEach(response.folder, function(folder) {
 					  	arrayFolders.push(folder.path);
+
+					  	// COGE folders QUE TENGAN ES SU PATH EL TIPO INDICADO
 					  	if(folder.path.indexOf(tipo) > -1) folders.push({ path: folder.path, name: folder.name, nivel: n });
 					});
 
 					// añade los ficheros si son del tipo seleccionado [factura | gasto | intervencion ]
 					_.forEach(response.file, function(file) {
+
+						// COGE files QUE TENGAN ES SU PATH EL TIPO INDICADO
 						if(file.path.indexOf(tipo) > -1) files.push({ path: file.path, name: file.name, nivel: n });
 					});		    
 
