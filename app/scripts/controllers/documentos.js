@@ -36,11 +36,12 @@ angular.module('angularjsAuthTutorialApp')
 
   		// Selecciona un solo elemento de botones de tipos de documentos
 		$scope.selectModelo = function(tipo) {
+
 			Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 
 			$scope.horasLibres[tipo] = true;
 			$scope.tableTitles = colTitles[tipo];
 
-			$scope.folders = [];  $scope.files = []; folders = []; files = [];				// borra datos de la tabla
+			$scope.rowCollection = []; $scope.folders = [];  $scope.files = []; folders = []; files = [];	// borra datos de la tabla
 			arrayFolders.push(bucket_name);
 			bucketRecursive(1, arrayFolders[0], tipo);                            					//  RECURSIVA INICIAL
 		}
@@ -50,13 +51,15 @@ angular.module('angularjsAuthTutorialApp')
   		/**
   		 * Crea Rows a partir de paths
   		 */
-  		var creaRows = function (folders, files, tipo) {
+  		var pathsToArrays = function (folders, files, tipo) {
   			var arrayFolder = [];
   			var arrayFiles = [];
 
   			$scope.rowCollection = [];
 
-  			// Si el último elemento es una cadena vacia -> folder
+  			/**
+  			 * paths de Folders a arrays (el último elemento es una cadena vacia -> folder)
+  			 */
   			// _.forEach(folders, function(folder) {
   			// 	console.debug("FOLDER", folder.path.split('/'));
   			// 	arrayFolder = folder.path.split('/');
@@ -79,22 +82,27 @@ angular.module('angularjsAuthTutorialApp')
       	console.debug("___Object.keys(colTitles)____",Object.keys(colTitles)[0]);  //   primera llave del Objeto
 
 
-
-  			// Si el último elemento es contiene datos -> nombre del fichero
+      		/**
+      		 * paths de ficheros a arrays (el último elemento es contiene datos -> nombre del fichero)
+      		 */
   			_.forEach(files, function(file) {
 
-    				arrayFiles = file.path.split('/');				// convierte el path en un array
+    			arrayFiles = file.path.split('/');				// convierte el path en un array
   				
-    				var este = {};
-    				colTitles[tipo].forEach(function(col, index){
-              var temp = colTitles[tipo][index];
-              este[temp] =  arrayFiles[index];
-    					$scope.rowCollection.push(este)
-    				}) 				
+  				// 1.- este crea un objeto para cada item de este array ["cliente", "asunto", "documento"]
+    			var este = {};
+    			colTitles[tipo].forEach(function(col, index){
+             		var temp = colTitles[tipo][index];
+              		este[temp] =  arrayFiles[index];
+    				$scope.rowCollection.push(este)
+    			}) 				
+
+    			// 2.- pero deberia crear un objeto por cada item en $scope.files
+    			$scope.files.forEach(function(){
+
+    			})
+
   			});
-        $scope.rowCollection = $scope.rowCollection[0];
-
-
 
   			console.debug("$scope.rowCollection",$scope.rowCollection);
 		}
@@ -156,7 +164,7 @@ angular.module('angularjsAuthTutorialApp')
             else{ 
             	$scope.folders = folders;
             	$scope.files = files;
-            	creaRows(folders, files, tipo);
+            	pathsToArrays(folders, files, tipo);
               	return;
             }
         }

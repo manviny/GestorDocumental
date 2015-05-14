@@ -17,13 +17,15 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr ng-repeat="row in rowCollection">
-		<td>{{row.cliente}}</td>
+	<tr ng-repeat="row in rowCollection track by $index">
+		<td ng-repeat="title in tableTitles">{{row[title]}}</td>
+<!-- 		<td>{{row.cliente}}</td>
 		<td>{{row.asunto}}</td>
-		<td>{{row.documento}}</td>
+		<td>{{row.documento}}</td> -->
 	</tr>
 	</tbody>
 </table>
+
 
 <h2>folders</h2>
 <!-- <ul> <li ng-repeat="item in folders[0]"> {{item}} </li> </ul> -->
