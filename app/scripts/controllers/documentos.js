@@ -22,6 +22,10 @@ angular.module('angularjsAuthTutorialApp')
   		 * CONFIGURACION
   		 */
  		var colTitles = { 
+      Ofertas: ["Raiz", "Grupo", "Empresa", "Informes", "documentos"], 
+      Registros: ["Raiz", "Grupo", "Empresa", "Informes", "tipo", "documentos"], 
+      // Ofertas: ["Grupo", "Empresa", "Ofertas", "documentos"], 
+      // Registros: ["Grupo", "Empresa", "Registros", "Insectos", "documentos"], 
  			facturas: ["cliente", "asunto", "año", "trimestre", "documento"], 
  			gastos: ["cliente", "asunto", "documento"]
  		};
@@ -102,15 +106,57 @@ angular.module('angularjsAuthTutorialApp')
               		este[temp] =  arrayFiles[index];
     				
     			}) 				
-				$scope.rowCollection.push(este)
- 
+				$scope.rowCollection.push(este);
+        getFilters(tipo);
 
   			});
 
   			console.debug("$scope.rowCollection",$scope.rowCollection);
 		}
 
+    function getFilters(tipo){ 
+        $scope.filtro = [];
+        // Registros: ["Raiz", "Grupo", "Empresa", "Informes", "tipo", "documentos"], 
+        colTitles[tipo].forEach(function(col, index){
+            // var temp = colTitles[tipo][index];
+            // este[temp] =  arrayFiles[index];
+            var tmp = _.compact(_.union(_.pluck($scope.rowCollection, colTitles[tipo][index])));  
+            $scope.filtro[colTitles[tipo][index]] = tmp;
+            
+        })  
+           //  $scope.filtro.tipo = _.compact(_.union(_.pluck($scope.rowCollection, 'tipo')));               // nombre de las pistas
+           // console.debug("22222222", $scope.filtro.tipo );
+           //  $scope.filtro.operarios = _.compact(_.union(_.pluck($scope.rowCollection, 'operario')));         // nombres de los operarios en fecha seleccionada
+           //  $scope.filtro.tarifas = _.compact(_.union(_.pluck($scope.rowCollection, 'tarifa')));             // tipo de tarifas
+           //  $scope.filtro.horas = _.compact(_.union(_.pluck($scope.rowCollection, 'hora')));                 // tipo de horas
+        
+    }
 
+
+
+    // filtra datos desde los desplegables
+    $scope.filtra = function(filtro){
+
+        switch(Object.keys(filtro)[0]) {
+            case 'cliente':
+                $scope.search.cliente = filtro.cliente;
+                break;
+            case 'pista':
+                $scope.search.sujeto = filtro.pista;
+                break;
+            case 'hora':
+                $scope.search.hora = filtro.hora;
+                break;
+            case 'operario':
+                $scope.search.operario = filtro.operario;
+                break;
+            case 'tarifa':
+                $scope.search.tarifa = filtro.tarifa;
+                break;
+
+        }
+
+   } 
 
   		/**
   		 * One bucket info
