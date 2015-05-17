@@ -93,6 +93,10 @@ angular.module('angularjsAuthTutorialApp', [
                     }]
                 }
             })
+            .when('/jrc', {
+              templateUrl: 'views/jrc.html',
+              controller: 'JrcCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
