@@ -23,8 +23,7 @@ angular.module('angularjsAuthTutorialApp')
   		 */
  		var colTitles = { 
  			facturas: ["cliente", "asunto", "año", "trimestre", "documento"], 
- 			gastos: ["cliente", "asunto", "documento"],
- 			intervenciones: ["cliente", "tipo", "fecha"] 
+ 			gastos: ["cliente", "asunto", "documento"]
  		};
 
   		$scope.folders = [];							// carpetas de S3
