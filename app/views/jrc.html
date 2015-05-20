@@ -1,1 +1,51 @@
-<p>This is the jrc view.</p>
+<style>
+	.table {
+		max-width: none;
+		table-layout: fixed;
+		word-wrap: break-word;
+	}
+	.table-scrollable{
+		overflow: auto;
+	}
+	th input { 			/*fix input rows*/
+		width:100%;
+	}
+	tr {
+		width: 100%;
+	}
+
+	.tabla200 {  
+    height: 350px !important;
+    overflow: scroll;
+    position: relative;
+
+	}​
+
+</style>
+<table st-table="rowCollection" class="table table-striped">
+	<thead>
+	<tr>
+		<th>Orden</th>
+		<th>Nombre Grupo</th>
+		<th>Empresa</th>
+		<th>Tipo Documento</th>
+		<th>Año</th>
+		<th>Fecha Registro</th>
+		<th>Documento</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="row in rowCollection">
+		<td>#{{$index+1}}</td>
+		<td>{{row.lastName}}</td>
+		<td>{{row.birthDate}}</td>
+		<td>{{row.balance}}</td>
+		<td>{{row.email}}</td>
+		<td>{{row.email}}</td>
+		<td>{{row.email}}</td>
+	</tr>
+	</tbody>
+</table>
+
+
+

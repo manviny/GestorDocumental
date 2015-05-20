@@ -22,6 +22,7 @@ angular.module('angularjsAuthTutorialApp')
   		 * CONFIGURACION
   		 */
  		var colTitles = { 
+      Grupo_Panstar: ["JRC", "Grupo", "Nombre Empresa", "Tipo", "Año", "Fecha registro", "Documento"],
  			facturas: ["cliente", "asunto", "año", "trimestre", "documento"], 
  			gastos: ["cliente", "asunto", "documento"]
  		};
@@ -29,7 +30,7 @@ angular.module('angularjsAuthTutorialApp')
   		$scope.folders = [];							// carpetas de S3
   		$scope.files = [];								// ficheros de S3
 
-  		var arrayFolders = [];							// contenedor temporal de todos los paths
+  		var arrayFolders = [];					// contenedor temporal de todos los paths
   		var folders = [];								// contenedor temporal de folders
   		var files = [];									// contenedor temporal de ficheros
 
@@ -40,7 +41,7 @@ angular.module('angularjsAuthTutorialApp')
   		
 
 
-  		// Selecciona un solo elemento de botones de tipos de documentos
+  	// Selecciona un solo elemento de botones de tipos de documentos
 		$scope.selectModelo = function(tipo) {
 
 			Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 
