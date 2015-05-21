@@ -1,9 +1,22 @@
 <div class="container">
-	<p>aqui desplegable con todos los buckets</p>
+
+
+    <!-- DropDown Buckets -->
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        Buckets <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="bucket in buckets"><a href="#">{{bucket.name}}</a></li>
+      </ul>
+    </div>
+    <!--  -->
+
+    <!-- bucket table -->
 	<h2>Bases de datos</h2>
 	<table st-table="rowCollection" class="table table-striped">
 		<thead>
-		<tr>
+		<tr style="background-color:#fcffc7">
 			<th st-sort="tblName">Nombre</th>
 			<th st-sort="tblDate">Fecha actualización</th>
 			<th st-sort="actualizar"></th>
@@ -27,7 +40,10 @@
 		</tr>
 		</tbody>
 	</table>
+    <!-- bucket table -->
 
+
+    <!-- add BD -->
 	<div class="row">
 		  <div class="col-xs-6">
 		    <div class="input-group">
@@ -38,6 +54,10 @@
 		    </div><!-- /input-group -->
 		  </div><!-- /.col-lg-6 -->
 	</div>
+    <!-- add BD -->
+
+
+
 	<h3>Campos Bases de datos</h3>
 
 </div>

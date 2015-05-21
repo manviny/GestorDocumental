@@ -17,6 +17,11 @@ angular.module('angularjsAuthTutorialApp')
 
 	// dfapi.S3_bucketToJSON( bucket_name, 'Grupo_Panstar'); 
     // dfapi.S3_bucketToJSON( bucket_name, 'Palomillas');				// busca que el documento o ruta contenga 'vigilancia'
+    dfapi.getBuckets()
+    .then(function(response){
+    	$scope.buckets = response.resource;
+    	console.debug(response);
+    });
   
 
     $scope.rowCollection = [

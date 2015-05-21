@@ -50,7 +50,7 @@ angular.module('angularjsAuthTutorialApp')
 
 
   		/**
-  		 * One bucket info, files and folders
+  		 * One bucket info, get bucket files and folders
   		 */
   		
   		var getBucketInfo = function (bucket_name) {
@@ -68,6 +68,16 @@ angular.module('angularjsAuthTutorialApp')
 		     // Error function
 		     function(reject) { console.debug("Reject",reject); deferred.reject('Greeting'); });
 		     return deferred.promise
+		}
+  		
+  		/**	
+  		*	Get all buckets in my S3
+  		*/
+  		var getBuckets = function () {
+
+			var deferred = $q.defer();
+		    DreamFactory.api.S3.getResources( function(result) { deferred.resolve(result); });
+		    return deferred.promise
 		}
 
 
@@ -222,7 +232,9 @@ angular.module('angularjsAuthTutorialApp')
     return {
         S3getFolder: S3getFolder,
         S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a  json          
-    	getFileFromBucket: getFileFromBucket
+    	getFileFromBucket: getFileFromBucket,
+    	getBucketInfo: getBucketInfo,
+    	getBuckets: getBuckets
     };  
 
   });

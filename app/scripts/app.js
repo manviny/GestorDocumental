@@ -8,12 +8,12 @@
 // bower install angular-dreamfactory --save
 
     // config
-    var empresa = 'JRS Sistemas Naturales';
     var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
     var df_DSP_API_KEY = 'JRC'; //name of the app
+
+    var empresa = 'JRS Sistemas Naturales';
+    var bucket_BD = 'jrc-sistemas-naturales'+'-db'; // folder to save dabases.json
     var bucket_name = 'jrcnaturalsystems';
-    var bucket_BD = '_DB';          // folder to save dabases.json
-    var bucket_path = 'prueba';
 
 
     var tableTitles = { 
