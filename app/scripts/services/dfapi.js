@@ -28,8 +28,7 @@ angular.module('angularjsAuthTutorialApp')
 	
 	// GLOBALES
 	$rootScope.rowCollection = [];
-    $rootScope.S3_Folders = [];
-    $rootScope.S3_Files = [];
+
 
 
 	var S3getFolder = function(bucket, path, $q, DreamFactory){
@@ -63,7 +62,7 @@ angular.module('angularjsAuthTutorialApp')
 		     },
 		     // Success function
 		      function(result) { 
-		      	console.debug("RESULTADO",result);
+		      	// console.debug("RESULTADO",result);
 		      	deferred.resolve(result);
 		      },
 		     // Error function
@@ -100,7 +99,7 @@ angular.module('angularjsAuthTutorialApp')
     			}) 				
 				$rootScope.rowCollection.push(este)
 			});	
-			
+
   			console.debug("$rootScope.rowCollection",$rootScope.rowCollection);
 		}
 
@@ -114,8 +113,8 @@ angular.module('angularjsAuthTutorialApp')
 		 */
         var bucketRecursive = function ( actualBucket, tipo ) {
 
+								
             if (arrayFolders.length > 0) {     										// RECURSIVA FINAL
-                									
 				getBucketInfo(actualBucket)
 				.then(function(response){
 					
@@ -143,9 +142,7 @@ angular.module('angularjsAuthTutorialApp')
             else{ 
 
             	pathsToObject(tableTitles.documentos, folders, files);  	
-            	$rootScope.S3_Folders = folders;
-            	$rootScope.S3_Files = files;
-              	return;
+              	return ;
             }
 
         }
@@ -167,8 +164,8 @@ angular.module('angularjsAuthTutorialApp')
 			files = [];	// borra datos de la tabla
 
 			arrayFolders.push(bucket);								// pon el nombre del bucket en el array
-			bucketRecursive( arrayFolders[0], tipo );      			// crea json, llama con el nombre del bucket
-
+			bucketRecursive( arrayFolders[0], tipo )      			// crea json, llama con el nombre del bucket
+		
 		}
 
 
