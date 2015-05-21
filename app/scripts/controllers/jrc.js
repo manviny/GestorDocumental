@@ -20,10 +20,11 @@ angular.module('angularjsAuthTutorialApp')
 
     $scope.tableTitles = tableTitles.documentos;
 
-    dfapi.S3_bucketToJSON( bucket_name, 'Grupo_Panstar'); 			// busca que el documento o ruta contenga 'Grupo_Panstar'
-    // dfapi.S3_bucketToJSON( bucket_name, 'vigilancia');				// busca que el documento o ruta contenga 'vigilancia'
-
-
+    dfapi.getFileFromBucket( bucket_name, 'Palomillas')
+    .then(function(response){
+    	
+        console.log(response);
+    })
 
 
   });

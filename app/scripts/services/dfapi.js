@@ -72,7 +72,51 @@ angular.module('angularjsAuthTutorialApp')
 
 
 		/**
-		 * [pathsToObject description]
+		 * Writes file to S3 bucket
+		 * @param {[type]} bucket_name [description]  jrcnaturalsystems
+		 * @param {[type]} name        path+folder of file  _DB/hola.json
+		 * @param {[type]} content     content of file  '{"name": "","path": "","content_type": "","metadata": [ ""]}'
+		 */
+  		var setFileToBucket = function (bucket_name, name, content) {
+
+		     DreamFactory.api.S3.createFile({
+		     	container: bucket_name,
+		     	file_path: bucket_BD + '/' + name + '.json', 
+		     	body: content
+		     },
+		     // Success function
+		      function(result) { 
+		      	console.debug("RESULTADO",result);
+		      },
+		     // Error function
+		     function(reject) { console.debug("Reject",reject);  });
+
+		}
+
+		/**
+		 * Writes file to S3 bucket
+		 * @param {[type]} bucket_name [description]  jrcnaturalsystems
+		 * @param {[type]} name        path+folder of file  _DB/hola.json
+		 * @param {[type]} content     content of file  '{"name": "","path": "","content_type": "","metadata": [ ""]}'
+		 */
+  		var getFileFromBucket = function (bucket_name, name) {
+			var deferred = $q.defer();
+		     DreamFactory.api.S3.getFile({
+		     	container: bucket_name,
+		     	file_path: bucket_BD + '/' + name + '.json'
+		     },
+		     // Success function
+		      function(result) { 
+		      	deferred.resolve(result);
+		      },
+		     // Error function
+		     function(reject) { deferred.reject('No se pudo'); });
+ 			return deferred.promise
+		}
+
+
+		/**
+		 * [Convierte los paths de folders y files a objetos con los nombres 'names']
 		 * @param  {[type]} names   ["cliente", "asunto", "año", "trimestre", "documento"]
 		 * @param  {[type]} folders all folder paths
 		 * @param  {[type]} files   all files paths
@@ -140,8 +184,12 @@ angular.module('angularjsAuthTutorialApp')
 
             }
             else{ 
+            	console.debug("FILES",files);
+            	console.debug("Folders",folders);
 
-            	pathsToObject(tableTitles.documentos, folders, files);  	
+				setFileToBucket(bucket_name, tipo, files); 
+
+            	// pathsToObject(tableTitles.documentos, folders, files);  	
               	return ;
             }
 
@@ -173,7 +221,8 @@ angular.module('angularjsAuthTutorialApp')
 
     return {
         S3getFolder: S3getFolder,
-        S3_bucketToJSON, S3_bucketToJSON 						// convierte toda la estructura de un bucket de S3 a  json          
+        S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a  json          
+    	getFileFromBucket: getFileFromBucket
     };  
 
   });

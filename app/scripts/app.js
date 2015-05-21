@@ -12,6 +12,7 @@
     var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
     var df_DSP_API_KEY = 'JRC'; //name of the app
     var bucket_name = 'jrcnaturalsystems';
+    var bucket_BD = '_DB';          // folder to save dabases.json
     var bucket_path = 'prueba';
 
 
@@ -105,6 +106,10 @@ angular.module('angularjsAuthTutorialApp', [
             .when('/jrc', {
               templateUrl: 'views/jrc.html',
               controller: 'JrcCtrl'
+            })
+            .when('/baseDatos', {
+              templateUrl: 'views/basedatos.html',
+              controller: 'BasedatosCtrl'
             })
             .otherwise({
                 redirectTo: '/'
