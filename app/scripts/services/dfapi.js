@@ -19,15 +19,17 @@ angular.module('angularjsAuthTutorialApp')
 
 	/**
 	 * CONFIGURACION
+	 * 
 	 */
 
 	var folders = [];							// carpetas de S3
 	var files = [];								// ficheros de S3
 	var arrayFolders = [];						// contenedor temporal de todos los paths
-	var rowCollection = [];
-
-
-
+	
+	// GLOBALES
+	$rootScope.rowCollection = [];
+    $rootScope.S3_Folders = [];
+    $rootScope.S3_Files = [];
 
 
 	var S3getFolder = function(bucket, path, $q, DreamFactory){
@@ -70,32 +72,47 @@ angular.module('angularjsAuthTutorialApp')
 		}
 
 
-  		/**
-  		 * Crea Rows a partir de paths
-  		 */
-  		var pathsToArrays = function (folders, files, tipo) {
+		/**
+		 * [pathsToObject description]
+		 * @param  {[type]} names   ["cliente", "asunto", "año", "trimestre", "documento"]
+		 * @param  {[type]} folders all folder paths
+		 * @param  {[type]} files   all files paths
+		 * @return {[type]}         [description]
+		 */
+  		var pathsToObject = function (names, folders, files) {
+  			console.debug("tt",names);
   			var arrayFolder = [];
   			var arrayFiles = [];
 
-  			rowCollection = [];
+  			$rootScope.rowCollection = [];
 
       		/**
-      		 * paths de ficheros a arrays (el último elemento es contiene datos -> nombre del fichero)
+      		 * Crea Objeto con nombre de cabecera y dato 
+      		 * {"Orden":"jrcnaturalsystems","Grupo":"Grupo_Panstar","Empresa":"PNM_Panamar","Tipo Documento":"01-Registro","Año":"2015","Fecha registro":"150114","Documento":"PNM-Panamar_#007-Cucas_Planos-Puntos-Control.pdf"}
       		 */
-  			_.forEach(files, function(file) {
-    			arrayFiles = file.path.split('/');				// convierte el path en un array
-				rowCollection.push(arrayFiles)
-  			});
-
-  			
+			_.forEach(files, function(file) {
+				arrayFiles = file.path.split('/');				// convierte el path en un array
+  				// 1.- este objetos 
+    			var este = {};
+    			names.forEach(function(col, index){
+             		var temp = names[index];
+              		este[temp] =  arrayFiles[index];	
+    			}) 				
+				$rootScope.rowCollection.push(este)
+			});	
+			
+  			console.debug("$rootScope.rowCollection",$rootScope.rowCollection);
 		}
 
-		/**
-		 * Inicializa variables
-		 * @type {Array}
-		 */
 
-        var bucketRecursive = function (n, actualBucket, tipo) {
+
+		/**
+		 * [bucketRecursive description] ej: bucketRecursive( bucketname, '2015' ) 
+		 * @param  {[type]} actualBucket bucket raiz desde el que se leera la estructura
+		 * @param  {[type]} tipo         string que debe contener el path para incluirlo en la salida
+		 * @return {[type]}              [description]
+		 */
+        var bucketRecursive = function ( actualBucket, tipo ) {
 
             if (arrayFolders.length > 0) {     										// RECURSIVA FINAL
                 									
@@ -119,27 +136,28 @@ angular.module('angularjsAuthTutorialApp')
 						if(file.path.indexOf(tipo) > -1) files.push({ path: file.path, name: file.name });
 					});		    
 
-				 	bucketRecursive(n+1, arrayFolders[0], tipo);                  		// RECURSIVA SIGUIENTE CASO
+				 	bucketRecursive( arrayFolders[0], tipo);                  		// RECURSIVA SIGUIENTE CASO
 				})
 
             }
             else{ 
 
-            	// pathsToArrays(folders, files, tipo);
-            	console.debug("tipo",tipo);
-            	console.debug("folders",folders);
-            	console.debug("files",files);
-            	
-
-              	return ;
+            	pathsToObject(tableTitles.documentos, folders, files);  	
+            	$rootScope.S3_Folders = folders;
+            	$rootScope.S3_Files = files;
+              	return;
             }
+
         }
 
 
         /**
          * Convierte un bucket completo recursivamente a JSON
          * @param {[type]} bucket [nombre del bucket deseado]
-         * @param {[type]} tipo   [debe contenerlo en la ruta del bucket]
+         * @param {[type]} tipo   [debe contenerlo en la ruta del bucket para incluirlo en los resultados] 
+         *                        ej: tipo=factura -> /empresa/factura/2015/
+         *                        $rootScope.S3_Folders		=>   contendra las carpetas del resultado
+         *                        $rootScope.S3_Files	    =>   contendra los ficheros del resultado
          */
 		var S3_bucketToJSON = function (bucket, tipo) {
 
@@ -148,11 +166,11 @@ angular.module('angularjsAuthTutorialApp')
 			folders = []; 
 			files = [];	// borra datos de la tabla
 
-			arrayFolders.push(bucket);
-			bucketRecursive(1, arrayFolders[0], tipo); 
-
+			arrayFolders.push(bucket);								// pon el nombre del bucket en el array
+			bucketRecursive( arrayFolders[0], tipo );      			// crea json, llama con el nombre del bucket
 
 		}
+
 
     // Public API here
 

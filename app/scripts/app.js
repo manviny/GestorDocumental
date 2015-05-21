@@ -15,6 +15,15 @@
     var bucket_path = 'prueba';
 
 
+    var tableTitles = { 
+        // documentos: ["Orden", "Grupo", "Empresa", "Tipo Documento", "Año", "Fecha registro", "Documento"],
+        documentos: ["orden", "grupo", "empresa", "tipo", "anyo", "registro", "documento"],
+        facturas: ["cliente", "asunto", "año", "trimestre", "documento"], 
+        gastos: ["cliente", "asunto", "documento"]
+    };
+
+
+
 // Define our application module and add dependencies
 angular.module('angularjsAuthTutorialApp', [
         'ngCookies',
