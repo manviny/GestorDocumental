@@ -10,7 +10,23 @@
 angular.module('angularjsAuthTutorialApp')
   .controller('BasedatosCtrl', function ($scope, dfapi) {
 
-  	// Genera la BD de Grupo_Panstar
+
+  	/**	
+  	*  Genera la BD de Grupo_Panstar
+  	*/
+
 	// dfapi.S3_bucketToJSON( bucket_name, 'Grupo_Panstar'); 
-    dfapi.S3_bucketToJSON( bucket_name, 'Palomillas');				// busca que el documento o ruta contenga 'vigilancia'
+    // dfapi.S3_bucketToJSON( bucket_name, 'Palomillas');				// busca que el documento o ruta contenga 'vigilancia'
+  
+
+    $scope.rowCollection = [
+        {tblName: 'Laurent', tblDate: new Date('1987-05-21')},
+        {tblName: 'Blandine', tblDate:  new Date('1987-04-25')},
+        {tblName: 'Francoise', tblDate:  new Date('1955-08-27')}
+    ];
+
+    $scope.predicates = ['firstName', 'lastName', 'birthDate', 'balance', 'email'];
+    $scope.selectedPredicate = $scope.predicates[0];
+
+
   });

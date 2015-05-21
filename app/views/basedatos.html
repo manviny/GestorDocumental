@@ -1,1 +1,43 @@
-<p>This is the baseDatos view.</p>
+<div class="container">
+	<p>aqui desplegable con todos los buckets</p>
+	<h2>Bases de datos</h2>
+	<table st-table="rowCollection" class="table table-striped">
+		<thead>
+		<tr>
+			<th st-sort="tblName">Nombre</th>
+			<th st-sort="tblDate">Fecha actualización</th>
+			<th st-sort="actualizar"></th>
+			<th st-sort="borrar"></th>
+		</tr>
+		<tr >
+			<th>
+				<input st-search="tblName" placeholder="nombre" class="input-sm form-control" type="search"/>
+			</th>
+			<th>
+				<input st-search="tblDate" placeholder="fecha" class="input-sm form-control" type="search"/>
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="row in rowCollection">
+			<td>{{row.tblName}}</td>
+			<td>{{row.tblDate | date}}</td>
+			<td><i style="color:blue" class="glyphicon glyphicon glyphicon-refresh" ng-click="removeTarifa($index)"></i></td>
+			<td><i style="color:red" class="glyphicon glyphicon glyphicon-trash" ng-click="removeTarifa($index)"></i></td>
+		</tr>
+		</tbody>
+	</table>
+
+	<div class="row">
+		  <div class="col-xs-6">
+		    <div class="input-group">
+		      <input type="text" class="form-control" placeholder="nombre de la base de datos">
+		      <span class="input-group-btn">
+		        <button class="btn btn-info" ng-click="open($event)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div><!-- /.col-lg-6 -->
+	</div>
+	<h3>Campos Bases de datos</h3>
+
+</div>
