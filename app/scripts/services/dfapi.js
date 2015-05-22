@@ -25,10 +25,19 @@ angular.module('angularjsAuthTutorialApp')
 	var folders = [];							// carpetas de S3
 	var files = [];								// ficheros de S3
 	var arrayFolders = [];						// contenedor temporal de todos los paths
+	var selectedBucket = '';
 	
 	// GLOBALES
 	$rootScope.rowCollection = [];
 
+
+	var setBucket = function(name){
+		selectedBucket = name;
+	}
+
+	var getBucket = function(){
+		return selectedBucket;
+	}
 
 
 	var S3getFolder = function(bucket, path, $q, DreamFactory){
@@ -87,11 +96,11 @@ angular.module('angularjsAuthTutorialApp')
 		 * @param {[type]} name        path+folder of file  _DB/hola.json
 		 * @param {[type]} content     content of file  '{"name": "","path": "","content_type": "","metadata": [ ""]}'
 		 */
-  		var setFileToBucket = function (bucket_name, name, content) {
+  		var setFileToDB = function (name, content) {
 
 		     DreamFactory.api.S3.createFile({
-		     	container: bucket_name,
-		     	file_path: bucket_BD + '/' + name + '.json', 
+		     	container: bucket_BD,
+		     	file_path: name + '.json', 
 		     	body: content
 		     },
 		     // Success function
@@ -109,11 +118,11 @@ angular.module('angularjsAuthTutorialApp')
 		 * @param {[type]} name        path+folder of file  _DB/hola.json
 		 * @param {[type]} content     content of file  '{"name": "","path": "","content_type": "","metadata": [ ""]}'
 		 */
-  		var getFileFromBucket = function (bucket_name, name) {
+  		var getFileFromDB = function (name) {
 			var deferred = $q.defer();
 		     DreamFactory.api.S3.getFile({
-		     	container: bucket_name,
-		     	file_path: bucket_BD + '/' + name + '.json'
+		     	container: bucket_BD,
+		     	file_path: name + '.json'
 		     },
 		     // Success function
 		      function(result) { 
@@ -197,7 +206,7 @@ angular.module('angularjsAuthTutorialApp')
             	console.debug("FILES",files);
             	console.debug("Folders",folders);
 
-				setFileToBucket(bucket_name, tipo, files); 
+				setFileToDB(tipo, files); 
 
             	// pathsToObject(tableTitles.documentos, folders, files);  	
               	return ;
@@ -232,9 +241,12 @@ angular.module('angularjsAuthTutorialApp')
     return {
         S3getFolder: S3getFolder,
         S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a  json          
-    	getFileFromBucket: getFileFromBucket,
+    	getFileFromDB: getFileFromDB,							// get json file from database bucket
+    	setFileToDB: setFileToDB,								// set json file to database bucket
     	getBucketInfo: getBucketInfo,
-    	getBuckets: getBuckets
+    	getBuckets: getBuckets,									// informacion de los bucket que existen
+    	getBucket: getBucket,									// devueve el bucket activo
+    	setBucket: setBucket,									// activa un bucket
     };  
 
   });

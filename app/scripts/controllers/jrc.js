@@ -20,7 +20,7 @@ angular.module('angularjsAuthTutorialApp')
 
     $scope.tableTitles = tableTitles.documentos;
 
-    dfapi.getFileFromBucket( bucket_name, 'Palomillas')
+    dfapi.getFileFromDB('Palomillas')
     .then(function(response){
     	
         console.log(response);

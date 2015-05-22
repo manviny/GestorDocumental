@@ -15,7 +15,7 @@ angular.module('angularjsAuthTutorialApp')
   	*  Genera la BD de Grupo_Panstar
   	*/
 
-	// dfapi.S3_bucketToJSON( bucket_name, 'Grupo_Panstar'); 
+	dfapi.S3_bucketToJSON( bucket_name, 'Grupo_Panstar'); 
     // dfapi.S3_bucketToJSON( bucket_name, 'Palomillas');				// busca que el documento o ruta contenga 'vigilancia'
     dfapi.getBuckets()
     .then(function(response){
@@ -33,5 +33,7 @@ angular.module('angularjsAuthTutorialApp')
     $scope.predicates = ['firstName', 'lastName', 'birthDate', 'balance', 'email'];
     $scope.selectedPredicate = $scope.predicates[0];
 
+    // set selected bucket as actual bucket
+    $scope.setBucket = function(name){ dfapi.setBucket(name); }
 
   });

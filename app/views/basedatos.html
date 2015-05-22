@@ -7,7 +7,7 @@
         Buckets <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="bucket in buckets"><a href="#">{{bucket.name}}</a></li>
+        <li ng-repeat="bucket in buckets" ng-click="setBucket(bucket.name)">{{bucket.name}}</li>
       </ul>
     </div>
     <!--  -->
