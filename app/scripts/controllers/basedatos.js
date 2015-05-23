@@ -33,6 +33,7 @@ angular.module('angularjsAuthTutorialApp')
 
     dfapi.getBuckets()
     .then(function(response){
+      $scope.buckets = [];
     	$scope.buckets = response.resource;
     	console.debug(response);
     });
@@ -46,18 +47,17 @@ angular.module('angularjsAuthTutorialApp')
     $scope.setBucket = function(name){ 
       dfapi.setBucket(name);                                          // set selected bucket as actual bucket
       $scope.bucketSelecionado = dfapi.getBucket();
+
+      // get ficheros de base de datos en el bucket
+      $scope.rowCollection = [];
       dfapi.getBucketInfo($scope.bucketSelecionado)
       .then(function(response){
-
-          _.forEach(response.file, function(item) { 
-            $scope.rowCollection.push({tblName: item.name, tblDate: item.last_modified})
+          _.forEach(response.file, function(item) {
+              var nombre = item.name.replace(dbprefix,'');            // quita el prefijo ___DB___
+              if(!_.isUndefined(nombre)){
+                $scope.rowCollection.push({tblName: nombre.replace('.json',''), tblDate: item.last_modified}) // quita .json del nombre del fichero
+              }
           })
-          // response.forEach(function(item){
-          //   $scope.rowCollection.push({tblName: item.name, tblDate: item.last_modified})
-          // })  
-          console.log(response);
-
-
       })
     }  
 
@@ -69,7 +69,9 @@ angular.module('angularjsAuthTutorialApp')
      $scope.createDB = function(name){
 
       if(dfapi.getBucket()=='') { alert('Selecciona un bucket'); return;}
-      dfapi.S3_bucketToJSON(name);
+      dfapi.S3_bucketToJSON(name);                                        // crea el fichero .json
+      // dfapi.S3_bucketToJSON(name, content, roles);                                        // crea el fichero .json
+      $scope.rowCollection.push({tblName: name, tblDate: new Date()});    // añade a la tabla el fichero recien creado
 
      }
 

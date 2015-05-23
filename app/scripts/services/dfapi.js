@@ -112,7 +112,7 @@ angular.module('angularjsAuthTutorialApp')
 
 		     DreamFactory.api.S3.createFile({
 		     	container: selectedBucket,
-		     	file_path: '/___' + name + '.json', 
+		     	file_path: '/' + dbprefix + name + '.json', 
 		     	body: content
 		     },
 		     // Success function
@@ -134,7 +134,7 @@ angular.module('angularjsAuthTutorialApp')
 			var deferred = $q.defer();
 		     DreamFactory.api.S3.getFile({
 		     	container: selectedBucket,
-		     	file_path: '/___' + name + '.json'
+		     	file_path:  '/' + dbprefix + name + '.json'
 		     },
 		     // Success function
 		      function(result) { 
