@@ -1,19 +1,25 @@
 <div class="container">
 
 
-    <!-- DropDown Buckets -->
-    <div class="btn-group" dropdown is-open="status.isopen">
-      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-        Buckets <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="bucket in buckets" ng-click="setBucket(bucket.name)">{{bucket.name}}</li>
-      </ul>
-    </div>
-    <!--  -->
+    <!-- DropDown Buckets: START -->       
+  	<div class="btn-group" dropdown is-open="status.isopen">
+	    <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        	<span class="glyphicon glyphicon-folder-open"></span> &nbsp Buckets  <span class="caret"></span>
+      	</button>          
+      	<ul class="dropdown-menu" role="menu">
+        	<li ng-repeat="bucket in buckets" ng-click="setBucket(bucket.name)">&nbsp <span class="glyphicon glyphicon-folder-open"></span>&nbsp  {{bucket.name}} </li>
+      	</ul>
+	</div>       
+  	<div class="btn-group">
+ 		<button type="button" class="btn btn-default btn-sm" ng-click="toggleDropdown($event)">{{bucketSelecionado}}</button>
+	</div>  	
+    <!-- DropDown Buckets: END -->
+
+
+
 
     <!-- bucket table -->
-	<h2>Bases de datos</h2>
+	<h2>Base de datos</h2>
 	<table st-table="rowCollection" class="table table-striped">
 		<thead>
 		<tr style="background-color:#fcffc7">
@@ -47,9 +53,9 @@
 	<div class="row">
 		  <div class="col-xs-6">
 		    <div class="input-group">
-		      <input type="text" class="form-control" placeholder="nombre de la base de datos">
+		      <input type="text" class="form-control" placeholder="nombre de la base de datos" ng-model="nombreBD">
 		      <span class="input-group-btn">
-		        <button class="btn btn-info" ng-click="open($event)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
+		        <button class="btn btn-info" ng-click="createDB(nombreBD)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
 		      </span>
 		    </div><!-- /input-group -->
 		  </div><!-- /.col-lg-6 -->

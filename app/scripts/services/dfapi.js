@@ -10,10 +10,12 @@
 angular.module('angularjsAuthTutorialApp')
   .service('dfapi', function (DreamFactory, $http, $q, $rootScope) {
 
+
 	// wait for API to be ready
+	var apiReady = false;
 	$rootScope.$on('api:ready', function(event) {
 		console.debug('API cargada');
-	
+		apiReady = true;
 	});
 
 
@@ -83,9 +85,19 @@ angular.module('angularjsAuthTutorialApp')
   		*	Get all buckets in my S3
   		*/
   		var getBuckets = function () {
-
 			var deferred = $q.defer();
-		    DreamFactory.api.S3.getResources( function(result) { deferred.resolve(result); });
+
+			// carga buckets solo cuando la api esta disponible y no antes
+			$rootScope.$on('api:ready', function(event) {
+				DreamFactory.api.S3.getResources( function(result) { 
+					// quita el bucket de BD, no es necesario verlo en el frontend
+
+					// bucket_BD
+					deferred.resolve(result); 
+
+				});
+			});
+
 		    return deferred.promise
 		}
 
@@ -99,8 +111,8 @@ angular.module('angularjsAuthTutorialApp')
   		var setFileToDB = function (name, content) {
 
 		     DreamFactory.api.S3.createFile({
-		     	container: bucket_BD,
-		     	file_path: name + '.json', 
+		     	container: selectedBucket,
+		     	file_path: '/___' + name + '.json', 
 		     	body: content
 		     },
 		     // Success function
@@ -113,7 +125,7 @@ angular.module('angularjsAuthTutorialApp')
 		}
 
 		/**
-		 * Writes file to S3 bucket
+		 * Gets file from S3 bucket
 		 * @param {[type]} bucket_name [description]  jrcnaturalsystems
 		 * @param {[type]} name        path+folder of file  _DB/hola.json
 		 * @param {[type]} content     content of file  '{"name": "","path": "","content_type": "","metadata": [ ""]}'
@@ -121,8 +133,8 @@ angular.module('angularjsAuthTutorialApp')
   		var getFileFromDB = function (name) {
 			var deferred = $q.defer();
 		     DreamFactory.api.S3.getFile({
-		     	container: bucket_BD,
-		     	file_path: name + '.json'
+		     	container: selectedBucket,
+		     	file_path: '/___' + name + '.json'
 		     },
 		     // Success function
 		      function(result) { 
@@ -217,21 +229,24 @@ angular.module('angularjsAuthTutorialApp')
 
         /**
          * Convierte un bucket completo recursivamente a JSON
-         * @param {[type]} bucket [nombre del bucket deseado]
-         * @param {[type]} tipo   [debe contenerlo en la ruta del bucket para incluirlo en los resultados] 
+         * 
+         * @param {[type]} tipo   [debe contenerlo en la ruta del bucket para incluirlo en los resultados, 
+         *                        sino se define se buscaran todos los paths] 
+         *
          *                        ej: tipo=factura -> /empresa/factura/2015/
          *                        $rootScope.S3_Folders		=>   contendra las carpetas del resultado
          *                        $rootScope.S3_Files	    =>   contendra los ficheros del resultado
          */
-		var S3_bucketToJSON = function (bucket, tipo) {
+		var S3_bucketToJSON = function (nombreEnPath) {
 
-			if(_.isUndefined(tipo)) tipo = '/';						// si no se indica tipo se devolveran todos los datos del bucket
+			if(_.isUndefined(nombreEnPath)) nombreEnPath = '/';						// si no se indica nombreEnPath se devolveran todos los paths del bucket
+			
 			// inicializa
 			folders = []; 
 			files = [];	// borra datos de la tabla
 
-			arrayFolders.push(bucket);								// pon el nombre del bucket en el array
-			bucketRecursive( arrayFolders[0], tipo )      			// crea json, llama con el nombre del bucket
+			arrayFolders.push(selectedBucket);										// pon el nombre del bucket activo en el array
+			bucketRecursive( arrayFolders[0], nombreEnPath )      					// crea json, llama con el nombre del bucket
 		
 		}
 
@@ -239,14 +254,17 @@ angular.module('angularjsAuthTutorialApp')
     // Public API here
 
     return {
+    	
+    	getBuckets: getBuckets,									// Devuelve los buckets existentes en S3
+    	setBucket: setBucket,									// Activa un bucket para toda la app
+    	getBucket: getBucket,									// devuelve el bucket activo
+    	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket
+
+
         S3getFolder: S3getFolder,
         S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a  json          
     	getFileFromDB: getFileFromDB,							// get json file from database bucket
     	setFileToDB: setFileToDB,								// set json file to database bucket
-    	getBucketInfo: getBucketInfo,
-    	getBuckets: getBuckets,									// informacion de los bucket que existen
-    	getBucket: getBucket,									// devueve el bucket activo
-    	setBucket: setBucket,									// activa un bucket
     };  
 
   });
