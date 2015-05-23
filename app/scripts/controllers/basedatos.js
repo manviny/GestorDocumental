@@ -12,6 +12,8 @@ angular.module('angularjsAuthTutorialApp')
 
     $scope.rowCollection = [];
 
+    $scope.titulos = [];
+
     $scope.predicates = ['firstName', 'lastName', 'birthDate', 'balance', 'email'];
     $scope.selectedPredicate = $scope.predicates[0];
   	/**	
@@ -69,10 +71,35 @@ angular.module('angularjsAuthTutorialApp')
      $scope.createDB = function(name){
 
       if(dfapi.getBucket()=='') { alert('Selecciona un bucket'); return;}
-      dfapi.S3_bucketToJSON(name);                                        // crea el fichero .json
+      dfapi.S3_bucketToJSON(name, '[terminos]', '[roles]', '[titulos]');                                        // crea el fichero .json
       // dfapi.S3_bucketToJSON(name, content, roles);                                        // crea el fichero .json
       $scope.rowCollection.push({tblName: name, tblDate: new Date()});    // añade a la tabla el fichero recien creado
 
+     }
+
+     /**
+      * configura la BD seleccionada ( nombre, camps que deben aparecer en el path y roles de acceso)
+      * @param  {[type]} name [description]
+      * @return {[type]}      [description]
+      */
+     $scope.configDB = function(name){ 
+      $scope.rowCampos = [];
+      dfapi.getFileFromDB(name)
+      .then(function(response){
+          response.files[0].path.split('/').forEach(function(item){
+            $scope.rowCampos.push({title: item});
+          })
+      })
+     }
+
+
+     /**
+      * guarfa cambios de una BD, titulos, roles, terminos
+      * @param  {[type]} name [description]
+      * @return {[type]}      [description]
+      */
+     $scope.guardaCambios = function(name){ 
+        console.debug($scope.titulos[1],$scope.titulos[0]);
      }
 
 

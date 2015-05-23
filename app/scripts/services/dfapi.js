@@ -113,7 +113,7 @@ angular.module('angularjsAuthTutorialApp')
 		     DreamFactory.api.S3.createFile({
 		     	container: selectedBucket,
 		     	file_path: '/' + dbprefix + name + '.json', 
-		     	body: content
+		     	body: {files: content, terminos: [], roles:[], titles: [] }
 		     },
 		     // Success function
 		      function(result) { 
@@ -230,14 +230,12 @@ angular.module('angularjsAuthTutorialApp')
         /**
          * Convierte un bucket completo recursivamente a JSON
          * 
-         * @param {[type]} tipo   [debe contenerlo en la ruta del bucket para incluirlo en los resultados, 
-         *                        sino se define se buscaran todos los paths] 
-         *
-         *                        ej: tipo=factura -> /empresa/factura/2015/
-         *                        $rootScope.S3_Folders		=>   contendra las carpetas del resultado
-         *                        $rootScope.S3_Files	    =>   contendra los ficheros del resultado
+         * @param {[String]} nombreEnPath	nombre con el que se guarda
+         * @param {[array]} terminos		terminos que deben existir en el path de S3 para incluirlo en el fichero
+         * @param {[array]} roles			roles que tendran accceso
+   
          */
-		var S3_bucketToJSON = function (nombreEnPath) {
+		var S3_bucketToJSON = function (nombreEnPath, terminos, roles, titulos) {
 
 			if(_.isUndefined(nombreEnPath)) nombreEnPath = '/';						// si no se indica nombreEnPath se devolveran todos los paths del bucket
 			
@@ -259,10 +257,10 @@ angular.module('angularjsAuthTutorialApp')
     	setBucket: setBucket,									// Activa un bucket para toda la app
     	getBucket: getBucket,									// devuelve el bucket activo
     	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket
+        S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a json          
 
 
         S3getFolder: S3getFolder,
-        S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a  json          
     	getFileFromDB: getFileFromDB,							// get json file from database bucket
     	setFileToDB: setFileToDB,								// set json file to database bucket
     };  
