@@ -124,7 +124,7 @@ angular.module('angularjsAuthTutorialApp')
         }
 
 
-        dfapi.S3_bucketToJSON($scope.bd.nombre,  titulos, terminos, roles);   // guarda configuracion de la BD
+        dfapi.S3_bucketToJSON($scope.bd.nombre, titulos, terminos, roles);   // guarda configuracion de la BD
      }
 
 

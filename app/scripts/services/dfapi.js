@@ -244,15 +244,15 @@ angular.module('angularjsAuthTutorialApp')
    
          */
 		var S3_bucketToJSON = function (nombreBD, titulos, terminos, roles) {
-
-			if(_.isUndefined(nombreBD)) nombreBD = '/';						// si no se indica nombreBD se devolveran todos los paths del bucket
+console.debug("terminos",terminos);return
+			if(_.isUndefined(nombreBD)) nombreBD = '/';							// si no se indica nombreBD se devolveran todos los paths del bucket
 			
 			// inicializa
 			folders = []; 
 			files = [];	// borra datos de la tabla
 
-			arrayFolders.push(selectedBucket);										// pon el nombre del bucket activo en el array
-			bucketRecursive( arrayFolders[0], nombreBD, titulos, terminos, roles )      					// crea json, llama con el nombre del bucket
+			arrayFolders.push(selectedBucket);											// pon el nombre del bucket activo en el array
+			bucketRecursive( arrayFolders[0], nombreBD, titulos, terminos, roles )      // crea json, llama con el nombre del bucket
 		
 		}
 
