@@ -108,12 +108,12 @@ angular.module('angularjsAuthTutorialApp')
 		 * @param {[type]} name        path+folder of file  _DB/hola.json
 		 * @param {[type]} content     content of file  '{"name": "","path": "","content_type": "","metadata": [ ""]}'
 		 */
-  		var setFileToDB = function (name, content) {
+  		var setFileToDB = function (nombreDB, titulos, terminos, roles, files) { 
 
 		     DreamFactory.api.S3.createFile({
 		     	container: selectedBucket,
-		     	file_path: '/' + dbprefix + name + '.json', 
-		     	body: {files: content, terminos: [], roles:[], titles: [] }
+		     	file_path: '/' + dbprefix + nombreDB + '.json', 
+		     	body: {files: files, terminos: terminos, roles:roles, titles: titulos }
 		     },
 		     // Success function
 		      function(result) { 
@@ -186,7 +186,7 @@ angular.module('angularjsAuthTutorialApp')
 		 * @param  {[type]} tipo         string que debe contener el path para incluirlo en la salida
 		 * @return {[type]}              [description]
 		 */
-        var bucketRecursive = function ( actualBucket, tipo ) {
+        var bucketRecursive = function ( actualBucket, nombreDB, titulos, terminos, roles ) {
 
 								
             if (arrayFolders.length > 0) {     										// RECURSIVA FINAL
@@ -195,32 +195,40 @@ angular.module('angularjsAuthTutorialApp')
 					
 					arrayFolders = _.rest(arrayFolders);							// quita el path recien leido
 
-					// añade los nuevos paths si son del tipo seleccionado [factura | gasto | intervencion ]
+					// CARPETAS 
 					_.forEach(response.folder, function(folder) {
 					  	arrayFolders.push(folder.path);
 
-					  	// COGE folders QUE TENGAN ES SU PATH EL TIPO INDICADO
-					  	if(folder.path.indexOf(tipo) > -1) folders.push({ path: folder.path, name: folder.name });
+						// 1.- COGE folders QUE TENGAN ES SU PATH LOS TERMINOS INDICADOS
+						var coincidencias = 0;
+						terminos.forEach(function(termino){ if(folder.path.indexOf(termino) > -1)  { coincidencias++; } })
+
+						// 2.- si coinciden todas los terminos buscados lo añades a la BD
+						if(terminos.length==coincidencias){ folders.push({  path: folder.path, name: folder.name }); } 
+
 					});
 
-					// añade los ficheros si son del tipo seleccionado [factura | gasto | intervencion ]
+					// FICHEROS 
 					_.forEach(response.file, function(file) {
 
-						// COGE files QUE TENGAN ES SU PATH EL TIPO INDICADO
-						if(file.path.indexOf(tipo) > -1) files.push({ path: file.path, name: file.name });
+						// 1.- COGE files QUE TENGAN ES SU PATH LOS TERMINOS INDICADOS
+						var coincidencias = 0;
+						terminos.forEach(function(termino){ if(file.path.indexOf(termino) > -1)  { coincidencias++; } })
+
+						// 2.- si coinciden todas los terminos buscados lo añades a la BD
+						if(terminos.length==coincidencias){ files.push({ path: file.path, name: file.name }); } 
+
+
 					});		    
 
-				 	bucketRecursive( arrayFolders[0], tipo);                  		// RECURSIVA SIGUIENTE CASO
+				 	bucketRecursive( arrayFolders[0], nombreDB, titulos, terminos, roles);                  		// RECURSIVA SIGUIENTE CASO
 				})
 
             }
             else{ 
             	console.debug("FILES",files);
             	console.debug("Folders",folders);
-
-				setFileToDB(tipo, files); 
-
-            	// pathsToObject(tableTitles.documentos, folders, files);  	
+				setFileToDB(nombreDB, titulos, terminos, roles, files); 
               	return ;
             }
 
@@ -230,21 +238,21 @@ angular.module('angularjsAuthTutorialApp')
         /**
          * Convierte un bucket completo recursivamente a JSON
          * 
-         * @param {[String]} nombreEnPath	nombre con el que se guarda
+         * @param {[String]} nombreBD	nombre con el que se guarda
          * @param {[array]} terminos		terminos que deben existir en el path de S3 para incluirlo en el fichero
          * @param {[array]} roles			roles que tendran accceso
    
          */
-		var S3_bucketToJSON = function (nombreEnPath, terminos, roles, titulos) {
+		var S3_bucketToJSON = function (nombreBD, titulos, terminos, roles) {
 
-			if(_.isUndefined(nombreEnPath)) nombreEnPath = '/';						// si no se indica nombreEnPath se devolveran todos los paths del bucket
+			if(_.isUndefined(nombreBD)) nombreBD = '/';						// si no se indica nombreBD se devolveran todos los paths del bucket
 			
 			// inicializa
 			folders = []; 
 			files = [];	// borra datos de la tabla
 
 			arrayFolders.push(selectedBucket);										// pon el nombre del bucket activo en el array
-			bucketRecursive( arrayFolders[0], nombreEnPath )      					// crea json, llama con el nombre del bucket
+			bucketRecursive( arrayFolders[0], nombreBD, titulos, terminos, roles )      					// crea json, llama con el nombre del bucket
 		
 		}
 

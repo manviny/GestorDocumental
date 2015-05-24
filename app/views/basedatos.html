@@ -72,28 +72,32 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-		<h2>configuración</h2>
+		<h2>configuración {{bd.nombre}}</h2>
 		</div>
 		<div class="col-xs-6">
 			<h4>Campos </h4>
 			<table class="table table-striped">
 				<thead>
-					<tr><td>datos</td><td>títulos</td></tr>
+					<tr><td>títulos</td><td>datos</td></tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in rowCampos"><td><input ng-model="titulos[$index]" type="text"></td><td>{{item.title}}</td></tr>
+					<tr ng-repeat="item in rowCampos"><td><input ng-model="titulos[$index]" type="text" required></td><td>{{item.title}}</td></tr>
 				</tbody>
 			</table>
 
 		</div>
 		<div class="col-xs-3">
 			<h4>Terminos</h4>
+			<br>
+			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.terminos" placeholder="palabras para buscar" maxlength="140" rows="7"></textarea>
 		</div>
 		<div class="col-xs-3">
 			<h4>Roles</h4>
+			<br>
+			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.roles" placeholder="roles admitidos" maxlength="140" rows="7"></textarea>
 		</div>
 		<div class="col-xs-12">
-			<button class="btn btn-info" ng-click="guardaCambios(nombreBD)"><i class="glyphicon glyphicon glyphicon-hdd"></i> Guardar cambios</button>
+			<button class="btn btn-warning" ng-click="guardaBD(nombreBD)"><i class="glyphicon glyphicon glyphicon-hdd"></i> Guardar Base de Datos</button>
 		</div>		
 	</div>
 

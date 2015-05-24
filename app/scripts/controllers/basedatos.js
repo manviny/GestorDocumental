@@ -11,18 +11,12 @@ angular.module('angularjsAuthTutorialApp')
   .controller('BasedatosCtrl', function ($scope, dfapi) {
 
     $scope.rowCollection = [];
-
+    $scope.bd = {};
     $scope.titulos = [];
+    // $scope.configVisible = false;
 
     $scope.predicates = ['firstName', 'lastName', 'birthDate', 'balance', 'email'];
     $scope.selectedPredicate = $scope.predicates[0];
-  	/**	
-  	*  Genera la BD de Grupo_Panstar
-  	*/
-
-	// dfapi.S3_bucketToJSON( bucket_name, 'Grupo_Panstar'); 
-
-  // dfapi.S3_bucketToJSON( bucket_name, 'Palomillas');				// busca que el documento o ruta contenga 'vigilancia'
   
 
 
@@ -68,12 +62,11 @@ angular.module('angularjsAuthTutorialApp')
      * Busca en el bucket actual los paths que contengan la palabra name
      * @param {[type]} name palabra a buscar en el path
      */
-     $scope.createDB = function(name){
+     $scope.createDB = function(name){ 
 
       if(dfapi.getBucket()=='') { alert('Selecciona un bucket'); return;}
-      dfapi.S3_bucketToJSON(name, '[terminos]', '[roles]', '[titulos]');                                        // crea el fichero .json
-      // dfapi.S3_bucketToJSON(name, content, roles);                                        // crea el fichero .json
-      $scope.rowCollection.push({tblName: name, tblDate: new Date()});    // añade a la tabla el fichero recien creado
+      dfapi.S3_bucketToJSON(name, '', [name], '');                            // crea el fichero .json
+      $scope.rowCollection.push({tblName: name, tblDate: new Date()});        // añade a la tabla el fichero recien creado
 
      }
 
@@ -83,12 +76,32 @@ angular.module('angularjsAuthTutorialApp')
       * @return {[type]}      [description]
       */
      $scope.configDB = function(name){ 
+
+      $scope.bd.nombre = name;
       $scope.rowCampos = [];
+
       dfapi.getFileFromDB(name)
       .then(function(response){
-          response.files[0].path.split('/').forEach(function(item){
+          console.debug("datos BD",response);
+
+          // titulos
+          response.files[1].path.split('/').forEach(function(item){
             $scope.rowCampos.push({title: item});
           })
+
+          // terminos
+          response.terminos.forEach(function(item){
+            $scope.rowCampos.push({terminos: item});
+          })
+          $scope.bd.terminos = response.terminos;
+
+          //roles
+          response.roles.forEach(function(item){
+            $scope.rowCampos.push({roles: item});
+          })
+          $scope.bd.roles = response.roles;
+
+
       })
      }
 
@@ -98,8 +111,20 @@ angular.module('angularjsAuthTutorialApp')
       * @param  {[type]} name [description]
       * @return {[type]}      [description]
       */
-     $scope.guardaCambios = function(name){ 
-        console.debug($scope.titulos[1],$scope.titulos[0]);
+     $scope.guardaBD = function(name){ 
+        
+        var titulos = [];
+        var terminos = $scope.bd.terminos.split('\n');                        // terminos de busqueda
+        var roles = $scope.bd.roles.split('\n');                              // roles admitidos
+
+        // titulos para la tabla, sino se pone alguno se coge el del path por defecto
+        for (var i = 0; i < $scope.rowCampos.length; i++) { 
+            if(!$scope.titulos[i]){ titulos.push($scope.rowCampos[i].title); }
+            else { titulos.push($scope.titulos[i]) }
+        }
+
+
+        dfapi.S3_bucketToJSON($scope.bd.nombre,  titulos, terminos, roles);   // guarda configuracion de la BD
      }
 
 
