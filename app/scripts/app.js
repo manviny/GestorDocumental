@@ -13,7 +13,7 @@
     var df_DSP_API_KEY = 'JRC'; //name of the app
 
     var dbprefix = '___DB___';
-    var bucket_name = 'jrcnaturalsystems';
+
 
 
     var tableTitles = { 

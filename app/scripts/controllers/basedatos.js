@@ -57,9 +57,10 @@ angular.module('angularjsAuthTutorialApp')
       })
     }  
 
-
+    /** 
+    * Crea la estructura del bucket seleccionado
+    */
     $scope.updateBucket = function(){
-      alert($scope.bucketSelecionado)
       dfapi.S3_updateBucket($scope.bucketSelecionado); 
     }
 
