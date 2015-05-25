@@ -108,12 +108,12 @@ angular.module('angularjsAuthTutorialApp')
 		 * @param {[type]} name        path+folder of file  _DB/hola.json
 		 * @param {[type]} content     content of file  '{"name": "","path": "","content_type": "","metadata": [ ""]}'
 		 */
-  		var setFileToDB = function (nombreDB, titulos, terminos, roles, files) { 
+  		var setFileToDB = function (nombreDB, titulos, terminos, roles, files, folders) { 
 
 		     DreamFactory.api.S3.createFile({
 		     	container: selectedBucket,
 		     	file_path: '/' + dbprefix + nombreDB + '.json', 
-		     	body: {files: files, terminos: terminos, roles:roles, titles: titulos }
+		     	body: {files: files, folders:folders, terminos: terminos, roles:roles, titles: titulos }
 		     },
 		     // Success function
 		      function(result) { 
@@ -228,7 +228,7 @@ angular.module('angularjsAuthTutorialApp')
             else{ 
             	console.debug("FILES",files);
             	console.debug("Folders",folders);
-				setFileToDB(nombreDB, titulos, terminos, roles, files); 
+				setFileToDB(nombreDB, titulos, terminos, roles, files, folders); 
               	return ;
             }
 
@@ -244,7 +244,7 @@ angular.module('angularjsAuthTutorialApp')
    
          */
 		var S3_bucketToJSON = function (nombreBD, titulos, terminos, roles) {
-console.debug("terminos",terminos);return
+
 			if(_.isUndefined(nombreBD)) nombreBD = '/';							// si no se indica nombreBD se devolveran todos los paths del bucket
 			
 			// inicializa
@@ -253,6 +253,22 @@ console.debug("terminos",terminos);return
 
 			arrayFolders.push(selectedBucket);											// pon el nombre del bucket activo en el array
 			bucketRecursive( arrayFolders[0], nombreBD, titulos, terminos, roles )      // crea json, llama con el nombre del bucket
+		
+		}
+
+		/**	
+		*  Crea ficheroBD con toda la estructura del bucket indicado
+		*  bucketName: bucket raiz para buscar
+		*
+		*/
+		var S3_updateBucket = function (bucketName) {
+			
+			// inicializa
+			folders = []; 
+			files = [];	// borra datos de la tabla
+
+			arrayFolders.push(bucketName);											// pon el nombre del bucket activo en el array
+			bucketRecursive( arrayFolders[0], bucketName,  '', ['/'], '' )      // crea json, llama con el nombre del bucket
 		
 		}
 
@@ -266,7 +282,7 @@ console.debug("terminos",terminos);return
     	getBucket: getBucket,									// devuelve el bucket activo
     	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket
         S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a json          
-
+		S3_updateBucket: S3_updateBucket,						// Crea la estrucutra del bucket en un json
 
         S3getFolder: S3getFolder,
     	getFileFromDB: getFileFromDB,							// get json file from database bucket

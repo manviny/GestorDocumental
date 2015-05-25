@@ -57,6 +57,13 @@ angular.module('angularjsAuthTutorialApp')
       })
     }  
 
+
+    $scope.updateBucket = function(){
+      alert($scope.bucketSelecionado)
+      dfapi.S3_updateBucket($scope.bucketSelecionado); 
+    }
+
+
     /**
      * Añade una nueva BD
      * Busca en el bucket actual los paths que contengan la palabra name
