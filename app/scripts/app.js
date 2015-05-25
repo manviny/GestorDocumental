@@ -11,8 +11,18 @@
     var empresa = 'JRS Sistemas Naturales';
     var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
     var df_DSP_API_KEY = 'JRC'; //name of the app
-    var bucket_name = 'jrcnaturalsystems';
-    var bucket_path = 'prueba';
+
+    var dbprefix = '___DB___';
+
+
+
+    var tableTitles = { 
+        // documentos: ["Orden", "Grupo", "Empresa", "Tipo Documento", "Año", "Fecha registro", "Documento"],
+        documentos: ["orden", "grupo", "empresa", "tipo", "anyo", "registro", "documento"],
+        facturas: ["cliente", "asunto", "año", "trimestre", "documento"], 
+        gastos: ["cliente", "asunto", "documento"]
+    };
+
 
 
 // Define our application module and add dependencies
@@ -96,6 +106,10 @@ angular.module('angularjsAuthTutorialApp', [
             .when('/jrc', {
               templateUrl: 'views/jrc.html',
               controller: 'JrcCtrl'
+            })
+            .when('/baseDatos', {
+              templateUrl: 'views/basedatos.html',
+              controller: 'BasedatosCtrl'
             })
             .otherwise({
                 redirectTo: '/'

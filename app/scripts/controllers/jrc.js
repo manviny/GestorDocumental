@@ -8,13 +8,23 @@
  * Controller of the angularjsAuthTutorialApp
  */
 angular.module('angularjsAuthTutorialApp')
-  .controller('JrcCtrl', function ($scope) {
-  		/**
-  		 * CONFIGURACION
-  		 */
- 		var colTitles = { 
- 			documentos: ["orden", "Grupo", "Nombre Empresa", "Año", "Fecha registro", "Documento"]
- 			// gastos: ["cliente", "asunto", "documento"]
- 		};
+  .controller('JrcCtrl', function ($scope, dfapi) {
+    
+    $scope.rowCollection = [
+        {orden: '1', grupo: 'Grupo_Panstar', empresa: 'PNM_Panamar', tipo: '01-Registro', anyo: '2015', registro: '150114', documento: 'PNM-Panamar_#007-Cucas_Planos-Puntos-Control.pdf'},
+        {orden: '1', grupo: 'Grupo_Panstar2', empresa: 'PNM_Panamar2', tipo: '01-Registro', anyo: '2015', registro: '150114', documento: 'PNM-Panamar_#007-inse-Puntos-Control.pdf'},
+        {orden: '1', grupo: 'Grupo_Panstar3', empresa: 'PNM_Panamar3', tipo: '01-Registro', anyo: '2015', registro: '150114', documento: 'PNM-Panamar_#007-salta-Puntos-Control.pdf'},
+
+    ];
+
+
+    $scope.tableTitles = tableTitles.documentos;
+
+    dfapi.getFileFromDB('Palomillas')
+    .then(function(response){
+    	
+        console.log(response);
+    })
+
 
   });

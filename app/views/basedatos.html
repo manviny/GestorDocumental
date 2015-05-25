@@ -1,0 +1,108 @@
+<div class="container">
+	<div class="row">
+
+		<div class="col-xs-12">
+
+
+		    <!-- DropDown Buckets: START -->       
+		  	<div class="btn-group" dropdown is-open="status.isopen">
+			    <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+		        	<span class="glyphicon glyphicon-folder-open"></span> &nbsp Buckets  <span class="caret"></span>
+		      	</button>          
+		      	<ul class="dropdown-menu" role="menu">
+		        	<li ng-repeat="bucket in buckets" ng-click="setBucket(bucket.name)">&nbsp <span class="glyphicon glyphicon-folder-open"></span>&nbsp  {{bucket.name}} </li>
+		      	</ul>
+			</div>       
+		  	<div class="btn-group">
+		 		<button type="button" class="btn btn-default btn-sm" ng-click="toggleDropdown($event)">{{bucketSelecionado}}</button>
+			</div>        
+		  	<div class="btn-group" ng-show="bucketSelecionado!='selecciona un bucket'">
+		 		<button type="button" class="btn btn-default btn-sm" ng-click="updateBucket()"><i style="color:blue" class="glyphicon glyphicon glyphicon-refresh"></i></button>
+			</div>  	
+		    <!-- DropDown Buckets: END -->
+
+
+			<hr>
+
+		    <!-- bucket table -->
+			<h2>Base de datos</h2>
+			<table st-table="rowCollection" class="table table-striped">
+				<thead>
+				<tr style="background-color:#fcffc7">
+					<th st-sort="tblName">Nombre</th>
+					<th st-sort="tblDate">Fecha actualización</th>
+					<!-- <th st-sort="terminos">términos</th> -->
+					<!-- <th st-sort="roles">roles</th> -->
+					<th st-sort="actualizar"></th>
+					<th st-sort="borrar"></th>
+				</tr>
+				<tr >
+					<th><input st-search="tblName" placeholder="nombre" class="input-sm form-control" type="search"/></th>
+					<th><input st-search="tblDate" placeholder="fecha" class="input-sm form-control" type="search"/></th>
+					<!-- <th><input st-search="terminos" placeholder="termino" class="input-sm form-control" type="search"/></th> -->
+					<!-- <th><input st-search="roles" placeholder="rol" class="input-sm form-control" type="search"/></th> -->
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="row in rowCollection">
+					<td><i style="color:green" class="glyphicon glyphicon glyphicon-eye-open" ng-click="configDB(row.tblName)"></i> &nbsp {{row.tblName}}</td>
+					<td>{{row.tblDate | date}}</td>
+					<!-- <td>term</td> -->
+					<!-- <td>rol</td> -->
+					<td><i style="color:blue" class="glyphicon glyphicon glyphicon-refresh" ng-click="removeTarifa($index)"></i></td>
+					<td><i style="color:red" class="glyphicon glyphicon glyphicon-trash" ng-click="removeTarifa($index)"></i></td>
+				</tr>
+				</tbody>
+			</table>
+		    <!-- bucket table -->
+
+		</div>
+	</div>
+
+    <!-- add BD:start -->
+	<div class="row">
+		  <div class="col-xs-6">
+		    <div class="input-group">
+		      <input type="text" class="form-control" placeholder="nombre de la base de datos" ng-model="nombreBD">
+		      <span class="input-group-btn">
+		        <button class="btn btn-info" ng-click="createDB(nombreBD)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div><!-- /.col-lg-6 -->
+	</div>
+    <!-- add BD:end -->
+	<hr>
+
+	<div class="row">
+		<div class="col-xs-12">
+		<h2>configuración {{bd.nombre}}</h2>
+		</div>
+		<div class="col-xs-6">
+			<h4>Campos </h4>
+			<table class="table table-striped">
+				<thead>
+					<tr><td>títulos</td><td>datos</td></tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in rowCampos"><td><input ng-model="titulos[$index]" type="text" required></td><td>{{item.title}}</td></tr>
+				</tbody>
+			</table>
+
+		</div>
+		<div class="col-xs-3">
+			<h4>Terminos</h4>
+			<br>
+			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.terminos" placeholder="palabras para buscar" maxlength="140" rows="7"></textarea>
+		</div>
+		<div class="col-xs-3">
+			<h4>Roles</h4>
+			<br>
+			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.roles" placeholder="roles admitidos" maxlength="140" rows="7"></textarea>
+		</div>
+		<div class="col-xs-12">
+			<button class="btn btn-warning" ng-click="guardaBD(nombreBD)"><i class="glyphicon glyphicon glyphicon-hdd"></i> Guardar Base de Datos</button>
+		</div>		
+	</div>
+
+
+</div>

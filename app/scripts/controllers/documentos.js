@@ -22,10 +22,14 @@ angular.module('angularjsAuthTutorialApp')
   		 * CONFIGURACION
   		 */
  		var colTitles = { 
+<<<<<<< HEAD
       Ofertas: ["Raiz", "Grupo", "Empresa", "Informes", "documentos"], 
       Registros: ["Raiz", "Grupo", "Empresa", "Informes", "tipo", "documentos"], 
       // Ofertas: ["Grupo", "Empresa", "Ofertas", "documentos"], 
       // Registros: ["Grupo", "Empresa", "Registros", "Insectos", "documentos"], 
+=======
+      Grupo_Panstar: ["JRC", "Grupo", "Nombre Empresa", "Tipo", "Año", "Fecha registro", "Documento"],
+>>>>>>> jrc
  			facturas: ["cliente", "asunto", "año", "trimestre", "documento"], 
  			gastos: ["cliente", "asunto", "documento"]
  		};
@@ -33,7 +37,7 @@ angular.module('angularjsAuthTutorialApp')
   		$scope.folders = [];							// carpetas de S3
   		$scope.files = [];								// ficheros de S3
 
-  		var arrayFolders = [];							// contenedor temporal de todos los paths
+  		var arrayFolders = [];					// contenedor temporal de todos los paths
   		var folders = [];								// contenedor temporal de folders
   		var files = [];									// contenedor temporal de ficheros
 
@@ -44,7 +48,7 @@ angular.module('angularjsAuthTutorialApp')
   		
 
 
-  		// Selecciona un solo elemento de botones de tipos de documentos
+  	// Selecciona un solo elemento de botones de tipos de documentos
 		$scope.selectModelo = function(tipo) {
 
 			Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 
@@ -58,6 +62,7 @@ angular.module('angularjsAuthTutorialApp')
 
 
 
+<<<<<<< HEAD
   		/**
   		 * Crea Rows a partir de paths
   		 */
@@ -205,22 +210,11 @@ angular.module('angularjsAuthTutorialApp')
 
 					// añade los ficheros si son del tipo seleccionado [factura | gasto | intervencion ]
 					_.forEach(response.file, function(file) {
+=======
+>>>>>>> jrc
 
-						// COGE files QUE TENGAN ES SU PATH EL TIPO INDICADO
-						if(file.path.indexOf(tipo) > -1) files.push({ path: file.path, name: file.name, nivel: n });
-					});		    
 
-				 	bucketRecursive(n+1, arrayFolders[0], tipo);                  		// RECURSIVA SIGUIENTE CASO
-				})
 
-            }
-            else{ 
-            	$scope.folders = folders;
-            	$scope.files = files;
-            	pathsToArrays(folders, files, tipo);
-              	return;
-            }
-        }
 
 
 
