@@ -113,6 +113,10 @@ angular.module('angularjsAuthTutorialApp', [
               templateUrl: 'views/basedatos.html',
               controller: 'BasedatosCtrl'
             })
+            .when('/documentacion', {
+              templateUrl: 'views/documentacion.html',
+              controller: 'DocumentacionCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
