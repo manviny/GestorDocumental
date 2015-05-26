@@ -14,6 +14,8 @@ angular.module('angularjsAuthTutorialApp')
     $scope.bd = {}; 
     $scope.titulos = [];                  // titulos 
     $scope.terminos = [];                 // terminos de busqueda
+    $scope.roles = [];                    // roles con acceso
+    $scope.nombreDB = '';                 // nombre de la BD seleccionada
 
     // $scope.configVisible = false;
 
@@ -74,9 +76,14 @@ angular.module('angularjsAuthTutorialApp')
      */
      $scope.createDB = function(name){ 
 
+      $scope.terminos = [];                
+      $scope.roles = [];  
+      
       if(dfapi.getBucket()=='') { alert('Selecciona un bucket'); return;}
-      dfapi.bucketToJSON(name, '', [name], '');                            // crea el fichero .json
-      $scope.rowCollection.push({tblName: name, tblDate: new Date()});        // añade a la tabla el fichero recien creado
+      // dfapi.bucketToJSON(name, '', [name], '');                               // crea el fichero .json
+      dfapi.setDbFile(name, [],[], [], '');
+      $scope.nombreDB = name;
+      $scope.rowCollection.push({tblName: name, tblDate: new Date()});           // añade a la tabla el fichero recien creado
 
      }
 
@@ -87,29 +94,18 @@ angular.module('angularjsAuthTutorialApp')
       */
      $scope.configDB = function(name){ 
 
-      $scope.bd.nombre = name;
+      $scope.nombreDB = name;
       $scope.rowCampos = [];
 
       dfapi.getFileFromDB(name)
       .then(function(response){
           console.debug("datos BD",response);
 
-          // titulos
-          response.files[1].path.split('/').forEach(function(item){
-            $scope.rowCampos.push({title: item});
-          })
-
           // terminos
-          response.terminos.forEach(function(item){
-            $scope.rowCampos.push({terminos: item});
-          })
-          $scope.bd.terminos = response.terminos;
+          $scope.terminos = response.terminos;
 
           //roles
-          response.roles.forEach(function(item){
-            $scope.rowCampos.push({roles: item});
-          })
-          $scope.bd.roles = response.roles;
+          $scope.roles = response.roles;
 
 
       })
@@ -121,33 +117,47 @@ angular.module('angularjsAuthTutorialApp')
       * @param  {[type]} name [description]
       * @return {[type]}      [description]
       */
-     $scope.guardaBD = function(name){ 
-        
-        var titulos = [];
-        var terminos = $scope.bd.terminos.split('\n');                        // terminos de busqueda
-        var roles = $scope.bd.roles.split('\n');                              // roles admitidos
+     $scope.guardaBD = function(){ 
 
         // titulos para la tabla, sino se pone alguno se coge el del path por defecto
-        for (var i = 0; i < $scope.rowCampos.length; i++) { 
-            if(!$scope.titulos[i]){ titulos.push($scope.rowCampos[i].title); }
-            else { titulos.push($scope.titulos[i]) }
-        }
+        var titulos = [];
+        // for (var i = 0; i < $scope.rowCampos.length; i++) { 
+        //     if(!$scope.titulos[i]){ titulos.push($scope.rowCampos[i].title); }
+        //     else { titulos.push($scope.titulos[i]) }
+        // }      
 
+        dfapi.setDbFile($scope.nombreDB, $scope.titulos, $scope.terminos, $scope.roles, $scope.content);
 
-        dfapi.bucketToJSON($scope.bd.nombre, titulos, terminos, roles);   // guarda configuracion de la BD
      }
+
 
     /**
      * busca los terminos indicados en el bucket activo
-     * @return {[type]}      [description]
+     * @return {[type]}      Object con path y name de quien cumple la busqueda
      */
      $scope.searchInBucket = function(){ 
-        dfapi.searchInBucket($scope.terminos);
+        dfapi.searchInBucket($scope.terminos)
+        .then(function(response){ $scope.content = response; })
      }
 
+
+     /**
+      * RELATIVO A TITULOS, TERMINOS Y ROLES
+      */
+
+     // TERMINOS
      $scope.addTermino = function(){  $scope.terminos.push(''); }     
      $scope.removeTermino = function(index){  $scope.terminos.splice(index, 1); }    
      $scope.refreshTermino = function(index, termino){  $scope.terminos[index] = termino; }
+
+     // ROLES
+     $scope.addRol = function(){  $scope.roles.push(''); }     
+     $scope.removeRol = function(index){  $scope.roles.splice(index, 1); }    
+     $scope.refreshRol = function(index, rol){  $scope.roles[index] = rol; }
+
+
+
+
 
 
     // despliega dropdown

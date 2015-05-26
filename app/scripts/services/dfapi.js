@@ -280,23 +280,36 @@ angular.module('angularjsAuthTutorialApp')
 		 * @param {[type]} roles    roles que pueden acceder la BD
 		 * @param {[type]} content  json con los paths
 		 */
-		var setDbFile = function (fileName, titulos, terminos, roles, content) {
+		var setDbFile = function (nombreDB, titulos, terminos, roles, content) {
+
+		     DreamFactory.api.S3.createFile({
+		     	container: selectedBucket,
+		     	file_path: '/' + dbprefix + nombreDB + '.json', 
+		     	body: { titles: titulos, terminos: terminos, roles:roles, content:content }
+		     },
+		     // Success function
+		      function(result) { 
+		      	console.debug("RESULTADO",result);
+		      },
+		     // Error function
+		     function(reject) { console.debug("Reject",reject);  });
 		
 		}
 
 		/**
 		 * resultado de buscar en el bucket activo
-		 * @param  {[array]} terminos terminos para buscar en el bucket activo
-		 * @return {[type]}          reduccion del bucket principal con datos encontrados en path-terminos
+		 * @param  {[array]} 	terminos para buscar en el bucket activo
+		 * @return {[type]}     reduccion del bucket principal con datos encontrados en path-terminos
 		 */
 		var searchInBucket = function (terminos) {
-
+			
+			var deferred = $q.defer();
 			var encontrados = [];
+
 			console.debug("array de terminos a buscar",terminos);
+			console.debug("selectedBucket",selectedBucket);
 			getFileFromDB(selectedBucket)
 			.then(function(response){
-				
-			    console.log(response);
 
 				// FICHEROS 
 				_.forEach(response.files, function(file) {
@@ -307,12 +320,12 @@ angular.module('angularjsAuthTutorialApp')
 
 					// 2.- si coinciden todas los terminos buscados lo añades a la BD
 					if(terminos.length==coincidencias){ encontrados.push({ path: file.path, name: file.name }); } 
-
-
 				});	
-				console.debug("encontrado",encontrados);
+
+				deferred.resolve(encontrados);
 
 			})
+			return deferred.promise;
 		}
 
 
