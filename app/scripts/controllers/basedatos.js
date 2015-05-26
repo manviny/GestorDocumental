@@ -16,6 +16,7 @@ angular.module('angularjsAuthTutorialApp')
     $scope.terminos = [];                 // terminos de busqueda
     $scope.roles = [];                    // roles con acceso
     $scope.nombreDB = '';                 // nombre de la BD seleccionada
+    $scope.contentLength = '';             // numero de elementos encontrados para una BD
 
     // $scope.configVisible = false;
 
@@ -52,9 +53,11 @@ angular.module('angularjsAuthTutorialApp')
       $scope.rowCollection = [];
       dfapi.getBucketInfo($scope.bucketSelecionado)
       .then(function(response){
+        
           _.forEach(response.file, function(item) {
               var nombre = item.name.replace(dbprefix,'');            // quita el prefijo ___DB___
-              if(!_.isUndefined(nombre)){
+               // quita el json con el nombre del bucket
+              if(!_.isUndefined(nombre) && (nombre!=$scope.bucketSelecionado+'.json') ){
                 $scope.rowCollection.push({tblName: nombre.replace('.json',''), tblDate: item.last_modified}) // quita .json del nombre del fichero
               }
           })
@@ -78,7 +81,7 @@ angular.module('angularjsAuthTutorialApp')
 
       $scope.terminos = [];                
       $scope.roles = [];  
-      
+
       if(dfapi.getBucket()=='') { alert('Selecciona un bucket'); return;}
       // dfapi.bucketToJSON(name, '', [name], '');                               // crea el fichero .json
       dfapi.setDbFile(name, [],[], [], '');
@@ -107,6 +110,10 @@ angular.module('angularjsAuthTutorialApp')
           //roles
           $scope.roles = response.roles;
 
+          //titulos, pone el primer Objeto del contenido como base para crear titulos
+          $scope.rowCampos.push(response.content[0].path.split('/'));
+  console.debug("rowCampos",$scope.rowCampos);
+          $scope.contentLength = response.content.length;
 
       })
      }
@@ -118,9 +125,11 @@ angular.module('angularjsAuthTutorialApp')
       * @return {[type]}      [description]
       */
      $scope.guardaBD = function(){ 
+        
+        $scope.searchInBucket();      // busca terminos antes de grabar para actualizar BD
 
         // titulos para la tabla, sino se pone alguno se coge el del path por defecto
-        var titulos = [];
+        // console.debug("",$scope.);
         // for (var i = 0; i < $scope.rowCampos.length; i++) { 
         //     if(!$scope.titulos[i]){ titulos.push($scope.rowCampos[i].title); }
         //     else { titulos.push($scope.titulos[i]) }
@@ -137,7 +146,11 @@ angular.module('angularjsAuthTutorialApp')
      */
      $scope.searchInBucket = function(){ 
         dfapi.searchInBucket($scope.terminos)
-        .then(function(response){ $scope.content = response; })
+        .then(function(response){ 
+          $scope.content = response; 
+          $scope.contentLength = response.length;
+          console.debug("contern",$scope.content);
+        })
      }
 
 

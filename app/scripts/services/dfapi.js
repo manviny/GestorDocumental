@@ -91,7 +91,8 @@ angular.module('angularjsAuthTutorialApp')
 			$rootScope.$on('api:ready', function(event) {
 				DreamFactory.api.S3.getResources( function(result) { 
 					// quita el bucket de BD, no es necesario verlo en el frontend
-
+					// selectedBucket remove
+					console.debug("XXX",result);
 					// bucket_BD
 					deferred.resolve(result); 
 

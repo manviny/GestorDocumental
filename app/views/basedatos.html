@@ -4,6 +4,7 @@
 		<div class="col-xs-12">
 
 
+
 		    <!-- DropDown Buckets: START -->       
 		  	<div class="btn-group" dropdown is-open="status.isopen">
 			    <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
@@ -24,8 +25,12 @@
 
 			<hr>
 
+		<div class="panel panel-success">
+		  <div class="panel-heading">
+		    <h2 class="panel-title">Bases de datos </h2>
+		  </div>
+		  <div class="panel-body">
 		    <!-- bucket table -->
-			<h2>Base de datos</h2>
 			<table st-table="rowCollection" class="table table-striped">
 				<thead>
 				<tr style="background-color:#fcffc7">
@@ -56,21 +61,32 @@
 			</table>
 		    <!-- bucket table -->
 
+		  </div>
+		  <div class="panel-footer">
+			    <div class="input-group">
+			      <input type="text" class="form-control" placeholder="nombre de la base de datos" ng-model="nombreBD">
+			      <span class="input-group-btn">
+			        <button class="btn btn-info" ng-click="createDB(nombreBD)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
+			      </span>
+			    </div>
+
+		  </div>
 		</div>
+
+
+
+		</div>
+    <!-- add BD:start -->		
+		 
+<!-- /input-group -->
+		  
+    <!-- add BD:end -->
 	</div>
 
-    <!-- add BD:start -->
-	<div class="row">
-		  <div class="col-xs-6">
-		    <div class="input-group">
-		      <input type="text" class="form-control" placeholder="nombre de la base de datos" ng-model="nombreBD">
-		      <span class="input-group-btn">
-		        <button class="btn btn-info" ng-click="createDB(nombreBD)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
-		      </span>
-		    </div><!-- /input-group -->
-		  </div><!-- /.col-lg-6 -->
-	</div>
-    <!-- add BD:end -->
+
+
+
+
 	<hr>
 
 	<div class="row" ng-show="nombreDB">
@@ -78,7 +94,7 @@
 
 		<div class="panel panel-success">
 		  <div class="panel-heading">
-		    <h2 class="panel-title">{{nombreDB}}</h2>
+		    <h2 class="panel-title">{{nombreDB}} <span class="badge">{{contentLength}}</span></h2>
 		  </div>
 		  <div class="panel-body">
 		   
