@@ -133,17 +133,19 @@ angular.module('angularjsAuthTutorialApp')
 		 */
   		var getFileFromDB = function (name) {
 			var deferred = $q.defer();
-		     DreamFactory.api.S3.getFile({
-		     	container: selectedBucket,
-		     	file_path:  '/' + dbprefix + name + '.json'
-		     },
-		     // Success function
-		      function(result) { 
-		      	deferred.resolve(result);
-		      },
-		     // Error function
-		     function(reject) { deferred.reject('No se pudo'); });
- 			return deferred.promise
+  			$rootScope.$on('api:ready', function(event) {
+			     DreamFactory.api.S3.getFile({
+			     	container: selectedBucket,
+			     	file_path:  '/' + dbprefix + name + '.json'
+			     },
+			     // Success function
+			      function(result) { 
+			      	deferred.resolve(result);
+			      },
+			     // Error function
+			     function(reject) { deferred.reject('No se pudo'); });
+ 			});
+	 		return deferred.promise
 		}
 
 
@@ -171,14 +173,13 @@ angular.module('angularjsAuthTutorialApp')
     			var este = {};
     			names.forEach(function(col, index){
              		var temp = names[index];
-              		este[temp] =  arrayFiles[index];	
+              		este[temp] = '"'+ arrayFiles[index]+'"';	
     			}) 				
 				$rootScope.rowCollection.push(este)
 			});	
 
   			console.debug("$rootScope.rowCollection",$rootScope.rowCollection);
 		}
-
 
 
 		/**
