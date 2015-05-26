@@ -111,8 +111,11 @@ angular.module('angularjsAuthTutorialApp')
           $scope.roles = response.roles;
 
           //titulos, pone el primer Objeto del contenido como base para crear titulos
-          $scope.rowCampos.push(response.content[0].path.split('/'));
-  console.debug("rowCampos",$scope.rowCampos);
+          response.content[0].path.split('/').forEach(function(item){
+            $scope.rowCampos.push({title: item});
+          })
+
+          // numero de datos encontrados
           $scope.contentLength = response.content.length;
 
       })
@@ -126,16 +129,17 @@ angular.module('angularjsAuthTutorialApp')
       */
      $scope.guardaBD = function(){ 
         
-        $scope.searchInBucket();      // busca terminos antes de grabar para actualizar BD
-
+        // $scope.searchInBucket();      // busca terminos antes de grabar para actualizar BD
+console.debug("TITULOS",$scope.titulos);
+        var titulos = [];
         // titulos para la tabla, sino se pone alguno se coge el del path por defecto
-        // console.debug("",$scope.);
-        // for (var i = 0; i < $scope.rowCampos.length; i++) { 
-        //     if(!$scope.titulos[i]){ titulos.push($scope.rowCampos[i].title); }
-        //     else { titulos.push($scope.titulos[i]) }
-        // }      
+        for (var i = 0; i < $scope.rowCampos.length; i++) { 
+            // if( _.isUndefined($scope.titulos[i]) ) { titulos.push($scope.rowCampos[i].title); }
+            if(!$scope.titulos[i]){ titulos.push(''); }
+            else { titulos.push($scope.titulos[i]) }
+        }      
 
-        dfapi.setDbFile($scope.nombreDB, $scope.titulos, $scope.terminos, $scope.roles, $scope.content);
+        dfapi.setDbFile($scope.nombreDB, titulos, $scope.terminos, $scope.roles, $scope.content);
 
      }
 
@@ -150,6 +154,7 @@ angular.module('angularjsAuthTutorialApp')
           $scope.content = response; 
           $scope.contentLength = response.length;
           console.debug("contern",$scope.content);
+          $scope.guardaBD();
         })
      }
 
