@@ -61,7 +61,7 @@ angular.module('angularjsAuthTutorialApp')
     * Crea la estructura del bucket seleccionado
     */
     $scope.updateBucket = function(){
-      dfapi.S3_updateBucket($scope.bucketSelecionado); 
+      dfapi.updateBucket($scope.bucketSelecionado); 
     }
 
 
@@ -73,7 +73,7 @@ angular.module('angularjsAuthTutorialApp')
      $scope.createDB = function(name){ 
 
       if(dfapi.getBucket()=='') { alert('Selecciona un bucket'); return;}
-      dfapi.S3_bucketToJSON(name, '', [name], '');                            // crea el fichero .json
+      dfapi.bucketToJSON(name, '', [name], '');                            // crea el fichero .json
       $scope.rowCollection.push({tblName: name, tblDate: new Date()});        // añade a la tabla el fichero recien creado
 
      }
@@ -132,7 +132,7 @@ angular.module('angularjsAuthTutorialApp')
         }
 
 
-        dfapi.S3_bucketToJSON($scope.bd.nombre, titulos, terminos, roles);   // guarda configuracion de la BD
+        dfapi.bucketToJSON($scope.bd.nombre, titulos, terminos, roles);   // guarda configuracion de la BD
      }
 
 

@@ -243,7 +243,7 @@ angular.module('angularjsAuthTutorialApp')
          * @param {[array]} roles			roles que tendran accceso
    
          */
-		var S3_bucketToJSON = function (nombreBD, titulos, terminos, roles) {
+		var bucketToJSON = function (nombreBD, titulos, terminos, roles) {
 
 			if(_.isUndefined(nombreBD)) nombreBD = '/';							// si no se indica nombreBD se devolveran todos los paths del bucket
 			
@@ -261,7 +261,7 @@ angular.module('angularjsAuthTutorialApp')
 		*  bucketName: bucket raiz para buscar
 		*
 		*/
-		var S3_updateBucket = function (bucketName) {
+		var updateBucket = function (bucketName) {
 			
 			// inicializa
 			folders = []; 
@@ -272,6 +272,28 @@ angular.module('angularjsAuthTutorialApp')
 		
 		}
 
+		/**
+		 * [setDbFile description]
+		 * @param {[type]} fileName nombre para guardar la BD
+		 * @param {[type]} titulos  titulos para la estructura del path
+		 * @param {[type]} terminos terminos que debe contener el path
+		 * @param {[type]} roles    roles que pueden acceder la BD
+		 * @param {[type]} content  json con los paths
+		 */
+		var setDbFile = function (fileName, titulos, terminos, roles, content) {
+		
+		}
+
+		/**
+		 * resultado de buscar en el bucket activo
+		 * @param  {[type]} terminos terminos para buscar en el bucket activo
+		 * @return {[type]}          reduccion del bucket principal con datos encontrados en path-terminos
+		 */
+		var getBucketResult = function (terminos) {
+		
+		}
+
+
 
     // Public API here
 
@@ -280,9 +302,11 @@ angular.module('angularjsAuthTutorialApp')
     	getBuckets: getBuckets,									// Devuelve los buckets existentes en S3
     	setBucket: setBucket,									// Activa un bucket para toda la app
     	getBucket: getBucket,									// devuelve el bucket activo
-    	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket
-        S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a json          
-		S3_updateBucket: S3_updateBucket,						// Crea la estrucutra del bucket en un json
+    	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket, no recursivo
+        bucketToJSON, bucketToJSON, 							// convierte toda la estructura (paths) de un bucket de S3 a json          
+		updateBucket: updateBucket,								// Crea la estrucutra del bucket en un json
+		setDbFile: setDbFile,									// Creates a DB file
+		getBucketResult: getBucketResult,						// resultado de buscar en el bucket activo
 
         S3getFolder: S3getFolder,
     	getFileFromDB: getFileFromDB,							// get json file from database bucket
