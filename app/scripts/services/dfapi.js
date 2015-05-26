@@ -286,11 +286,33 @@ angular.module('angularjsAuthTutorialApp')
 
 		/**
 		 * resultado de buscar en el bucket activo
-		 * @param  {[type]} terminos terminos para buscar en el bucket activo
+		 * @param  {[array]} terminos terminos para buscar en el bucket activo
 		 * @return {[type]}          reduccion del bucket principal con datos encontrados en path-terminos
 		 */
-		var getBucketResult = function (terminos) {
-		
+		var searchInBucket = function (terminos) {
+
+			var encontrados = [];
+			console.debug("array de terminos a buscar",terminos);
+			getFileFromDB(selectedBucket)
+			.then(function(response){
+				
+			    console.log(response);
+
+				// FICHEROS 
+				_.forEach(response.files, function(file) {
+
+					// 1.- COGE files QUE TENGAN ES SU PATH LOS TERMINOS INDICADOS
+					var coincidencias = 0;
+					terminos.forEach(function(termino){ if(file.path.indexOf(termino) > -1)  { coincidencias++; } })
+
+					// 2.- si coinciden todas los terminos buscados lo añades a la BD
+					if(terminos.length==coincidencias){ encontrados.push({ path: file.path, name: file.name }); } 
+
+
+				});	
+				console.debug("encontrado",encontrados);
+
+			})
 		}
 
 
@@ -306,7 +328,7 @@ angular.module('angularjsAuthTutorialApp')
         bucketToJSON, bucketToJSON, 							// convierte toda la estructura (paths) de un bucket de S3 a json          
 		updateBucket: updateBucket,								// Crea la estrucutra del bucket en un json
 		setDbFile: setDbFile,									// Creates a DB file
-		getBucketResult: getBucketResult,						// resultado de buscar en el bucket activo
+		searchInBucket: searchInBucket,							// resultado de buscar en el bucket activo
 
         S3getFolder: S3getFolder,
     	getFileFromDB: getFileFromDB,							// get json file from database bucket

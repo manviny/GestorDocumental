@@ -11,8 +11,10 @@ angular.module('angularjsAuthTutorialApp')
   .controller('BasedatosCtrl', function ($scope, dfapi) {
 
     $scope.rowCollection = [];
-    $scope.bd = {};
-    $scope.titulos = [];
+    $scope.bd = {}; 
+    $scope.titulos = [];                  // titulos 
+    $scope.terminos = [];                 // terminos de busqueda
+
     // $scope.configVisible = false;
 
     $scope.predicates = ['firstName', 'lastName', 'birthDate', 'balance', 'email'];
@@ -134,6 +136,18 @@ angular.module('angularjsAuthTutorialApp')
 
         dfapi.bucketToJSON($scope.bd.nombre, titulos, terminos, roles);   // guarda configuracion de la BD
      }
+
+    /**
+     * busca los terminos indicados en el bucket activo
+     * @return {[type]}      [description]
+     */
+     $scope.searchInBucket = function(){ 
+        dfapi.searchInBucket($scope.terminos);
+     }
+
+     $scope.addTermino = function(){  $scope.terminos.push(''); }     
+     $scope.removeTermino = function(index){  $scope.terminos.splice(index, 1); }    
+     $scope.refreshTermino = function(index, termino){  $scope.terminos[index] = termino; }
 
 
     // despliega dropdown

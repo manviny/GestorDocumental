@@ -93,6 +93,14 @@
 			<h4>Terminos</h4>
 			<br>
 			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.terminos" placeholder="palabras para buscar" maxlength="140" rows="7"></textarea>
+
+			<div class="input-group"  ng-repeat="termino in terminos track by $index">
+			  <input type="text" class="form-control" value="termino" ng-model="termino" aria-describedby="basic-addon1" ng-blur="refreshTermino($index, termino)">
+			  <span class="input-group-addon" id="basic-addon1" ng-click="removeTermino($index)">-</span>
+			</div>
+			<button type="button" class="btn btn-default" ng-click="addTermino()">Añadir</button>
+		
+
 		</div>
 		<div class="col-xs-3">
 			<h4>Roles</h4>
@@ -100,6 +108,7 @@
 			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.roles" placeholder="roles admitidos" maxlength="140" rows="7"></textarea>
 		</div>
 		<div class="col-xs-12">
+			<button class="btn btn-success" ng-click="searchInBucket(nombreBD)"><i class="glyphicon  glyphicon-search"></i> Busca Datos</button>
 			<button class="btn btn-warning" ng-click="guardaBD(nombreBD)"><i class="glyphicon glyphicon glyphicon-hdd"></i> Guardar Base de Datos</button>
 		</div>		
 	</div>
