@@ -21,16 +21,22 @@ angular.module('angularjsAuthTutorialApp')
 
 
 
-             // DreamFactory.api.S3.getFile({
-             //    container: 'jrcnaturalsystems',
-             //    file_path: '/Grupo_Panstar/PNM_Panamar/01-Registro/2015/150114/PNM-Panamar_#007-Palomillas_Registro-de-vigilancia-Insectos.pdf'
-             // },
-             // // Success function
-             //  function(result) { 
-             //    console.debug("RESULTADO",result);
-             //  },
-             // // Error function
-             // function(reject) { console.debug("Reject",reject);  });
+             DreamFactory.api.S3.getFile({
+                container: 'jrcnaturalsystems',
+                file_path: '/Grupo_Panstar/PNM_Panamar/01-Registro/2015/150114/PNM-Panamar_#007-Palomillas_Registro-de-vigilancia-Insectos.pdf'
+             },
+             // Success function
+              function(result) { 
+                // console.debug("RESULTADO",result);
+                // window.open("data:application/pdf," + escape(result));
+                // window.open("data:application/pdf;base64, " + result);
+                var file = new Blob([result], {type: 'application/pdf'});
+                var fileURL = URL.createObjectURL(file);
+                window.open(fileURL);
+                // window.open("data:application/pdf," + escape(result));
+              },
+             // Error function
+             function(reject) { console.debug("Reject",reject);  });
 
 
       
