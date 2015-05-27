@@ -327,7 +327,7 @@ angular.module('angularjsAuthTutorialApp')
     	setBucket: setBucket,									// Activa un bucket para toda la app
     	getBucket: getBucket,									// devuelve el bucket activo
     	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket, no recursivo
-        bucketToJSON, bucketToJSON, 							// convierte toda la estructura (paths) de un bucket de S3 a json          
+        // bucketToJSON: bucketToJSON, 							// convierte toda la estructura (paths) de un bucket de S3 a json          
 		updateBucket: updateBucket,								// Crea la estrucutra del bucket en un json
 		setDbFile: setDbFile,									// Creates a DB file
 		searchInBucket: searchInBucket,							// resultado de buscar en el bucket activo
