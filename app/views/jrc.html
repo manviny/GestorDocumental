@@ -29,7 +29,6 @@
 	<thead>
 	<tr>
 		<th ng-repeat="title in tableTitles" st-sort="{{title}}">{{title}}</th>
-		<th>Descagar</th>
 	</tr>
 
 	<tr>
@@ -42,9 +41,9 @@
 	<tbody>
 		<tr ng-repeat="row in rowCollection track by $index">
 			<td ng-repeat="title in tableTitles">{{row[title]}}</td>
-			<td><a href="https://s3-eu-west-1.amazonaws.com/{{row.url | escape}}" target="_blank"> <i style="color:green" class="glyphicon glyphicon-download-alt"></i></a></td>
 		</tr>
 	</tbody>
 </table>
+
 
 

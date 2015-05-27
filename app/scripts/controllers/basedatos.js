@@ -110,9 +110,6 @@ angular.module('angularjsAuthTutorialApp')
           //roles
           $scope.roles = response.roles;
 
-          //titulos
-          $scope.titulos = response.titles;
-          
           //titulos, pone el primer Objeto del contenido como base para crear titulos
           response.content[0].path.split('/').forEach(function(item){
             $scope.rowCampos.push({title: item});
@@ -133,7 +130,7 @@ angular.module('angularjsAuthTutorialApp')
      $scope.guardaBD = function(){ 
         
         // $scope.searchInBucket();      // busca terminos antes de grabar para actualizar BD
-
+console.debug("TITULOS",$scope.titulos);
         var titulos = [];
         // titulos para la tabla, sino se pone alguno se coge el del path por defecto
         for (var i = 0; i < $scope.rowCampos.length; i++) { 
