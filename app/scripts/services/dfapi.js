@@ -8,6 +8,11 @@
  * Service in the angularjsAuthTutorialApp.
  */
 angular.module('angularjsAuthTutorialApp')
+.filter('escape', function() {
+  return window.encodeURIComponent;
+});
+
+angular.module('angularjsAuthTutorialApp')
   .service('dfapi', function (DreamFactory, $http, $q, $rootScope) {
 
 
