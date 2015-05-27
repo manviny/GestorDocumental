@@ -42,7 +42,8 @@
 	<tbody>
 		<tr ng-repeat="row in rowCollection track by $index">
 			<td ng-repeat="title in tableTitles">{{row[title]}}</td>
-			<td><a href="https://s3-eu-west-1.amazonaws.com/{{row.url}}"> <i style="color:green" class="glyphicon glyphicon-download-alt"></i></a></td>
+			<!-- <td><a href="https://s3-eu-west-1.amazonaws.com/{{row.url}}"> <i style="color:green" class="glyphicon glyphicon-download-alt"></i></a></td> -->
+			<td><pdf-download url="https://s3-eu-west-1.amazonaws.com/{{row.url}}" filename="my-awesome.pdf"></pdf-download></td>
 		</tr>
 	</tbody>
 </table>
