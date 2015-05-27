@@ -84,21 +84,9 @@ angular.module('angularjsAuthTutorialApp')
   		/**	
   		*	Get all buckets in my S3
   		*/
-  		var getBuckets = function () {
+  		var getBuckets = function () { 
 			var deferred = $q.defer();
-
-			// carga buckets solo cuando la api esta disponible y no antes
-			$rootScope.$on('api:ready', function(event) {
-				DreamFactory.api.S3.getResources( function(result) { 
-					// quita el bucket de BD, no es necesario verlo en el frontend
-					// selectedBucket remove
-					console.debug("XXX",result);
-					// bucket_BD
-					deferred.resolve(result); 
-
-				});
-			});
-
+			DreamFactory.api.S3.getResources( function(result) {  deferred.resolve(result);  });
 		    return deferred.promise
 		}
 

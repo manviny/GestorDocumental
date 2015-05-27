@@ -22,6 +22,7 @@ angular.module('angularjsAuthTutorialApp')
 
       $scope.nombreDB = name;
       $scope.rowCampos = [];
+      $scope.rowCollection = [];
 
       dfapi.getFileFromDB(name)
       .then(function(response){

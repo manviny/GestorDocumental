@@ -31,14 +31,14 @@ angular.module('angularjsAuthTutorialApp')
     /**
      * Carga todos los buckets disponibles en S3 para el desplegable
      */
-
-    dfapi.getBuckets()
-    .then(function(response){
-      $scope.buckets = [];
-    	$scope.buckets = response.resource;
-    	console.debug(response);
-    });
-
+     $scope.inicializa = function(){ 
+        dfapi.getBuckets()
+        .then(function(response){
+          $scope.buckets = [];
+        	$scope.buckets = response.resource;
+        	console.debug(response);
+        });
+    }
 
     /**
      * Selecciona el bucket activo
