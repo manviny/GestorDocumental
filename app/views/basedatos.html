@@ -1,7 +1,8 @@
-<div class="container">
+<div class="container" ng-init="inicializa()">
 	<div class="row">
 
 		<div class="col-xs-12">
+
 
 
 		    <!-- DropDown Buckets: START -->       
@@ -24,8 +25,12 @@
 
 			<hr>
 
+		<div class="panel panel-success">
+		  <div class="panel-heading">
+		    <h2 class="panel-title">Bases de datos </h2>
+		  </div>
+		  <div class="panel-body">
 		    <!-- bucket table -->
-			<h2>Base de datos</h2>
 			<table st-table="rowCollection" class="table table-striped">
 				<thead>
 				<tr style="background-color:#fcffc7">
@@ -56,52 +61,113 @@
 			</table>
 		    <!-- bucket table -->
 
+		  </div>
+		  <div class="panel-footer">
+			    <div class="input-group">
+			      <input type="text" class="form-control" placeholder="nombre de la base de datos" ng-model="nombreBD">
+			      <span class="input-group-btn">
+			        <button class="btn btn-info" ng-click="createDB(nombreBD)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
+			      </span>
+			    </div>
+
+		  </div>
 		</div>
+
+
+
+		</div>
+    <!-- add BD:start -->		
+		 
+<!-- /input-group -->
+		  
+    <!-- add BD:end -->
 	</div>
 
-    <!-- add BD:start -->
-	<div class="row">
-		  <div class="col-xs-6">
-		    <div class="input-group">
-		      <input type="text" class="form-control" placeholder="nombre de la base de datos" ng-model="nombreBD">
-		      <span class="input-group-btn">
-		        <button class="btn btn-info" ng-click="createDB(nombreBD)"><i class="glyphicon glyphicon glyphicon-plus-sign"></i> añadir BD</button>
-		      </span>
-		    </div><!-- /input-group -->
-		  </div><!-- /.col-lg-6 -->
-	</div>
-    <!-- add BD:end -->
+
+
+
+
 	<hr>
 
-	<div class="row">
-		<div class="col-xs-12">
-		<h2>configuración {{bd.nombre}}</h2>
-		</div>
-		<div class="col-xs-6">
-			<h4>Campos </h4>
-			<table class="table table-striped">
-				<thead>
-					<tr><td>títulos</td><td>datos</td></tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in rowCampos"><td><input ng-model="titulos[$index]" type="text" required></td><td>{{item.title}}</td></tr>
-				</tbody>
-			</table>
+	<div class="row" ng-show="nombreDB">
+
+
+		<div class="panel panel-success">
+		  <div class="panel-heading">
+		    <h2 class="panel-title">{{nombreDB}} <span class="badge">{{contentLength}}</span></h2>
+		  </div>
+		  <div class="panel-body">
+		   
+
+
+
+				<!-- TITULOS -->
+				<div class="col-xs-4">
+
+
+					<div class="panel panel-success">
+					  <div class="panel-heading"><h3 class="panel-title">Campos</h3></div>
+					  <div class="panel-body">
+						
+								<table class="table table-striped">
+									<thead>
+										<tr><td>títulos</td><td>datos</td></tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="item in rowCampos"><td><input ng-model="titulos[$index]" type="text" required></td><td>{{item.title}}</td></tr>
+									</tbody>
+								</table>
+
+					  </div>
+					</div>
+
+				</div>
+
+				<!-- TERMINOS -->
+				<div class="col-xs-4">
+					<div class="panel panel-success">
+					  <div class="panel-heading"><h3 class="panel-title"><i class="glyphicon  glyphicon-plus-sign" ng-click="addTermino()"></i> Términos</h3></div>
+					  <div class="panel-body">
+					
+						
+								<div class="input-group"  ng-repeat="termino in terminos track by $index">
+								  <input type="text" class="form-control" value="termino" ng-model="termino" aria-describedby="basic-addon1" ng-blur="refreshTermino($index, termino)">
+								  <span class="input-group-addon" id="basic-addon1" ng-click="removeTermino($index)"><i class="glyphicon glyphicon glyphicon-trash"></i></span>
+								</div>
+
+					  </div>
+					</div>
+				</div>
+
+
+				<!-- ROLES -->
+				<div class="col-xs-4">
+
+					<div class="panel panel-success">
+					  <div class="panel-heading"><h3 class="panel-title"><i class="glyphicon  glyphicon-plus-sign"  ng-click="addRol()"></i> Roles</h3></div>
+					  <div class="panel-body">
+								<div class="input-group"  ng-repeat="rol in roles track by $index">
+								  <input type="text" class="form-control" value="rol" ng-model="rol" aria-describedby="basic-addon2" ng-blur="refreshRol($index, rol)">
+								  <span class="input-group-addon" id="basic-addon2" ng-click="removeRol($index)"><i class="glyphicon glyphicon glyphicon-trash"></i></span>
+								</div>
+
+
+					  </div>
+					</div>
+
+				</div>
+
+		  	</div>
+			<div class="panel-footer">
+			<!-- <button class="btn btn-success" ng-click="searchInBucket()"><i class="glyphicon  glyphicon-search"></i> Busca Datos</button> -->
+			<!-- <button class="btn btn-warning" ng-click="guardaBD(nombreBD)"><i class="glyphicon glyphicon glyphicon-hdd"></i> Guardar Base de Datos</button> -->
+			<button class="btn btn-warning" ng-click="searchInBucket()"><i class="glyphicon glyphicon glyphicon-hdd"></i> Guardar Base de Datos</button>
+			</div>
 
 		</div>
-		<div class="col-xs-3">
-			<h4>Terminos</h4>
-			<br>
-			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.terminos" placeholder="palabras para buscar" maxlength="140" rows="7"></textarea>
-		</div>
-		<div class="col-xs-3">
-			<h4>Roles</h4>
-			<br>
-			<textarea class="form-control input-sm " type="textarea" id="message" ng-model="bd.roles" placeholder="roles admitidos" maxlength="140" rows="7"></textarea>
-		</div>
-		<div class="col-xs-12">
-			<button class="btn btn-warning" ng-click="guardaBD(nombreBD)"><i class="glyphicon glyphicon glyphicon-hdd"></i> Guardar Base de Datos</button>
-		</div>		
+
+		<!-- BOTONES -->
+
 	</div>
 
 
