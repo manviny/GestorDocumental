@@ -30,9 +30,9 @@ angular.module('angularjsAuthTutorialApp')
                 // console.debug("RESULTADO",result);
                 // window.open("data:application/pdf," + escape(result));
                 // window.open("data:application/pdf;base64, " + result);
-                var file = new Blob([result], {type: 'application/pdf'});
-                var fileURL = URL.createObjectURL(file);
-                window.open(fileURL);
+                // var file = new Blob([result], {type: 'application/pdf'});
+                // var fileURL = URL.createObjectURL(file);
+                // window.open(fileURL, '_self', '');
                 // window.open("data:application/pdf," + escape(result));
               },
              // Error function
