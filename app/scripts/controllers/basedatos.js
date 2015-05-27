@@ -110,6 +110,9 @@ angular.module('angularjsAuthTutorialApp')
           //roles
           $scope.roles = response.roles;
 
+          //titulos
+          $scope.titulos = response.titles;
+
           //titulos, pone el primer Objeto del contenido como base para crear titulos
           response.content[0].path.split('/').forEach(function(item){
             $scope.rowCampos.push({title: item});
