@@ -24,14 +24,6 @@
 </style>
 
 
-<div class="form-group">
-    <div class="col-sm-12">
-        <div class="btn-group pull-right">
-            <label class="btn btn-default"  style="padding:6px 3px" ng-repeat="(horaLibre, enabled) in horasLibres" ng-model="horasLibres[horaLibre]" btn-checkbox ng-change="selectModelo(horaLibre)">{{horaLibre}}</label>
-        </div>
-    </div>
-</div> 
-
 
 <table st-table="rowCollection" class="table table-striped">
 	<thead>
@@ -49,8 +41,6 @@
 	<tbody>
 		<tr ng-repeat="row in rowCollection track by $index">
 			<td ng-repeat="title in tableTitles">{{row[title]}}</td>
-            <td><a href="https://s3-eu-west-1.amazonaws.com/{{row.url | escape}}" target="_blank"> <i style="color:green" class="glyphicon glyphicon-download-alt"></i></a></td>
-
 		</tr>
 	</tbody>
 </table>
