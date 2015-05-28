@@ -23,6 +23,17 @@
 
 </style>
 
+<!-- DropDown Buckets: START -->       
+	<div class="btn-group" dropdown is-open="status.isopen"  ng-init="inicializa()">
+    <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+    	<span class="glyphicon glyphicon-folder-open"></span> &nbsp Buckets  <span class="caret"></span>
+  	</button>          
+  	<ul class="dropdown-menu" role="menu">
+    	<li ng-repeat="bucket in buckets" ng-click="setBucket(bucket.name)">&nbsp <span class="glyphicon glyphicon-folder-open"></span>&nbsp  {{bucket.name}} </li>
+  	</ul>
+</div>       
+
+<!-- DropDown Buckets: END -->
 
 <div class="form-group">
     <div class="col-sm-12">
