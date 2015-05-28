@@ -1,1 +1,59 @@
-<p>This is the jrc view.</p>
+<style>
+	.table {
+		max-width: none;
+		table-layout: fixed;
+		word-wrap: break-word;
+	}
+	.table-scrollable{
+		overflow: auto;
+	}
+	th input { 			/*fix input rows*/
+		width:100%;
+	}
+	tr {
+		width: 100%;
+	}
+
+	.tabla200 {  
+    height: 350px !important;
+    overflow: scroll;
+    position: relative;
+
+	}​
+
+</style>
+
+
+<div class="form-group">
+    <div class="col-sm-12">
+        <div class="btn-group pull-right">
+            <label class="btn btn-default"  style="padding:6px 3px" ng-repeat="(horaLibre, enabled) in horasLibres" ng-model="horasLibres[horaLibre]" btn-checkbox ng-change="selectModelo(horaLibre)">{{horaLibre}}</label>
+        </div>
+    </div>
+</div> 
+
+
+<table st-table="rowCollection" class="table table-striped">
+	<thead>
+	<tr>
+		<th ng-repeat="title in tableTitles" st-sort="{{title}}">{{title}}</th>
+	</tr>
+
+	<tr>
+		<th ng-repeat="title in tableTitles">
+			<input st-search="{{title}}" placeholder="search for {{title}}" class="input-sm form-control" type="search"/>
+		</th>
+	</tr>
+
+	</thead>
+	<tbody>
+		<tr ng-repeat="row in rowCollection track by $index">
+			<td ng-repeat="title in tableTitles">{{row[title]}}</td>
+            <td><a href="https://s3-eu-west-1.amazonaws.com/{{row.url | escape}}" target="_blank"> <i style="color:green" class="glyphicon glyphicon-download-alt"></i></a></td>
+
+		</tr>
+	</tbody>
+</table>
+
+
+

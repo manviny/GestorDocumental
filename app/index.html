@@ -57,10 +57,12 @@
                     <!-- ADD NAVIGATION HERE -->
                     <div data-ng-controller="NavigationCtrl">
                         <ul class="nav navbar-nav">
-                            <li data-ng-if="hasUser"><a href="#/documentos">Documentos</a></li>
+                            <li data-ng-if="hasUser"><a href="#/baseDatos">Genera BD</a></li>
+                            <!-- <li data-ng-if="hasUser"><a href="#/documentos">Documentos</a></li> -->
+                            <li data-ng-if="hasUser"><a href="#/jrc">JRC </a></li>
                             <li data-ng-if="!hasUser"><a href="#/login">Login</a></li>
                             <li data-ng-if="!hasUser"><a href="#/register">Register</a></li>
-                            <li data-ng-if="hasUser"><a href="#/user-info">User Info</a></li>
+                            <li data-ng-if="hasUser"><a href="#/user-info">Info Usuario</a></li>
                             <li data-ng-if="hasUser"><a href="#/logout">Logout</a></li>
                         </ul>
                     </div>
@@ -83,7 +85,7 @@
 
 
     <!-- Add your site or application content here -->
-    <div class="container-fluid" ng-view=""></div>
+    <div  ng-view=""></div>
 
 
     <!-- END TOP LEVEL CONTROLLER -->
@@ -138,6 +140,8 @@
 <script src="scripts/controllers/documentos.js"></script>
 <script src="scripts/services/dfapi.js"></script>
 <script src="scripts/controllers/jrc.js"></script>
+<script src="scripts/controllers/basedatos.js"></script>
+<script src="scripts/filters/escape.js"></script>
 <!-- endbuild -->
 </body>
 </html>
