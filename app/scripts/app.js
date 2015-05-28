@@ -12,6 +12,8 @@
     var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
     var df_DSP_API_KEY = 'JRC'; //name of the app
 
+
+
     var dbprefix = '___DB___';
 
 
@@ -49,7 +51,7 @@ angular.module('angularjsAuthTutorialApp', [
 
     }])
     // Configure our router
-    .config(function ($routeProvider) {
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
@@ -114,7 +116,7 @@ angular.module('angularjsAuthTutorialApp', [
             .otherwise({
                 redirectTo: '/'
             });
-    })
+    }])
 
     // Setup a decorator for our $exceptionHandler to
     // extend the functionality of $exceptionHandler

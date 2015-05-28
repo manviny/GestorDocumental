@@ -84,20 +84,9 @@ angular.module('angularjsAuthTutorialApp')
   		/**	
   		*	Get all buckets in my S3
   		*/
-  		var getBuckets = function () {
+  		var getBuckets = function () { 
 			var deferred = $q.defer();
-
-			// carga buckets solo cuando la api esta disponible y no antes
-			$rootScope.$on('api:ready', function(event) {
-				DreamFactory.api.S3.getResources( function(result) { 
-					// quita el bucket de BD, no es necesario verlo en el frontend
-
-					// bucket_BD
-					deferred.resolve(result); 
-
-				});
-			});
-
+			DreamFactory.api.S3.getResources( function(result) {  deferred.resolve(result);  });
 		    return deferred.promise
 		}
 
@@ -143,6 +132,29 @@ angular.module('angularjsAuthTutorialApp')
 		     // Error function
 		     function(reject) { deferred.reject('No se pudo'); });
  			return deferred.promise
+		}
+
+
+		/**
+		 * get all Db files from actual bucket
+		 * @return {[type]} [description]
+		 */
+		var getDBs = function(){
+			var deferred = $q.defer();
+			var rowCollection = [];	
+		      getBucketInfo(selectedBucket)
+		      .then(function(response){
+		        
+		          _.forEach(response.file, function(item) {
+		              var nombre = item.name.replace(dbprefix,'');            // quita el prefijo ___DB___
+		               // quita el json con el nombre del bucket
+		              if(!_.isUndefined(nombre) && (nombre!=selectedBucket+'.json') ){
+		                rowCollection.push({tblName: nombre.replace('.json',''), tblDate: item.last_modified}) // quita .json del nombre del fichero
+		              }
+		          })
+		          deferred.resolve(rowCollection);
+		      })
+			return deferred.promise
 		}
 
 
@@ -243,7 +255,7 @@ angular.module('angularjsAuthTutorialApp')
          * @param {[array]} roles			roles que tendran accceso
    
          */
-		var S3_bucketToJSON = function (nombreBD, titulos, terminos, roles) {
+		var bucketToJSON = function (nombreBD, titulos, terminos, roles) {
 
 			if(_.isUndefined(nombreBD)) nombreBD = '/';							// si no se indica nombreBD se devolveran todos los paths del bucket
 			
@@ -261,7 +273,7 @@ angular.module('angularjsAuthTutorialApp')
 		*  bucketName: bucket raiz para buscar
 		*
 		*/
-		var S3_updateBucket = function (bucketName) {
+		var updateBucket = function (bucketName) {
 			
 			// inicializa
 			folders = []; 
@@ -272,6 +284,63 @@ angular.module('angularjsAuthTutorialApp')
 		
 		}
 
+		/**
+		 * [setDbFile description]
+		 * @param {[type]} fileName nombre para guardar la BD
+		 * @param {[type]} titulos  titulos para la estructura del path
+		 * @param {[type]} terminos terminos que debe contener el path
+		 * @param {[type]} roles    roles que pueden acceder la BD
+		 * @param {[type]} content  json con los paths
+		 */
+		var setDbFile = function (nombreDB, titulos, terminos, roles, content) {
+
+		     DreamFactory.api.S3.createFile({
+		     	container: selectedBucket,
+		     	file_path: '/' + dbprefix + nombreDB + '.json', 
+		     	body: { titles: titulos, terminos: terminos, roles:roles, content:content }
+		     },
+		     // Success function
+		      function(result) { 
+		      	console.debug("RESULTADO",result);
+		      },
+		     // Error function
+		     function(reject) { console.debug("Reject",reject);  });
+		
+		}
+
+		/**
+		 * resultado de buscar en el bucket activo
+		 * @param  {[array]} 	terminos para buscar en el bucket activo
+		 * @return {[type]}     reduccion del bucket principal con datos encontrados en path-terminos
+		 */
+		var searchInBucket = function (terminos) {
+			
+			var deferred = $q.defer();
+			var encontrados = [];
+
+			console.debug("array de terminos a buscar",terminos);
+			console.debug("selectedBucket",selectedBucket);
+			getFileFromDB(selectedBucket)
+			.then(function(response){
+
+				// FICHEROS 
+				_.forEach(response.files, function(file) {
+
+					// 1.- COGE files QUE TENGAN ES SU PATH LOS TERMINOS INDICADOS
+					var coincidencias = 0;
+					terminos.forEach(function(termino){ if(file.path.indexOf(termino) > -1)  { coincidencias++; } })
+
+					// 2.- si coinciden todas los terminos buscados lo añades a la BD
+					if(terminos.length==coincidencias){ encontrados.push({ path: file.path, name: file.name }); } 
+				});	
+
+				deferred.resolve(encontrados);
+
+			})
+			return deferred.promise;
+		}
+
+
 
     // Public API here
 
@@ -280,9 +349,13 @@ angular.module('angularjsAuthTutorialApp')
     	getBuckets: getBuckets,									// Devuelve los buckets existentes en S3
     	setBucket: setBucket,									// Activa un bucket para toda la app
     	getBucket: getBucket,									// devuelve el bucket activo
-    	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket
-        S3_bucketToJSON, S3_bucketToJSON, 						// convierte toda la estructura de un bucket de S3 a json          
-		S3_updateBucket: S3_updateBucket,						// Crea la estrucutra del bucket en un json
+    	getBucketInfo: getBucketInfo,							// Devuelve el contenido de un bucket, no recursivo
+        // bucketToJSON: bucketToJSON, 							// convierte toda la estructura (paths) de un bucket de S3 a json          
+		updateBucket: updateBucket,								// Crea la estrucutra del bucket en un json
+		setDbFile: setDbFile,									// Creates a DB file
+		searchInBucket: searchInBucket,							// resultado de buscar en el bucket activo
+		getDBs: getDBs,											// gets DB files in a bucket
+
 
         S3getFolder: S3getFolder,
     	getFileFromDB: getFileFromDB,							// get json file from database bucket
