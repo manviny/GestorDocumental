@@ -27,7 +27,7 @@ angular.module('angularjsAuthTutorialApp')
       dfapi.getFileFromDB(name)
       .then(function(response){
 
-          console.debug("datos BD",response);
+            console.debug("datos BD",response);
             
             $scope.tableTitles = response.titles;
             var arrayFiles = [];
@@ -41,27 +41,50 @@ angular.module('angularjsAuthTutorialApp')
                 })            
                 $scope.rowCollection.push(este)
             }); 
+
             console.debug("rowCollection",$scope.rowCollection);
-
-
 
             //roles
             $scope.roles = response.roles;
 
-
             // numero de datos encontrados
             $scope.contentLength = response.content.length;
-
-
-
 
       })
 
      }
 
-
-     
     dfapi.setBucket('jrcnaturalsystems');
     $scope.configDB('Insecto');
+
+    // Crea botones de tipos de documentos
+    
+    dfapi.getDBs($scope.bucketSelecionado)
+    .then(function(response){ 
+        console.debug("XXXX",response);
+        var colTitles = response; 
+        var colTitles = ['1','d']; 
+        $scope.horasLibres = {};
+        Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; });          
+    })
+
+       
+        
+
+
+    // Selecciona un solo elemento de botones de tipos de documentos
+    // $scope.selectModelo = function(tipo) {
+
+    //     Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 
+    //     $scope.horasLibres[tipo] = true;
+    //     $scope.tableTitles = colTitles[tipo];
+
+    //     $scope.rowCollection = []; $scope.folders = [];  $scope.files = []; folders = []; files = [];   // borra datos de la tabla
+    //     arrayFolders.push(bucket_name);
+    //     bucketRecursive(1, arrayFolders[0], tipo);                                              //  RECURSIVA INICIAL
+    // }
+
+     
+
 
   });

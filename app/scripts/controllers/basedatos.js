@@ -46,22 +46,17 @@ angular.module('angularjsAuthTutorialApp')
      * @param {[type]} name [description]
      */
     $scope.setBucket = function(name){ 
+
       dfapi.setBucket(name);                                          // set selected bucket as actual bucket
       $scope.bucketSelecionado = dfapi.getBucket();
 
       // get ficheros de base de datos en el bucket
       $scope.rowCollection = [];
-      dfapi.getBucketInfo($scope.bucketSelecionado)
-      .then(function(response){
-        
-          _.forEach(response.file, function(item) {
-              var nombre = item.name.replace(dbprefix,'');            // quita el prefijo ___DB___
-               // quita el json con el nombre del bucket
-              if(!_.isUndefined(nombre) && (nombre!=$scope.bucketSelecionado+'.json') ){
-                $scope.rowCollection.push({tblName: nombre.replace('.json',''), tblDate: item.last_modified}) // quita .json del nombre del fichero
-              }
-          })
-      })
+
+
+      dfapi.getDBs($scope.bucketSelecionado)
+      .then(function(response){ $scope.rowCollection = response; })
+
     }  
 
     /** 

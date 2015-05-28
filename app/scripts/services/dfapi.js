@@ -136,6 +136,29 @@ angular.module('angularjsAuthTutorialApp')
 
 
 		/**
+		 * get all Db files from actual bucket
+		 * @return {[type]} [description]
+		 */
+		var getDBs = function(){
+			var deferred = $q.defer();
+			var rowCollection = [];	
+		      getBucketInfo(selectedBucket)
+		      .then(function(response){
+		        
+		          _.forEach(response.file, function(item) {
+		              var nombre = item.name.replace(dbprefix,'');            // quita el prefijo ___DB___
+		               // quita el json con el nombre del bucket
+		              if(!_.isUndefined(nombre) && (nombre!=selectedBucket+'.json') ){
+		                rowCollection.push({tblName: nombre.replace('.json',''), tblDate: item.last_modified}) // quita .json del nombre del fichero
+		              }
+		          })
+		          deferred.resolve(rowCollection);
+		      })
+			return deferred.promise
+		}
+
+
+		/**
 		 * [Convierte los paths de folders y files a objetos con los nombres 'names']
 		 * @param  {[type]} names   ["cliente", "asunto", "año", "trimestre", "documento"]
 		 * @param  {[type]} folders all folder paths
@@ -331,6 +354,8 @@ angular.module('angularjsAuthTutorialApp')
 		updateBucket: updateBucket,								// Crea la estrucutra del bucket en un json
 		setDbFile: setDbFile,									// Creates a DB file
 		searchInBucket: searchInBucket,							// resultado de buscar en el bucket activo
+		getDBs: getDBs,											// gets DB files in a bucket
+
 
         S3getFolder: S3getFolder,
     	getFileFromDB: getFileFromDB,							// get json file from database bucket

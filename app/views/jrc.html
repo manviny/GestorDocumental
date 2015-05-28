@@ -24,6 +24,14 @@
 </style>
 
 
+<div class="form-group">
+    <div class="col-sm-12">
+        <div class="btn-group pull-right">
+            <label class="btn btn-default"  style="padding:6px 3px" ng-repeat="(horaLibre, enabled) in horasLibres" ng-model="horasLibres[horaLibre]" btn-checkbox ng-change="selectModelo(horaLibre)">{{horaLibre}}</label>
+        </div>
+    </div>
+</div> 
+
 
 <table st-table="rowCollection" class="table table-striped">
 	<thead>
