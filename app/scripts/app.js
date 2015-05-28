@@ -51,7 +51,7 @@ angular.module('angularjsAuthTutorialApp', [
 
     }])
     // Configure our router
-    .config(function ($routeProvider) {
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
@@ -116,7 +116,7 @@ angular.module('angularjsAuthTutorialApp', [
             .otherwise({
                 redirectTo: '/'
             });
-    })
+    }])
 
     // Setup a decorator for our $exceptionHandler to
     // extend the functionality of $exceptionHandler
