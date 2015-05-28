@@ -8,7 +8,7 @@
  * Controller of the angularjsAuthTutorialApp
  */
 angular.module('angularjsAuthTutorialApp')
-  .controller('DocumentosCtrl', function ($scope, dfapi, $q, DreamFactory) {
+  .controller('DocumentosCtrl', function ($scope) {
 
 
   });
