@@ -18,6 +18,39 @@ angular.module('angularjsAuthTutorialApp')
     // ];
 
 
+
+    /**
+     * Carga todos los buckets disponibles en S3 para el desplegable
+     */
+     $scope.inicializa = function(){ 
+        dfapi.getBuckets()
+        .then(function(response){
+          $scope.buckets = [];
+            $scope.buckets = response.resource;
+            console.debug(response);
+        });
+    }
+
+
+    /**
+     * Selecciona el bucket activo
+     * Carga la BD del bucket seleccionado
+     * @param {[type]} name [description]
+     */
+    $scope.setBucket = function(name){ 
+
+        dfapi.setBucket(name);
+        
+            // Crea botones de tipos de documentos disponibles
+    
+            dfapi.getDBs($scope.bucketSelecionado)
+            .then(function(response){ 
+                $scope.horasLibres = {};
+                response.forEach(function(key) { $scope.horasLibres[key.tblName] = false; });          
+            })
+
+    }  
+
      $scope.configDB = function(name){ 
 
       $scope.nombreDB = name;
@@ -54,35 +87,26 @@ angular.module('angularjsAuthTutorialApp')
 
      }
 
-    dfapi.setBucket('jrcnaturalsystems');
-    $scope.configDB('Insecto');
-
-    // Crea botones de tipos de documentos
     
-    dfapi.getDBs($scope.bucketSelecionado)
-    .then(function(response){ 
-        console.debug("XXXX",response);
-        var colTitles = response; 
-        var colTitles = ['1','d']; 
-        $scope.horasLibres = {};
-        Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; });          
-    })
+
+
 
        
         
 
 
     // Selecciona un solo elemento de botones de tipos de documentos
-    // $scope.selectModelo = function(tipo) {
+    $scope.selectModelo = function(tipo) {
 
-    //     Object.keys(colTitles).forEach(function(key) { $scope.horasLibres[key] = false; }); 
-    //     $scope.horasLibres[tipo] = true;
-    //     $scope.tableTitles = colTitles[tipo];
-
-    //     $scope.rowCollection = []; $scope.folders = [];  $scope.files = []; folders = []; files = [];   // borra datos de la tabla
-    //     arrayFolders.push(bucket_name);
-    //     bucketRecursive(1, arrayFolders[0], tipo);                                              //  RECURSIVA INICIAL
-    // }
+        Object.keys($scope.horasLibres).forEach(function(key) { $scope.horasLibres[key] = false; });    // pon todos a falso
+        $scope.horasLibres[tipo] = true;      
+        // $scope.rowCollection = [];                                                          // pon a tru el seleccinado
+        // $scope.tableTitles = colTitles[tipo];
+        $scope.configDB(tipo);
+        // $scope.rowCollection = []; $scope.folders = [];  $scope.files = []; folders = []; files = [];   // borra datos de la tabla
+        // arrayFolders.push(bucket_name);
+        // bucketRecursive(1, arrayFolders[0], tipo);                                              //  RECURSIVA INICIAL
+    }
 
      
 
