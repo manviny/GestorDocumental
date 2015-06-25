@@ -246,6 +246,44 @@ angular.module('angularjsAuthTutorialApp')
 
         }
 
+		/**
+		 * [bucketRecursive description] ej: getTree( bucketname, '2015' ) 
+		 * @param  {[type]} actualBucket bucket raiz desde el que se leera la estructura
+		 * @param  {[type]} tipo         string que debe contener el path para incluirlo en la salida
+		 * @return {[type]}              [description]
+		 */
+        var getTree = function ( actualBucket ) {
+
+								
+            if (arrayFolders.length > 0) {     										// RECURSIVA FINAL
+				getBucketInfo(actualBucket)
+				.then(function(response){
+					
+					arrayFolders = _.rest(arrayFolders);							// quita el path recien leido
+
+					// CARPETAS 
+					_.forEach(response.folder, function(folder) {
+					  	arrayFolders.push(folder.path);
+						folders.push({  path: folder.path, name: folder.name }); 
+					});
+
+					// FICHEROS 
+					_.forEach(response.file, function(file) {
+						files.push({ path: file.path, name: file.name }); 
+					});		    
+
+				 	getTree( arrayFolders[0]);                  		// RECURSIVA SIGUIENTE CASO
+				})
+
+            }
+            else{ 
+            	console.debug("FILES",files);
+            	console.debug("Folders",folders);
+              	return ;
+            }
+
+        }
+
 
         /**
          * Convierte un bucket completo recursivamente a JSON
@@ -355,7 +393,7 @@ angular.module('angularjsAuthTutorialApp')
 		setDbFile: setDbFile,									// Creates a DB file
 		searchInBucket: searchInBucket,							// resultado de buscar en el bucket activo
 		getDBs: getDBs,											// gets DB files in a bucket
-
+		getTree: getTree,
 
         S3getFolder: S3getFolder,
     	getFileFromDB: getFileFromDB,							// get json file from database bucket
