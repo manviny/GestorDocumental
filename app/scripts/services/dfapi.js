@@ -42,7 +42,7 @@ angular.module('angularjsAuthTutorialApp')
 	}
 
 
-	var S3getFolder = function(bucket, path){
+	var S3getFolder = function(bucket, path, data){
 
        	var deferred = $q.defer(); 
 	     // DreamFactory.api.S3.getContainer({container:'lamemoriagrafica/lallosaderanes/imagenes/Els+banys'},
@@ -50,6 +50,7 @@ angular.module('angularjsAuthTutorialApp')
 	     	container: bucket,
 	     	include_folders: true,
 	     	include_properties: true,
+	     	full_tree: data.full_tree,
 	     	folder_path: path
 	     },
 	     // Success function

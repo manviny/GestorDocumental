@@ -12,7 +12,7 @@ angular.module('angularjsAuthTutorialApp')
 	 * Lee todos los buckets de S3
 	 * @return {[type]} [description]
 	 */
-    $scope.getTree = function() { console.debug("BUSCANDO");
+    $scope.getTree = function() { 
        $scope.data = [];
 	   dfapi.getBuckets()
 	   .then(function(data){
@@ -54,7 +54,7 @@ angular.module('angularjsAuthTutorialApp')
       	// console.debug("$modelValue",scope.$modelValue);
 
 		// Busca los files y folders del path
-    	dfapi.S3getFolder(scope.$modelValue.id, '/')
+    	dfapi.S3getFolder(scope.$modelValue.id, '/', {full_tree: false})
     	.then(function(data){
     	    console.debug("FOLDER DATA",data);
     	    scope.$modelValue.nodes = [];
