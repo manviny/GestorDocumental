@@ -3,14 +3,15 @@
 	
 
 .btn {
-    margin-right: 8px;
+    margin-left: 28px;
 }
 
 .angular-ui-tree-handle {
 /*    background: #f8faff;
     border: 1px solid #dae2ea;*/
     color: #7c9eb2;
-    padding: 10px 10px;
+    padding: 0px 0px;
+    font-weight: 200;	
 }
 
 .angular-ui-tree-handle:hover {
@@ -32,6 +33,13 @@
     background-color: #687074 !important;
     color: #FFF !important;
 }
+.angular-ui-tree-node, .angular-ui-tree-placeholder {
+
+  min-height: 0px;
+  line-height: 20px;
+  padding: 0;
+}
+
 </style>
     <div class="row">
       <div class="col-lg-6">
@@ -45,20 +53,26 @@
 
         <!-- Nested node template -->
         <script type="text/ng-template" id="nodes_renderer.html">
-          <div ui-tree-handle class="tree-node tree-node-content">
-            <a class="btn  btn-xs" data-nodrag ng-click="unfold(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+
+          <div ui-tree-handle class="tree-node tree-node-content" >
+
+
+            <a class="btn btn-lg" ng-if="!node.file" data-nodrag ng-click="toggleBranch(this)"><span ng-class="{'glyphicon glyphicon-folder-close': collapsed, 'glyphicon glyphicon-folder-open': !collapsed}"></span></a>
+            <a class="btn btn-lg" ng-if="node.file" data-nodrag ng-click=""><span ng-class="node.icon_type" style="color:{{node.icon_color}};"></span></a>
+
             {{node.title}}
-            <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
-            <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+
           </div>
+
           <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
-            <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
-            </li>
+            <li ng-repeat="node in node.nodes" collapsed='true' ui-tree-node ng-include="'nodes_renderer.html'"></li>
           </ol>
+
         </script>
-        <div ui-tree="treeOptions" id="tree-root" ng-init="collapseAll()">
+
+        <div ui-tree="treeOptions" id="tree-root">
           <ol ui-tree-nodes="" ng-model="data">
-            <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+            <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
           </ol>
         </div>
       </div>

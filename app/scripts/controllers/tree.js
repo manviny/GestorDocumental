@@ -3,15 +3,20 @@
 angular.module('angularjsAuthTutorialApp')
   .controller('TreeCtrl', function ($scope, dfapi, $q) { 
 
-	$scope.data = [];
 
-    $scope.getTree = function(path) {
-	   dfapi.getBucketInfo(path)
+
+
+
+	/**
+	 * Lee todos los buckets de S3
+	 * @return {[type]} [description]
+	 */
+    $scope.getTree = function() {
+       $scope.data = [];
+	   dfapi.getBuckets()
 	   .then(function(data){
-
 	   		console.debug("Bucket",data);
 	   		_.forEach(data.resource, function(item) { 
-	   			console.debug("",item.name);
 	   			$scope.data.push({ 
 	   				"id": item.path, 
 	   				"title": item.name, 
@@ -20,58 +25,85 @@ angular.module('angularjsAuthTutorialApp')
 	   			})
 	   		})
 	   })
+
     };
 
 
-	  $scope.treeOptions = { 
+    /**
+     * datos generados al mover una rama
+     * @type {Object}
+     */
+	$scope.treeOptions = { 
 	    accept: function(sourceNodeScope, destNodesScope, destIndex) {
 	    	console.debug(sourceNodeScope, destNodesScope, destIndex);
 	      return true;
 	    },
-	  };
+	};
 
 
     $scope.remove = function(scope) {
       scope.remove();
     };
 
-    $scope.toggle = function(scope) {
+    $scope.toggleBranch = function(scope) {
+
       	scope.toggle();
-    };
+      	var icono = 'glyphicon glyphicon-file';
+      	var color = 'blue';
+      	// console.debug("$modelValue",scope.$modelValue);
 
-    $scope.unfold = function(scope) {
-    	var folder = scope.$parent.$modelValue;
-    	console.debug("scope",folder.access);
-
-
-
-		var indice = _.findIndex($scope.data, function(chr) {
-		  return chr.id == folder.id;
-		});
-
-
-
-	   dfapi.getBucketInfo(folder.title)
-	   .then(function(data){
-			
-			if(!_.isUndefined($scope.data[indice].nodes)){ $scope.data[indice].nodes = []; }
-			
-
-	   		console.debug(folder.title,data);
+		// Busca los files y folders del path
+    	dfapi.S3getFolder(scope.$modelValue.id, '/')
+    	.then(function(data){
+    	    console.debug("FOLDER DATA",data);
+    	    scope.$modelValue.nodes = [];
+    	    // FOLDERS
 	   		_.forEach(data.folder, function(item) { 
-	   			console.debug("",item.name);
-	   			$scope.data[indice].nodes.push({ 
+	   			scope.$modelValue.nodes.push({ 
 	   				"id": item.path, 
 	   				"title": item.name, 
 	   				"access": item.access, 
+	   				"file": false, 
 	   				"nodes": [] 
 	   			})
 	   		})
-	   })
+    	    // FILES
+	   		_.forEach(data.file, function(item) { 
+	   			switch(item.content_type) {
+				    case 'text/plain':
+				        icono = 'glyphicon glyphicon-picture';
+				        color = 'orange';
+				        break;
+				    case 'text/html':
+				        icono = 'glyphicon glyphicon-globe';
+				        color = 'blue';
+				        break;
+				    case 'image/jpeg':
+				        icono = 'glyphicon glyphicon-camera';
+				        color = 'green';
+				        break;
+				}
 
+				console.debug("ICONO",icono);
 
-      	scope.toggle();
+	   			scope.$modelValue.nodes.push({ 
+	   				"id": item.path, 
+	   				"title": item.name, 
+	   				"access": item.access, 
+	   				"content_type": item.content_type, 
+	   				"content_length": item.content_length, 
+	   				"last_modified": item.last_modified, 
+	   				"icon_type": icono,
+	   				"icon_color": color,
+	   				"file": true,
+	   				"nodes": [] 
+	   			})
+	   		})
+
+    	})
+
     };
+
 
     $scope.moveLastToTheBegginig = function () {
       var a = $scope.data.pop();

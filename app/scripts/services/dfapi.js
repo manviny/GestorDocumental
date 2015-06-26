@@ -42,17 +42,18 @@ angular.module('angularjsAuthTutorialApp')
 	}
 
 
-	var S3getFolder = function(bucket, path, $q, DreamFactory){
-
+	var S3getFolder = function(bucket, path){
 
        	var deferred = $q.defer(); 
 	     // DreamFactory.api.S3.getContainer({container:'lamemoriagrafica/lallosaderanes/imagenes/Els+banys'},
 	     DreamFactory.api.S3.getFolder({
 	     	container: bucket,
+	     	include_folders: true,
+	     	include_properties: true,
 	     	folder_path: path
 	     },
 	     // Success function
-	      function(result) { deferred.resolve(result.file); },
+	      function(result) { deferred.resolve(result); },
 	     // Error function
 	     function(reject) { deferred.reject(reject) });	
 
