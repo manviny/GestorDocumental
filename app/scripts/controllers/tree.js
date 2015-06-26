@@ -5,13 +5,14 @@ angular.module('angularjsAuthTutorialApp')
 
 
 
-
+    $scope.$watch('apiReady', function() { $scope.getTree(); });
+	
 
 	/**
 	 * Lee todos los buckets de S3
 	 * @return {[type]} [description]
 	 */
-    $scope.getTree = function() {
+    $scope.getTree = function() { console.debug("BUSCANDO");
        $scope.data = [];
 	   dfapi.getBuckets()
 	   .then(function(data){

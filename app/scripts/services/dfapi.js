@@ -12,10 +12,10 @@ angular.module('angularjsAuthTutorialApp')
 
 
 	// wait for API to be ready
-	var apiReady = false;
+	$rootScope.apiReady = false;
 	$rootScope.$on('api:ready', function(event) {
 		console.debug('API cargada');
-		apiReady = true;
+		$rootScope.apiReady = true;
 	});
 
 

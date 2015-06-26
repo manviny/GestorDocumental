@@ -58,10 +58,10 @@
                     <!-- ADD NAVIGATION HERE -->
                     <div data-ng-controller="NavigationCtrl">
                         <ul class="nav navbar-nav">
-                            <li data-ng-if="hasUser"><a href="#/arbol">Árbol</a></li>
-                            <li data-ng-if="hasUser"><a href="#/baseDatos">Genera BD</a></li>
+                            <li data-ng-if="hasUser"><a ng-show="apiReady" href="#/arbol">Documentos</a></li>
+                            <!-- <li data-ng-if="hasUser"><a href="#/baseDatos">Genera BD</a></li> -->
                             <!-- <li data-ng-if="hasUser"><a href="#/documentos">Documentos</a></li> -->
-                            <li data-ng-if="hasUser"><a href="#/jrc">JRC </a></li>
+                            <!-- <li data-ng-if="hasUser"><a href="#/jrc">JRC </a></li> -->
                             <li data-ng-if="!hasUser"><a href="#/login">Login</a></li>
                             <li data-ng-if="!hasUser"><a href="#/register">Register</a></li>
                             <li data-ng-if="hasUser"><a href="#/user-info">Info Usuario</a></li>
@@ -135,6 +135,7 @@
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
 <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.min.js"></script>
+<script src="bower_components/onsenui/build/js/onsenui.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
