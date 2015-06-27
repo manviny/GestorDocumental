@@ -26,7 +26,6 @@ angular.module('angularjsAuthTutorialApp')
 	   			})
 	   		})
 	   })
-
     };
 
 
@@ -47,10 +46,12 @@ angular.module('angularjsAuthTutorialApp')
     };
 
     $scope.toggleBranch = function(scope) {
-
+$scope.breadcrumbs = scope.$modelValue.id;
       	scope.toggle();
-      	var icono = 'glyphicon glyphicon-file';
-      	var color = 'blue';
+      	var icono = 'fa fa-file-o';
+      	var color = 'red';
+
+      	$scope.destacados = [];
       	// console.debug("$modelValue",scope.$modelValue);
 
 		// Busca los files y folders del path
@@ -72,7 +73,7 @@ angular.module('angularjsAuthTutorialApp')
 	   		_.forEach(data.file, function(item) { 
 	   			switch(item.content_type) {
 				    case 'text/plain':
-				        icono = 'glyphicon glyphicon-picture';
+				        icono = 'fa fa-file-text-o';
 				        color = 'orange';
 				        break;
 				    case 'text/html':
@@ -80,12 +81,27 @@ angular.module('angularjsAuthTutorialApp')
 				        color = 'blue';
 				        break;
 				    case 'image/jpeg':
-				        icono = 'glyphicon glyphicon-camera';
+				        icono = 'glyphicon glyphicon-picture';
 				        color = 'green';
+				        break;
+				    case 'application/json':
+				        icono = 'fa fa-file-code-o';
+				        color = 'green';
+				        break;
+				    case 'application/pdf':
+				        icono = 'fa fa-file-pdf-o';
+				        color = 'red';
 				        break;
 				}
 
 				console.debug("ICONO",icono);
+				$scope.destacados.push({  
+					"id": item.path, 
+					"title": item.name, 
+					"content_length": item.content_length,
+					"icon_type": icono,
+					"icon_color": color
+				})
 
 	   			scope.$modelValue.nodes.push({ 
 	   				"id": item.path, 

@@ -49,7 +49,7 @@
           <a href="" class="btn btn-default pull-right" ng-click="expandAll()">Expand all</a>
           <a href="" class="btn btn-default btn-warning pull-right" ng-click="moveLastToTheBegginig()">Move Last To The Beginning</a>
         </h3> -->
-
+        <h4>{{breadcrumbs}}</h4>
         <!-- Nested node template -->
         <script type="text/ng-template" id="nodes_renderer.html">
 
@@ -90,8 +90,24 @@
             <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
           </ol>
         </div>
+
+      </div>
       </div>
 
 
+    <div class="row">
+      <div class="col-xs-12">
 
-  </div>
+        <h3>Destacados</h3>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="item in destacados">
+            <a href="https://s3-eu-west-1.amazonaws.com/{{item.id | escape}}">
+              <span ng-class="item.icon_type" style="color:{{item.icon_color}};font-size:1.5em;"></span>
+              {{item.title}}
+              <i class="fa fa-cloud-download  pull-right" style="font-size:1.5em;color:#C440CD"></i>
+              <span class="badge pull-right">{{item.content_length/1000}} KB </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
