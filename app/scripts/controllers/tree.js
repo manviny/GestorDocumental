@@ -172,18 +172,25 @@ angular.module('angularjsAuthTutorialApp')
 		$scope.bc = [];
 		$scope.bc = scope.$modelValue.id.split("/");
 		$scope.bc = _.compact($scope.bc);
+
+		// destacados visibles solo en raiz
+		
+
+		
+		scope.depth() == 1 ? $scope.destacados = false : $scope.destacados = true;
+		
 		console.debug("bc",$scope.bc);
 		$scope.breadcrumbs = scope.$modelValue.id;
 	}
-
-
 	$scope.bcToPath = function(index) {
 
-		var id =  '#' + _.take($scope.bc, index+1).join('_') + '_';
+		if(index==0){ $scope.collapseAll()}
 
-		$(id ).click();
-		$( id ).click();
-		$( id ).click();
+		var id =  '#' + _.take($scope.bc, index+1).join('_') + '_';
+		console.debug("TAKE",   id  );
+		$(id).click();
+		$(id).click();
+		$(id).click();
 	}
 
 
