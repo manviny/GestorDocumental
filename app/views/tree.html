@@ -41,6 +41,8 @@
 }
 
 </style>
+
+<div class="container">
     <div class="row">
       <div class="col-xs-12">
 <!--         <h3>Tree view
@@ -49,7 +51,15 @@
           <a href="" class="btn btn-default pull-right" ng-click="expandAll()">Expand all</a>
           <a href="" class="btn btn-default btn-warning pull-right" ng-click="moveLastToTheBegginig()">Move Last To The Beginning</a>
         </h3> -->
-        <h4>{{breadcrumbs}}</h4>
+
+        <div class="row">
+            <div id="bc2" class="btn-group btn-breadcrumb">
+                <a href="#" class="btn btn-default"><i class="fa fa-home"></i></a>
+                <!-- <div class="btn btn-success">...</div> -->
+                <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
+            </div>
+      </div>
+
         <!-- Nested node template -->
         <script type="text/ng-template" id="nodes_renderer.html">
 
@@ -58,6 +68,7 @@
             <!-- folders -->
             <a 
                 class="btn btn-lg" 
+                id="{{node.identidad}}"
                 ng-if="!node.file" 
                 data-nodrag 
                 ng-click="toggleBranch(this)">
@@ -111,3 +122,4 @@
         </ul>
       </div>
     </div>
+</div>

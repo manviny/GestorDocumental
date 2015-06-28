@@ -46,8 +46,22 @@ angular.module('angularjsAuthTutorialApp')
     };
 
     $scope.toggleBranch = function(scope) {
-$scope.breadcrumbs = scope.$modelValue.id;
+
+    	// set breadcrumbs
+      	$scope.pathToBC(scope);
+
+      	// toggle folder
       	scope.toggle();
+
+      	// actualize tree
+      	$scope.refreshTree(scope);
+ 
+    };
+
+
+    $scope.refreshTree = function (scope) {
+    	
+
       	var icono = 'fa fa-file-o';
       	var color = 'red';
 
@@ -63,6 +77,7 @@ $scope.breadcrumbs = scope.$modelValue.id;
 	   		_.forEach(data.folder, function(item) { 
 	   			scope.$modelValue.nodes.push({ 
 	   				"id": item.path, 
+	   				"identidad": item.path.replace(/\//g,'_'), 
 	   				"title": item.name, 
 	   				"access": item.access, 
 	   				"file": false, 
@@ -119,7 +134,8 @@ $scope.breadcrumbs = scope.$modelValue.id;
 
     	})
 
-    };
+    }
+
 
 
     $scope.moveLastToTheBegginig = function () {
@@ -151,7 +167,24 @@ $scope.breadcrumbs = scope.$modelValue.id;
       scope.expandAll();
     };
 
+	$scope.pathToBC = function(scope) {
 
+		$scope.bc = [];
+		$scope.bc = scope.$modelValue.id.split("/");
+		$scope.bc = _.compact($scope.bc);
+		console.debug("bc",$scope.bc);
+		$scope.breadcrumbs = scope.$modelValue.id;
+	}
+
+
+	$scope.bcToPath = function(index) {
+
+		var id =  '#' + _.take($scope.bc, index+1).join('_') + '_';
+
+		$(id ).click();
+		$( id ).click();
+		$( id ).click();
+	}
 
 
   });
