@@ -276,6 +276,7 @@ module.exports = function (grunt) {
             'images/{,*/}*.{webp}',
             'fonts/*',
             'bower_components/bootstrap/dist/fonts/*',
+            'bower_components/fontawesome/fonts/*',
             'bower_components/dreamfactory-user-management/views/*'
           ]
         }, {
