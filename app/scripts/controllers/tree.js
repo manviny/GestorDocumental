@@ -175,9 +175,7 @@ angular.module('angularjsAuthTutorialApp')
 
 		// destacados visibles solo en raiz
 		
-
-		
-		scope.depth() == 1 ? $scope.destacados = false : $scope.destacados = true;
+		scope.depth() <= 1 ? $scope.destaca = true : $scope.destaca = false;
 		
 		console.debug("bc",$scope.bc);
 		$scope.breadcrumbs = scope.$modelValue.id;
