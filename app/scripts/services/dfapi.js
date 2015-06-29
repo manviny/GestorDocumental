@@ -88,6 +88,7 @@ angular.module('angularjsAuthTutorialApp')
   		*/
   		var getBuckets = function () { 
 			var deferred = $q.defer();
+			if($rootScope.apiReady)
 			DreamFactory.api.S3.getResources( function(result) {  deferred.resolve(result);  });
 		    return deferred.promise
 		}

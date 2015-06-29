@@ -79,6 +79,73 @@ body {
 }
 
 
+/*TREE*/
+
+
+
+.btn {
+    margin-left: 28px;
+}
+
+.angular-ui-tree-handle {
+/*    background: #f8faff;
+    border: 1px solid #dae2ea;*/
+    color: #7c9eb2;
+    padding: 0px 0px;
+    font-weight: 200; 
+}
+
+.angular-ui-tree-handle:hover {
+    color: #438eb9;
+    background: #f4f6f7;
+    border-color: #dce2e8;
+}
+
+.angular-ui-tree-placeholder {
+    background: #f0f9ff;
+    border: 2px dashed #bed2db;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.group-title {
+    background-color: #687074 !important;
+    color: #FFF !important;
+}
+.angular-ui-tree-node, .angular-ui-tree-placeholder {
+
+  min-height: 0px;
+  line-height: 20px;
+  padding: 0;
+}
+
+
+.angular-ui-tree-nodes .angular-ui-tree-nodes {
+  padding-left: 50px;
+}
+
+
+/*ol:not(:nth-child(1)).angular-ui-tree-nodes li {*/
+ol.angular-ui-tree-nodes li {
+  border-left: 1px solid rgb(224, 215, 215);
+  /* border-bottom: 1px solid gray; */
+}
+
+ol>li:before{
+    content:"";
+    position:absolute;
+    /*top:50%;*/
+    margin-top:20px;
+    width:40px;
+    height:1px;
+    background-color:#ccc;
+}
+
+
+
+
 
 
 /*BREADCRUMBS*/
