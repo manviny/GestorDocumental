@@ -138,15 +138,29 @@ ol>li:before{
     position:absolute;
     /*top:50%;*/
     margin-top:20px;
-    width:40px;
+    width:30px;
     height:1px;
     background-color:#ccc;
 }
 
+.btn-lg {
+  padding: 10px 2px;
+  font-size: 16px;
+}
 
+/*ol{
+  margin-top: -20px;
+}
 
+ol:not(:nth-child(1)).ng-scope.ng-pristine.ng-valid.angular-ui-tree-nodes {
+  margin-top: -10px;
+  margin-left: -10px;
+}
 
-
+ol:nth-child(1).ng-scope.ng-pristine.ng-valid.angular-ui-tree-nodes {
+  margin-top: 0px;
+  margin-left: 0px;
+}*/
 
 /*BREADCRUMBS*/
 /* Breadcrumbs from http://bootsnipp.com/snippets/featured/triangle-breadcrumbs-arrows */

@@ -31,6 +31,7 @@
                 data-nodrag 
                 ng-click="toggleBranch(this)">
                   <span ng-class="{'glyphicon glyphicon-folder-close': collapsed, 'glyphicon glyphicon-folder-open': !collapsed}" class="treeFolder"></span>
+            &nbsp{{node.title}}
             </a>
 
             <!-- files -->
@@ -42,9 +43,9 @@
                 target="_blank"
                 ng-click="">
                   <span ng-class="node.icon_type"  class="treeFile" style="color:{{node.icon_color}};"></span>
+            &nbsp{{node.title}}
             </a>
             
-            {{node.title}}
 
           </div>
 
