@@ -8,11 +8,11 @@
 // bower install angular-dreamfactory --save
 
     // config
-    var empresa = 'JRS Sistemas Naturales';
-    var df_DSP_URL = 'http://indinet.es';
-    // var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
-    var df_DSP_API_KEY = 'jrcnaturalsystems'; //name of the app
-    // var df_DSP_API_KEY = 'JRC'; //name of the app
+    var empresa = 'JRC Sistemas Naturales, S.L.';
+    // var df_DSP_URL = 'http://indinet.es';
+    var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
+    // var df_DSP_API_KEY = 'jrcnaturalsystems'; //name of the app
+    var df_DSP_API_KEY = 'JRC'; //name of the app
 
 
 
