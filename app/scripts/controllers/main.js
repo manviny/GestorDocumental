@@ -57,7 +57,7 @@ angular.module('angularjsAuthTutorialApp')
             $scope.$parent.currentUser = userDataObj;
 
             // Change our app location back to the home page
-            $location.url('/');
+            $location.url('/documentos');
         });
 
     }])

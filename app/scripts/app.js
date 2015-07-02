@@ -64,7 +64,7 @@ angular.module('angularjsAuthTutorialApp', [
                 templateUrl: 'views/login.html',
                 controller: 'LoginCtrl'
             })
-            .when('/documentos', {
+            .when('/arbol', {
                 templateUrl: 'views/documentos.html',
                 controller: 'DocumentosCtrl'
             })
@@ -116,7 +116,7 @@ angular.module('angularjsAuthTutorialApp', [
               templateUrl: 'views/basedatos.html',
               controller: 'BasedatosCtrl'
             })
-            .when('/arbol', {
+            .when('/documentos', {
               templateUrl: 'views/tree.html',
               controller: 'TreeCtrl'
             })

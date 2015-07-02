@@ -59,14 +59,14 @@
                     <!-- ADD NAVIGATION HERE -->
                     <div data-ng-controller="NavigationCtrl">
                         <ul class="nav navbar-nav">
-                            <li data-ng-if="hasUser"><a href="#/arbol">Documentos</a></li>
+                            <li data-ng-if="hasUser"><a href="#/documentos">Documentos</a></li>
                             <!-- <li data-ng-if="hasUser"><a href="#/baseDatos">Genera BD</a></li> -->
                             <!-- <li data-ng-if="hasUser"><a href="#/documentos">Documentos</a></li> -->
                             <!-- <li data-ng-if="hasUser"><a href="#/jrc">JRC </a></li> -->
-                            <li data-ng-if="!hasUser"><a href="#/login">Login</a></li>
-                            <li data-ng-if="!hasUser"><a href="#/register">Register</a></li>
-                            <li data-ng-if="hasUser"><a href="#/user-info">Info Usuario</a></li>
-                            <li data-ng-if="hasUser"><a href="#/logout">Logout</a></li>
+                            <li data-ng-if="!hasUser"><a href="#/login">Entrar</a></li>
+                            <!-- <li data-ng-if="!hasUser"><a href="#/register">Register</a></li> -->
+                            <li data-ng-if="hasUser"><a href="#/user-info">Usuario</a></li>
+                            <li data-ng-if="hasUser"><a href="#/logout"><i style="font-size:1.6em" class="fa fa-sign-out"></i></a></li>
                         </ul>
                     </div>
 
