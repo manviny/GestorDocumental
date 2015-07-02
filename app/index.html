@@ -65,7 +65,7 @@
                             <!-- <li data-ng-if="hasUser"><a href="#/jrc">JRC </a></li> -->
                             <li data-ng-if="!hasUser"><a href="#/login">Entrar</a></li>
                             <!-- <li data-ng-if="!hasUser"><a href="#/register">Register</a></li> -->
-                            <li data-ng-if="hasUser"><a href="#/user-info">Usuario</a></li>
+                            <li data-ng-if="hasUser"><a href="#/user-info">{{currentUser.display_name}}</a></li>
                             <li data-ng-if="hasUser"><a href="#/logout"><i style="font-size:1.6em" class="fa fa-sign-out"></i></a></li>
                         </ul>
                     </div>

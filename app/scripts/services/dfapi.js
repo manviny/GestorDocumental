@@ -42,6 +42,21 @@ angular.module('angularjsAuthTutorialApp')
 	}
 
 
+	var getRole = function (roleID) {
+		var deferred = $q.defer();
+		$http({
+		  method: 'POST',
+		  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		  url: 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com/rest/system/script/userrole/',
+		  data: $.param({ is_user_script:true, id:roleID }), // Make sure to inject the service
+		})
+		.success(function(response) { 
+			console.debug("role data",response.script_result); 
+			deferred.resolve(response.script_result)
+		});
+		return deferred.promise;
+	}
+
 	var S3getFolder = function(bucket, path, data){
 
        	var deferred = $q.defer(); 
@@ -386,6 +401,9 @@ angular.module('angularjsAuthTutorialApp')
     // Public API here
 
     return {
+
+    	// GENERALES
+		getRole: getRole,										// get role information from user ID
     	
     	getBuckets: getBuckets,									// Devuelve los buckets existentes en S3
     	setBucket: setBucket,									// Activa un bucket para toda la app

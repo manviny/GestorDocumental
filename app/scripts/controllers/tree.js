@@ -3,15 +3,31 @@
 angular.module('angularjsAuthTutorialApp')
   .controller('TreeCtrl', function ($scope, dfapi, $q) { 
 
+  	// informacion del usuario
+	console.debug("",$scope.$parent.currentUser)
+
+    $scope.$watch('apiReady', function() { 
+		$scope.getRole();
+    	$scope.getTree(); 
+    });
 
 
-    $scope.$watch('apiReady', function() { $scope.getTree(); });
+    // Busca la ruta raiz del cliente actual
+    $scope.getRole = function() { 
+		dfapi.getRole($scope.$parent.currentUser.role_id)
+		.then(function(result){
+			$scope.raizCliente = result.description;
+			console.debug("La raiz del cliente es: ",$scope.raizCliente);
+		})
+    }
+
 	
 
 	/**
 	 * Lee todos los buckets de S3
 	 * @return {[type]} [description]
 	 */
+
     $scope.getTree = function() { 
        $scope.data = [];
 	   dfapi.getBuckets()
