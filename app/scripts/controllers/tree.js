@@ -140,8 +140,8 @@ angular.module('angularjsAuthTutorialApp')
 			});
 
     	    console.log($scope.encontrados);
-    	    
-    	    // sy hay coincidencias muetra el html con los encontrados
+
+    	    // si hay coincidencias muetra el html con los encontrados
     	    $scope.encontrados.length > 0 ? $scope.verEncontrados = true : $scope.verEncontrados = false;
     	    $scope.$parent.spin=false;
     	})
@@ -165,7 +165,7 @@ angular.module('angularjsAuthTutorialApp')
     };
 
     $scope.toggleBranch = function(scope) {
-		
+
 		$scope.actualFolder = scope.$modelValue.id;														// folder abierto
 
     	// set breadcrumbs
