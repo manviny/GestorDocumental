@@ -4,7 +4,9 @@ angular.module('angularjsAuthTutorialApp')
   .controller('TreeCtrl', function ($scope, dfapi, $q) { 
 
   	// informacion del usuario
-	console.debug("",$scope.$parent.currentUser)
+	console.debug("",$scope.$parent.currentUser);
+
+	
 
     $scope.$watch('apiReady', function() { 
 
@@ -19,11 +21,13 @@ angular.module('angularjsAuthTutorialApp')
 
     // Busca la ruta raiz del cliente actual
     $scope.getClientRoot = function() { 
+    	$scope.$parent.spin=true;
 		dfapi.getRole($scope.$parent.currentUser.role_id)
 		.then(function(result){
 			$scope.clientRoot = result.description;					// raiz del cliente, se usa aqui y en breadcrumbs
 	    	$scope.data = [];
-	    	$scope.data.push({  "id": $scope.clientRoot, "title": result.name, "nodes": []  }); 
+	    	$scope.data.push({  "id": $scope.clientRoot, "title": result.name, "nodes": []  });
+	    	$scope.$parent.spin=false; 
 		})
     }
 
@@ -35,14 +39,16 @@ angular.module('angularjsAuthTutorialApp')
 	 */
 
     $scope.getTree = function() { 
-       $scope.data = [];
-	   dfapi.getBuckets()
-	   .then(function(data){
+    	$scope.$parent.spin=true;	
+       	$scope.data = [];
+	   	dfapi.getBuckets()
+	   	.then(function(data){
 	   		console.debug("Bucket",data);
 	   		_.forEach(data.resource, function(item) { 
 	   			$scope.data.push({ "id": item.path, "title": item.name, "access": item.access, "nodes": [] })
 	   		})
-	   })
+	   		$scope.$parent.spin=false;
+	   	})
     };
 
 
@@ -54,7 +60,7 @@ angular.module('angularjsAuthTutorialApp')
      */
     $scope.getFolder = function(modelValue) { 
 
-
+    	$scope.$parent.spin=true;
 		// Busca los files y folders del path
     	dfapi.S3getFolder(modelValue.id, '/', {full_tree: false})
     	.then(function(data){
@@ -72,7 +78,7 @@ angular.module('angularjsAuthTutorialApp')
 	   				"nodes": [] 
 	   			})
 	   		})
-
+			$scope.$parent.spin=false;
     	    // FILES
 	   		_.forEach(data.file, function(item) { 
 	   			switch(item.content_type) {
@@ -104,7 +110,7 @@ angular.module('angularjsAuthTutorialApp')
 	   				"nodes": [] 
 	   			})
 	   		})
-
+			$scope.$parent.spin=false;
     	})
 
 
@@ -129,15 +135,17 @@ angular.module('angularjsAuthTutorialApp')
     };
 
     $scope.toggleBranch = function(scope) {
-
+		
     	// set breadcrumbs
       	$scope.pathToBC(scope);
 
       	// toggle folder
       	scope.toggle();
 
-      	// actualize tree
-      	$scope.refreshTree(scope);
+      	// actualize tree si la rama se abre
+      	if(!scope.collapsed) {
+      		$scope.refreshTree(scope);
+      	}
  
     };
 
