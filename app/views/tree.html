@@ -11,11 +11,29 @@
         </h3> -->
 
         <div class="row">
-            <div id="bc2" class="btn-group btn-breadcrumb">
-                <a href="#" class="btn btn-default"><i class="fa fa-home"></i></a>
-                <!-- <div class="btn btn-success">...</div> -->
-                <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
+          <div class="col-xs-9">
+              <div id="bc2" class="btn-group btn-breadcrumb">
+                  <a href="#" class="btn btn-default"><i class="fa fa-home"></i></a>
+                  <!-- <div class="btn btn-success">...</div> -->
+                  <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
+              </div>
+          </div>
+
+          <div class="col-xs-3">
+
+            <form class="navbar-form" role="search">
+            <div class="input-group" style="margin-top: -8px;">
+                <input type="text" class="form-control" placeholder="Buscar" name="srch-term" id="srch-term">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" ng-click="busca()"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
             </div>
+            </form>
+
+          </div>
+
+
+
       </div>
 
         <!-- Nested node template -->
@@ -67,7 +85,6 @@
 
     <div class="row" ng-show="destaca">
       <div class="col-xs-12">
-
         <h3>Destacados</h3>
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="item in destacados">
@@ -81,4 +98,23 @@
         </ul>
       </div>
     </div>
+
+    <div class="row" ng-show="verEncontrados">
+      <div class="col-xs-12">
+        <h3>Encontrados</h3>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="item in encontrados">
+            <a href="https://s3-eu-west-1.amazonaws.com/{{item.path | escape}}">
+              <span ng-class="item.icon_type" style="color:{{item.icon_color}};font-size:1.5em;"></span>
+              #{{$index+1}} - {{item.name.split('/').pop()}}
+              <i class="fa fa-cloud-download  pull-right" style="font-size:1.5em;color:#C440CD"></i>
+              <span class="badge pull-right">{{item.content_length/1000}} KB </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+
 </div>

@@ -81,21 +81,28 @@ angular.module('angularjsAuthTutorialApp')
 			$scope.$parent.spin=false;
     	    // FILES
 	   		_.forEach(data.file, function(item) { 
-	   			switch(item.content_type) {
-				    case 'text/plain': icono = 'fa fa-file-text-o'; color = 'orange'; break;
-				    case 'text/html': icono = 'glyphicon glyphicon-globe'; color = 'blue'; break;
-				    case 'image/jpeg': icono = 'glyphicon glyphicon-picture'; color = 'green'; break;
-				    case 'application/json': icono = 'fa fa-file-code-o'; color = 'green'; break;
-				    case 'application/pdf': icono = 'fa fa-file-pdf-o'; color = 'red'; break;
+			    console.debug("TIPO",item.name.split('.').pop());
+				var icono ; var color ; 
+	   			switch(item.name.split('.').pop()) {													// tipo de fichero
+				    case 'txt': icono = 'fa fa-file-text-o'; color = 'orange'; break;
+				    case 'html': icono = 'glyphicon glyphicon-globe'; color = 'blue'; break;
+				    case 'jpeg': icono = 'glyphicon glyphicon-picture'; color = 'green'; break;
+				    case 'jpg': icono = 'glyphicon glyphicon-picture'; color = 'green'; break;
+				    case 'png': icono = 'glyphicon glyphicon-picture'; color = 'green'; break;
+				    case 'json': icono = 'fa fa-file-code-o'; color = 'green'; break;
+				    case 'pdf': icono = 'fa fa-file-pdf-o'; color = 'red'; break;
+				    default: icono = 'fa fa-file-code-o'; color = 'blue'; 
 				}
 
-				$scope.destacados.push({  
-					"id": item.path, 
-					"title": item.name, 
-					"content_length": item.content_length,
-					"icon_type": icono,
-					"icon_color": color
-				})
+				if($scope.destaca){ 									// genera destacados solo en nivel 1 de la raiz
+					$scope.destacados.push({  
+						"id": item.path, 
+						"title": item.name, 
+						"content_length": item.content_length,
+						"icon_type": icono,
+						"icon_color": color
+					})
+				}
 
 	   			modelValue.nodes.push({ 
 	   				"id": item.path, 
@@ -118,6 +125,22 @@ angular.module('angularjsAuthTutorialApp')
 
 
 
+	$scope.busca = function(){
+		
+		$scope.$parent.spin=true;
+		$scope.verEncontrados = false;
+
+
+		dfapi.S3getFolder($scope.actualFolder, '/', {full_tree: true})
+    	.then(function(response){
+    		$scope.encontrados = response.file;
+    	    console.log($scope.encontrados);
+    	    $scope.encontrados.length > 0 ? $scope.verEncontrados = true : $scope.verEncontrados = false;
+    	    $scope.$parent.spin=false;
+    	})
+	}
+
+
     /**
      * datos generados al mover una rama
      * @type {Object}
@@ -136,6 +159,8 @@ angular.module('angularjsAuthTutorialApp')
 
     $scope.toggleBranch = function(scope) {
 		
+		$scope.actualFolder = scope.$modelValue.id;														// folder abierto
+
     	// set breadcrumbs
       	$scope.pathToBC(scope);
 
