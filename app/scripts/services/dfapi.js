@@ -271,7 +271,7 @@ angular.module('angularjsAuthTutorialApp')
 		 * @return {[type]}              [description]
 		 */
         var getTree = function ( actualBucket ) {
-
+console.debug("TREE",actualBucket);
 								
             if (arrayFolders.length > 0) {     										// RECURSIVA FINAL
 				getBucketInfo(actualBucket)
@@ -290,8 +290,8 @@ angular.module('angularjsAuthTutorialApp')
 						files.push({ path: file.path, name: file.name }); 
 					});		    
 
-				 	getTree( arrayFolders[0]);                  		// RECURSIVA SIGUIENTE CASO
-				})
+				 	getTree( arrayFolders[0] );                  					// RECURSIVA SIGUIENTE CASO
+				}) 																	//getBucketInfo
 
             }
             else{ 
@@ -403,7 +403,7 @@ angular.module('angularjsAuthTutorialApp')
     return {
 
     	// GENERALES
-		getRole: getRole,										// get role information from user ID
+		getRole: getRole,										// get role information from user ID | getRole(3)
     	
     	getBuckets: getBuckets,									// Devuelve los buckets existentes en S3
     	setBucket: setBucket,									// Activa un bucket para toda la app

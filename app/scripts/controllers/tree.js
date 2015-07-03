@@ -7,17 +7,23 @@ angular.module('angularjsAuthTutorialApp')
 	console.debug("",$scope.$parent.currentUser)
 
     $scope.$watch('apiReady', function() { 
-		$scope.getRole();
-    	$scope.getTree(); 
+
+		// ADMIN -> carga todos los buckets como raiz, Busca todos los buckets del admin
+    	if ($scope.$parent.currentUser.is_sys_admin){ $scope.getTree(); }  
+
+    	// NO ADMIN (cliente) -> carga como raiz su folder definido en el role, busca ruta raiz del cliente
+    	else { $scope.getClientRoot(); }
+
     });
 
 
     // Busca la ruta raiz del cliente actual
-    $scope.getRole = function() { 
+    $scope.getClientRoot = function() { 
 		dfapi.getRole($scope.$parent.currentUser.role_id)
 		.then(function(result){
-			$scope.raizCliente = result.description;
-			console.debug("La raiz del cliente es: ",$scope.raizCliente);
+			$scope.clientRoot = result.description;					// raiz del cliente, se usa aqui y en breadcrumbs
+	    	$scope.data = [];
+	    	$scope.data.push({  "id": $scope.clientRoot, "title": result.name, "nodes": []  }); 
 		})
     }
 
@@ -34,15 +40,76 @@ angular.module('angularjsAuthTutorialApp')
 	   .then(function(data){
 	   		console.debug("Bucket",data);
 	   		_.forEach(data.resource, function(item) { 
-	   			$scope.data.push({ 
-	   				"id": item.path, 
-	   				"title": item.name, 
-	   				"access": item.access, 
-	   				"nodes": [] 
-	   			})
+	   			$scope.data.push({ "id": item.path, "title": item.name, "access": item.access, "nodes": [] })
 	   		})
 	   })
     };
+
+
+
+    /**
+     * Busca hijos de la ruta indicada
+     * @param  {[type]} modelValue [description]
+     * @return {[type]}            [description]
+     */
+    $scope.getFolder = function(modelValue) { 
+
+
+		// Busca los files y folders del path
+    	dfapi.S3getFolder(modelValue.id, '/', {full_tree: false})
+    	.then(function(data){
+    	    console.debug("FOLDER DATA",data);
+    	    modelValue.nodes = [];
+
+    	    // FOLDERS
+	   		_.forEach(data.folder, function(item) { 
+	   			modelValue.nodes.push({ 
+	   				"id": item.path, 
+	   				"identidad": item.path.replace(/\//g,'_'), 
+	   				"title": item.name, 
+	   				"access": item.access, 
+	   				"file": false, 
+	   				"nodes": [] 
+	   			})
+	   		})
+
+    	    // FILES
+	   		_.forEach(data.file, function(item) { 
+	   			switch(item.content_type) {
+				    case 'text/plain': icono = 'fa fa-file-text-o'; color = 'orange'; break;
+				    case 'text/html': icono = 'glyphicon glyphicon-globe'; color = 'blue'; break;
+				    case 'image/jpeg': icono = 'glyphicon glyphicon-picture'; color = 'green'; break;
+				    case 'application/json': icono = 'fa fa-file-code-o'; color = 'green'; break;
+				    case 'application/pdf': icono = 'fa fa-file-pdf-o'; color = 'red'; break;
+				}
+
+				$scope.destacados.push({  
+					"id": item.path, 
+					"title": item.name, 
+					"content_length": item.content_length,
+					"icon_type": icono,
+					"icon_color": color
+				})
+
+	   			modelValue.nodes.push({ 
+	   				"id": item.path, 
+	   				"title": item.name, 
+	   				"access": item.access, 
+	   				"content_type": item.content_type, 
+	   				"content_length": item.content_length, 
+	   				"last_modified": item.last_modified, 
+	   				"icon_type": icono,
+	   				"icon_color": color,
+	   				"file": true,
+	   				"nodes": [] 
+	   			})
+	   		})
+
+    	})
+
+
+	}
+
 
 
     /**
@@ -83,72 +150,9 @@ angular.module('angularjsAuthTutorialApp')
 
       	$scope.destacados = [];
       	// console.debug("$modelValue",scope.$modelValue);
+      	
+		$scope.getFolder(scope.$modelValue);
 
-		// Busca los files y folders del path
-    	dfapi.S3getFolder(scope.$modelValue.id, '/', {full_tree: false})
-    	.then(function(data){
-    	    console.debug("FOLDER DATA",data);
-    	    scope.$modelValue.nodes = [];
-    	    // FOLDERS
-	   		_.forEach(data.folder, function(item) { 
-	   			scope.$modelValue.nodes.push({ 
-	   				"id": item.path, 
-	   				"identidad": item.path.replace(/\//g,'_'), 
-	   				"title": item.name, 
-	   				"access": item.access, 
-	   				"file": false, 
-	   				"nodes": [] 
-	   			})
-	   		})
-    	    // FILES
-	   		_.forEach(data.file, function(item) { 
-	   			switch(item.content_type) {
-				    case 'text/plain':
-				        icono = 'fa fa-file-text-o';
-				        color = 'orange';
-				        break;
-				    case 'text/html':
-				        icono = 'glyphicon glyphicon-globe';
-				        color = 'blue';
-				        break;
-				    case 'image/jpeg':
-				        icono = 'glyphicon glyphicon-picture';
-				        color = 'green';
-				        break;
-				    case 'application/json':
-				        icono = 'fa fa-file-code-o';
-				        color = 'green';
-				        break;
-				    case 'application/pdf':
-				        icono = 'fa fa-file-pdf-o';
-				        color = 'red';
-				        break;
-				}
-
-				console.debug("ICONO",icono);
-				$scope.destacados.push({  
-					"id": item.path, 
-					"title": item.name, 
-					"content_length": item.content_length,
-					"icon_type": icono,
-					"icon_color": color
-				})
-
-	   			scope.$modelValue.nodes.push({ 
-	   				"id": item.path, 
-	   				"title": item.name, 
-	   				"access": item.access, 
-	   				"content_type": item.content_type, 
-	   				"content_length": item.content_length, 
-	   				"last_modified": item.last_modified, 
-	   				"icon_type": icono,
-	   				"icon_color": color,
-	   				"file": true,
-	   				"nodes": [] 
-	   			})
-	   		})
-
-    	})
 
     }
 
@@ -184,6 +188,10 @@ angular.module('angularjsAuthTutorialApp')
     };
 
 	$scope.pathToBC = function(scope) {
+
+// console.debug("RAIZ",$scope.data[0]);
+// console.debug("scope.$modelValue.id",scope.$modelValue.id);
+// console.debug("$scope.clientRoot",$scope.clientRoot);
 
 		$scope.bc = [];
 		$scope.bc = scope.$modelValue.id.split("/");
