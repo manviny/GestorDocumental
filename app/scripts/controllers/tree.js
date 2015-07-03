@@ -60,11 +60,12 @@ angular.module('angularjsAuthTutorialApp')
      * @return {[type]}            [description]
      */
     $scope.getFolder = function(modelValue) { 
-console.debug("FOLDER", $filter('escape')(modelValue.id) );
+// console.debug("FOLDER", $filter('escape')(modelValue.id) );
 
     	$scope.$parent.spin=true;
 		// Busca los files y folders del path
-    	dfapi.S3getFolder( encodeURI(modelValue.id) , '/', {full_tree: false})
+    	// dfapi.S3getFolder( encodeURI(modelValue.id) , '/', {full_tree: false})
+    	dfapi.S3getFolder( modelValue.id , '/', {full_tree: false})
     	.then(function(data){
     	    console.debug("FOLDER DATA",data);
     	    modelValue.nodes = [];

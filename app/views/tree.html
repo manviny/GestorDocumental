@@ -79,7 +79,7 @@
                 class="btn btn-lg" 
                 ng-if="node.file" 
                 data-nodrag 
-                href="https://s3-eu-west-1.amazonaws.com/{{node.id | escape}}" 
+                href="https://s3-eu-west-1.amazonaws.com/{{node.id}}" 
                 target="_blank"
                 ng-click="setFile(node)">
                   <span ng-class="node.icon_type"  class="treeFile" style="color:{{node.icon_color}};"></span>
