@@ -126,15 +126,22 @@ angular.module('angularjsAuthTutorialApp')
 
 
 	$scope.busca = function(){
-		
+
 		$scope.$parent.spin=true;
-		$scope.verEncontrados = false;
+		$scope.verEncontrados = false;													// no muestrs encontraods en html
 
 
 		dfapi.S3getFolder($scope.actualFolder, '/', {full_tree: true})
     	.then(function(response){
-    		$scope.encontrados = response.file;
+ 
+ 			// quita los ficheros que no contienen el termino de busqueda
+			$scope.encontrados = _.remove(response.file, function(encontrado) {
+			  return _.includes(encontrado.name, $scope.termino);;
+			});
+
     	    console.log($scope.encontrados);
+    	    
+    	    // sy hay coincidencias muetra el html con los encontrados
     	    $scope.encontrados.length > 0 ? $scope.verEncontrados = true : $scope.verEncontrados = false;
     	    $scope.$parent.spin=false;
     	})
