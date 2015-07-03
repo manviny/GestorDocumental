@@ -16,6 +16,7 @@
                   <a href="#" class="btn btn-default"><i class="fa fa-home"></i></a>
                   <!-- <div class="btn btn-success">...</div> -->
                   <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
+              <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>
               </div>
           </div>
 
@@ -61,7 +62,7 @@
 
           <div ui-tree-handle class="tree-node tree-node-content" >
 
-            <!-- folders -->
+            <!-- FOLDERS -->
             <a 
                 class="btn btn-lg" 
                 id="{{node.identidad}}"
@@ -72,14 +73,15 @@
             &nbsp{{node.title}}
             </a>
 
-            <!-- files -->
+            <!-- FILES -->
+                <!-- data-toggle="modal" data-target="#fileModal" -->
             <a 
                 class="btn btn-lg" 
                 ng-if="node.file" 
                 data-nodrag 
                 href="https://s3-eu-west-1.amazonaws.com/{{node.id | escape}}" 
                 target="_blank"
-                ng-click="">
+                ng-click="setFile(node)">
                   <span ng-class="node.icon_type"  class="treeFile" style="color:{{node.icon_color}};"></span>
             &nbsp{{node.title}}
             </a>
@@ -121,6 +123,28 @@
 
 
 
+
+<!-- Modal -->
+<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{actualFile.title}}</h4>
+      </div>
+      <div class="modal-body">
+        <p>tamaño: {{actualFile.content_length/1000}} KB</p>
+        <p>fecha modificación: {{actualFile.last_modified}}</p>
+        <button type="button" class="btn btn-default" data-dismiss="modal">cambiar nombre</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">previsualizar</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Compartir</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 </div>

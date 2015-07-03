@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('angularjsAuthTutorialApp')
-  .controller('TreeCtrl', function ($scope, dfapi, $q) { 
+  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter) { 
 
   	// informacion del usuario
-	console.debug("",$scope.$parent.currentUser);
-
+	console.debug("", $scope.$parent.currentUser);
+	$scope.actualFile;
 	
 
     $scope.$watch('apiReady', function() { 
 
-		// ADMIN -> carga todos los buckets como raiz, Busca todos los buckets del admin
+		// SI ES ADMIN -> carga todos los buckets como raiz, Busca todos los buckets del admin
     	if ($scope.$parent.currentUser.is_sys_admin){ $scope.getTree(); }  
 
-    	// NO ADMIN (cliente) -> carga como raiz su folder definido en el role, busca ruta raiz del cliente
+    	// SI NO ES ADMIN (cliente) -> carga como raiz su folder definido en el role, busca ruta raiz del cliente
     	else { $scope.getClientRoot(); }
 
     });
@@ -24,9 +24,10 @@ angular.module('angularjsAuthTutorialApp')
     	$scope.$parent.spin=true;
 		dfapi.getRole($scope.$parent.currentUser.role_id)
 		.then(function(result){
-			$scope.clientRoot = result.description;					// raiz del cliente, se usa aqui y en breadcrumbs
+			console.debug("RESULT",result);
+			$scope.clientRoot = result.description.split('/').pop();					// raiz del cliente, se usa aqui y en breadcrumbs
 	    	$scope.data = [];
-	    	$scope.data.push({  "id": $scope.clientRoot, "title": result.name, "nodes": []  });
+	    	$scope.data.push({  "id": result.description, "title": result.description.split('/').pop(), "nodes": []  });
 	    	$scope.$parent.spin=false; 
 		})
     }
@@ -59,10 +60,11 @@ angular.module('angularjsAuthTutorialApp')
      * @return {[type]}            [description]
      */
     $scope.getFolder = function(modelValue) { 
+console.debug("FOLDER", $filter('escape')(modelValue.id) );
 
     	$scope.$parent.spin=true;
 		// Busca los files y folders del path
-    	dfapi.S3getFolder(modelValue.id, '/', {full_tree: false})
+    	dfapi.S3getFolder( encodeURI(modelValue.id) , '/', {full_tree: false})
     	.then(function(data){
     	    console.debug("FOLDER DATA",data);
     	    modelValue.nodes = [];
@@ -71,7 +73,7 @@ angular.module('angularjsAuthTutorialApp')
 	   		_.forEach(data.folder, function(item) { 
 	   			modelValue.nodes.push({ 
 	   				"id": item.path, 
-	   				"identidad": item.path.replace(/\//g,'_'), 
+	   				"identidad": item.path.replace(/\//g,'_-_'), 
 	   				"title": item.name, 
 	   				"access": item.access, 
 	   				"file": false, 
@@ -146,6 +148,11 @@ angular.module('angularjsAuthTutorialApp')
     	    $scope.$parent.spin=false;
     	})
 	}
+
+
+    $scope.setFile = function(node) {
+      $scope.actualFile = node;
+    };
 
 
     /**
@@ -229,13 +236,16 @@ angular.module('angularjsAuthTutorialApp')
 
 	$scope.pathToBC = function(scope) {
 
-// console.debug("RAIZ",$scope.data[0]);
-// console.debug("scope.$modelValue.id",scope.$modelValue.id);
-// console.debug("$scope.clientRoot",$scope.clientRoot);
-
+		
 		$scope.bc = [];
-		$scope.bc = scope.$modelValue.id.split("/");
-		$scope.bc = _.compact($scope.bc);
+		$scope.bc = _.compact(scope.$modelValue.id.split("/"));
+
+		var indice = _.indexOf($scope.bc, $scope.clientRoot);				// indice de la base de la ruta
+		$scope.base = _.slice($scope.bc, 0, indice);
+		$scope.bc = _.drop($scope.bc, indice)
+
+		console.debug("BASE",$scope.base);
+		console.debug("RUTA",$scope.bc);
 
 		// destacados visibles solo en raiz
 		
@@ -248,7 +258,8 @@ angular.module('angularjsAuthTutorialApp')
 
 		if(index==0){ $scope.collapseAll()}
 
-		var id =  '#' + _.take($scope.bc, index+1).join('_') + '_';
+console.debug("4",$scope.bc);
+		var id =  '#' + _.take($scope.bc, index).join('_-_') + '_-_';
 		console.debug("TAKE",   id  );
 		$(id).click();
 		$(id).click();
