@@ -8,6 +8,89 @@
  * Service in the angularjsAuthTutorialApp.
  */
 angular.module('angularjsAuthTutorialApp')
+.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+angular.module('angularjsAuthTutorialApp')
+.service('fileUpload',  function ($http, DreamFactory) {
+    this.uploadFileToUrl = function(file, uploadUrl){
+
+
+
+  var filex = 'iVBORw0KGgoAAAANSUhEUgAAAZYAAAGWCAIAAADUmjLBAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA/9JREFUeNrs1DERADAIALFSFShnRio24C6R8MNHdj2Am74EgIUBWBiAhQEWBmBhABYGYGGAhQFYGICFARYGYGEAFgZgYYCFAVgYgIUBWBhgYQAWBmBhgIUBWBiAhQFYGGBhABYGYGEAFgZYGICFAVgYYGEAFgZgYQAWBlgYgIUBWBhgYQAWBmBhABYGWBiAhQFYGICFARYGYGEAFgZYGICFAVgYgIUBFgZgYQAWBmBhgIUBWBiAhQEWBmBhABYGYGGAhQFYGICFAVgYYGEAFgZgYYCFAVgYgIUBWBhgYQAWBmBhgIUBWBiAhQFYGGBhABYGYGEAFgZYGICFAVgYYGEAFgZgYQAWBlgYgIUBWBiAhQEWBmBhABYGWBiAhQFYGICFARYGYGEAFgZgYYCFAVgYgIUBFgZgYQAWBmBhgIUBWBiAhQEWBmBhABYGYGGAhQFYGICFAVgYYGEAFgZgYYCFAVgYgIUBWBhgYQAWBmBhABYGWBiAhQFYGGBhABYGYGEAFgZYGICFAVgYYGEAFgZgYQAWBlgYgIUBWBiAhQEWBmBhABYGWBiAhQFYGICFARYGYGEAFgZgYYCFAVgYgIUBFgZgYQAWBmBhgIUBWBiAhQFYGGBhABYGYGGAhQFYGICFAVgYYGEAFgZgYYCFAVgYgIUBWBhgYQAWBmBhABYGWBiAhQFYGGBhABYGYGEAFgZYGICFAVgYgIUBFgZgYQAWBlgYgIUBWBiAhQEWBmBhABYGYGGAhQFYGICFARYGYGEAFgZgYYCFAVgYgIUBFgZgYQAWBmBhgIUBWBiAhQFYGGBhABYGYGGAhQFYGICFAVgYYGEAFgZgYQAWBlgYgIUBWBhgYQAWBmBhABYGWBiAhQFYGGBhEgAWBmBhABYGWBiAhQFYGICFARYGYGEAFgZYGICFAVgYgIUBFgZgYQAWBmBhgIUBWBiAhQEWBmBhABYGYGGAhQFYGICFAVgYYGEAFgZgYYCFAVgYgIUBWBhgYQAWBmBhgIUBWBiAhQFYGGBhABYGYGEAFgZYGICFAVgYYGEAFgZgYQAWBlgYgIUBWBiAhQEWBmBhABYGWBiAhQFYGICFARYGYGEAFgZgYYCFAVgYgIUBFgZgYQAWBmBhgIUBWBiAhQEWBmBhABYGYGGAhQFYGICFAVgYYGEAFgZgYYCFAVgYgIUBWBhgYQAWBmBhABYGWBiAhQFYGGBhABYGYGEAFgZYGICFAVgYgIUBFgZgYQAWBlgYgIUBWBiAhQEWBmBhABYGWBiAhQFYGICFARYGYGEAFgZgYYCFAVgYgIUBFgZgYQAWBmBhgIUBWBiAhQFYGGBhABYGYGGAhQFYGICFAVgYYGEAm4wAAwAk4wR6OcNlvgAAAABJRU5ErkJggg==';
+
+  $http.post("http://indinet.es/rest/files/prueba/" + 'assets/2.png', window.atob(filex), {
+    transformRequest: angular.identity,
+    headers: {'Content-Type': 'image/png'/*, 'x-file-name': '1.png'*/}
+  })
+  .success(function(data){
+    alert('gut' + JSON.stringify(data));
+  })
+  .error(function(data){
+    alert('schlecht:' + JSON.stringify(data));
+  });
+
+// return;
+        var fd = new FormData();
+        fd.append('files', file);
+        console.debug('FormData ' ,fd);
+
+		var request = {};
+		request.container = "prueba";
+		request.file_path = file.name
+		request.body = filex;
+
+	     DreamFactory.api.files.createFile(request,
+	     // Success function
+	      function(result) { console.debug("result", result) },
+	     // Error function
+	     function(reject) { console.debug("error", reject) });	
+
+
+
+
+		// $http({
+		//   method: 'POST',
+		//   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		//   url: "http://indinet.es/rest/files/prueba/foot.jpg?app_name=jrcnaturalsystems",
+		  
+		// })
+		// .success(function(response) { 
+		// 	console.debug("role data",response.script_result); 
+		// 	deferred.resolve(response.script_result)
+		// });
+
+
+
+        return;
+        $http.post("http://indinet.es/rest/files/prueba/foot.jpg?app_name=jrcnaturalsystems", fd, {
+            // transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(result){console.debug("result", result)
+        })
+        .error(function(result){console.debug("error", result)
+        });
+    }
+});
+
+
+
+
+angular.module('angularjsAuthTutorialApp')
   .service('dfapi', function (DreamFactory, $http, $q, $rootScope) {
 
 

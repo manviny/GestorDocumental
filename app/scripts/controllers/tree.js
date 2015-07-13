@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularjsAuthTutorialApp')
-  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter) { 
+  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter, fileUpload) { 
 
   	// informacion del usuario
 	console.debug("", $scope.$parent.currentUser);
@@ -17,6 +17,17 @@ angular.module('angularjsAuthTutorialApp')
     	else { $scope.getClientRoot(); }
 
     });
+
+
+
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.debug('file is ' ,file);
+        console.debug('file is ' ,file.name);
+        var uploadUrl = "https://indinet.es/rest/app/applications/";
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+    };
+
 
 
     // Busca la ruta raiz del cliente actual
