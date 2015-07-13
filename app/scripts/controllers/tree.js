@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularjsAuthTutorialApp')
-  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter, fileUpload) { 
+  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter, $http, DreamFactory) { 
 
   	// informacion del usuario
 	console.debug("", $scope.$parent.currentUser);
@@ -20,12 +20,24 @@ angular.module('angularjsAuthTutorialApp')
 
 
 
-    $scope.uploadFile = function(){
-        var file = $scope.myFile;
-        console.debug('file is ' ,file);
-        console.debug('file is ' ,file.name);
-        var uploadUrl = "https://indinet.es/rest/app/applications/";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
+    $scope.uploadFile = function(files){
+
+	    var fd = new FormData();
+	    //Take the first selected file
+	    fd.append("files", files[0]);
+
+	    // en S3 necesita el doble '//'' para subir correctamente
+	    $http.post( df_DSP_URL + "/rest/S3/" + $scope.actualPath.id + '//' + files[0].name, fd, {	
+	        headers: {'Content-Type': undefined },
+	        transformRequest: angular.identity
+	    })  
+	    .success(function(data){
+	    	console.debug("SUBIDO",data);
+		})
+		.error(function(data){
+	    	console.debug("ERROR",data);
+		});
+
     };
 
 
@@ -248,7 +260,8 @@ angular.module('angularjsAuthTutorialApp')
 
 	$scope.pathToBC = function(scope) {
 
-		
+		$scope.actualPath = scope.$modelValue;
+
 		$scope.bc = [];
 		$scope.bc = _.compact(scope.$modelValue.id.split("/"));
 
