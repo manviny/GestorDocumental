@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('angularjsAuthTutorialApp')
-  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter, $http, DreamFactory) { 
+  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter, $http, DreamFactory, toastr) { 
 
   	// informacion del usuario
 	console.debug("", $scope.$parent.currentUser);
+
 	$scope.actualFile;
-	
+
+	// toastr.info('estamos buscando tus documentos', 'Un momento');
 
     $scope.$watch('apiReady', function() { 
 
@@ -72,6 +74,7 @@ angular.module('angularjsAuthTutorialApp')
 	   			$scope.data.push({ "id": item.path, "title": item.name, "access": item.access, "nodes": [] })
 	   		})
 	   		$scope.$parent.spin=false;
+	   		// toastr.clear();
 	   	})
     };
 
@@ -266,25 +269,25 @@ angular.module('angularjsAuthTutorialApp')
 		$scope.bc = _.compact(scope.$modelValue.id.split("/"));
 
 		var indice = _.indexOf($scope.bc, $scope.clientRoot);				// indice de la base de la ruta
-		$scope.base = _.slice($scope.bc, 0, indice);
+		// $scope.base = _.slice($scope.bc, 0, indice);
 		$scope.bc = _.drop($scope.bc, indice)
 
-		console.debug("BASE",$scope.base);
+		// console.debug("BASE",$scope.base);
 		console.debug("RUTA",$scope.bc);
 
 		// destacados visibles solo en raiz
-		
 		scope.depth() <= 1 ? $scope.destaca = true : $scope.destaca = false;
 		
-		console.debug("bc",$scope.bc);
 		$scope.breadcrumbs = scope.$modelValue.id;
 	}
+
+
 	$scope.bcToPath = function(index) {
 
 		if(index==0){ $scope.collapseAll()}
 
-console.debug("4",$scope.bc);
-		var id =  '#' + _.take($scope.bc, index).join('_-_') + '_-_';
+		var id =  '#' + _.take($scope.bc, index+1).join('_-_') + '_-_';
+
 		console.debug("TAKE",   id  );
 		$(id).click();
 		$(id).click();

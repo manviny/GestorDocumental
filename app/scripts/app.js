@@ -9,10 +9,10 @@
 
     // config
     var empresa = 'JRC Sistemas Naturales, S.L.';
-    var df_DSP_URL = 'http://indinet.es';
-    // var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
-    var df_DSP_API_KEY = 'gesdoc'; //name of the app
-    // var df_DSP_API_KEY = 'JRC'; //name of the app
+    // var df_DSP_URL = 'http://indinet.es';
+    var df_DSP_URL = 'http://dreamfactory.jrc-sistemas-naturales.bitnamiapp.com';
+    // var df_DSP_API_KEY = 'gesdoc'; //name of the app
+    var df_DSP_API_KEY = 'JRC'; //name of the app
 
 
 
@@ -39,7 +39,8 @@ angular.module('angularjsAuthTutorialApp', [
         'ngDreamFactory',
         'smart-table',
         'ui.bootstrap',
-        'ui.tree'
+        'ui.tree',
+        'toastr'
     ])
     // Set our constants for our DreamFactory Modules
     .constant('DSP_URL', df_DSP_URL)

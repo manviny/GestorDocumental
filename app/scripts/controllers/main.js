@@ -46,7 +46,7 @@ angular.module('angularjsAuthTutorialApp')
     // We inject $location because we'll want to update our location on a successful
     // login and the UserEventsService from our DreamFactory User Management Module to be able
     // to respond to events generated from that module
-    .controller('LoginCtrl', ['$scope', '$location', 'UserEventsService', function($scope, $location, UserEventsService) {
+    .controller('LoginCtrl', ['$scope', '$location', 'UserEventsService', 'toastr', function($scope, $location, UserEventsService, toastr) {
 
 
         // Listen for the login success message which returns a user data obj
@@ -55,7 +55,8 @@ angular.module('angularjsAuthTutorialApp')
 
             // Set our parent's current user var
             $scope.$parent.currentUser = userDataObj;
-
+            toastr.success( "Bienvenido " + $scope.$parent.currentUser.display_name);
+            toastr.info( "Gestor Documental de " + empresa );
             // Change our app location back to the home page
             $location.url('/documentos');
         });
