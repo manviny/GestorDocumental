@@ -165,7 +165,7 @@ angular.module('angularjsAuthTutorialApp')
  
  			// quita los ficheros que no contienen el termino de busqueda
 			$scope.encontrados = _.remove(response.file, function(encontrado) {
-			  return _.includes(encontrado.name, $scope.termino);;
+			  return _.includes(encontrado.name.toLowerCase(), $scope.termino.toLowerCase());
 			});
 
     	    console.log($scope.encontrados);

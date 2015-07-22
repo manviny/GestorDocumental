@@ -9,7 +9,7 @@
         <div class="alert alert-success" role="alert"><span style="font-size:1.2em;"><i class="fa fa-th-list"> Documentos recientes</i></span> <span class="badge">{{destacados.length}}</span></div>
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="item in destacados">
-            <a href="https://s3-eu-west-1.amazonaws.com/{{item.id | escape}}">
+            <a href="https://s3-eu-west-1.amazonaws.com/{{item.id | escape}}" target="_blank">
               <span ng-class="item.icon_type" style="color:{{item.icon_color}};font-size:1.5em;"></span>
               {{item.title}}
               <i class="fa fa-cloud-download  pull-right" style="font-size:1.5em;color:#C440CD"></i>
@@ -65,7 +65,7 @@
           </div>
           <ul class="list-group">
             <li class="list-group-item" ng-repeat="item in encontrados">
-              <a href="https://s3-eu-west-1.amazonaws.com/{{item.path | escape}}">
+              <a href="https://s3-eu-west-1.amazonaws.com/{{item.path | escape}}" target="_blank">
                 <span ng-class="item.icon_type" style="color:{{item.icon_color}};font-size:1.5em;"></span>
                 #{{$index+1}} - {{item.name.split('/').pop()}}
                 <i class="fa fa-cloud-download  pull-right" style="font-size:1.5em;color:#C440CD"></i>
