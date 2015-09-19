@@ -22,7 +22,7 @@
 
 
 
-    <div class="row"  style="background-color: whitesmoke; padding: 20px 0 20px 0;">
+    <div class="row"  style="background-color: whitesmoke; padding: 4px 0 20px 0;">
       <div class="col-xs-12">
 <!--         <h3>Tree view
           <a href="" class="btn btn-default pull-right" ng-click="getTree()">refresca</a>
@@ -32,30 +32,6 @@
         </h3> -->
 
         <div class="row">
-
-          <!-- breadcrumbs -->
-          <div class="col-xs-9">
-              <div id="bc2" class="btn-group btn-breadcrumb">
-                  <a href="#" class="btn btn-default"><i class="fa fa-home"></i></a>
-                  <!-- <div class="btn btn-success">...</div> -->
-                  <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
-              <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>
-              </div>
-          </div>
-
-          <!-- search -->
-          <div class="col-xs-3">
-
-            <form class="navbar-form" role="search">
-            <div class="input-group" style="margin-top: -8px;">
-                <input type="text" class="form-control" placeholder="Buscar" ng-model="termino" name="srch-term" id="srch-term">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit" ng-click="busca()"><i class="glyphicon glyphicon-search"></i></button>
-                </div>
-            </div>
-            </form>
-
-          </div>
 
         <!-- encontrados en busqueda -->
         <div class="col-xs-12"  ng-show="verEncontrados" style="background-color: whitesmoke;">
@@ -119,7 +95,35 @@
           </ol>
 
         </script>
-        <div class="alert alert-info" role="alert"><span style="font-size:1.2em;"><i class="fa fa-th-list"> Documentación</i></span></div>
+        <div class="alert alert-info" role="alert">
+          <!-- <span style="font-size:1.2em;"><i class="fa fa-th-list"> Documentación</i></span> -->
+        <div class="row">
+
+          <!-- breadcrumbs -->
+          <div class="col-xs-9">
+              <div id="bc2" class="btn-group btn-breadcrumb">
+                  <a href="#" class="btn btn-default"><i class="fa fa-home"></i></a>
+                  <!-- <div class="btn btn-success">...</div> -->
+                  <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
+              <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>
+              </div>
+          </div>
+
+          <!-- search -->
+          <div class="col-xs-3">
+
+            <form class="navbar-form" role="search">
+            <div class="input-group" style="margin-top: -8px;">
+                <input type="text" class="form-control" placeholder="Buscar" ng-model="termino" name="srch-term" id="srch-term">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" ng-click="busca()"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+            </form>
+
+          </div>
+          </div>
+        </div>
         <div ui-tree="treeOptions" id="tree-root" style="background-color:white; min-height:480px;">
           <ol ui-tree-nodes="" ng-model="data">
             <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>

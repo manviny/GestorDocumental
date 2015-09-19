@@ -93,6 +93,7 @@ body {
     color: #7c9eb2;
     padding: 0px 0px;
     font-weight: 200; 
+    margin-top: -15px;
 }
 
 .angular-ui-tree-handle:hover {
@@ -261,5 +262,11 @@ ol:nth-child(1).ng-scope.ng-pristine.ng-valid.angular-ui-tree-nodes {
     }
 }
 
+.alert{
+  padding: 5px 0px 0px 10px;
+      margin-bottom: 13px;
+}
 
-
+.container {
+    width: 100%;
+}
