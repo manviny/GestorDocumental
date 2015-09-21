@@ -104,9 +104,9 @@ angular.module('angularjsAuthTutorialApp')
 	     	folder_path: path
 	     },
 	     // Success function
-	      function(result) { deferred.resolve(result); },
+	      function(result) { deferred.resolve(result); console.debug("SI",result); },
 	     // Error function
-	     function(reject) { deferred.reject(reject) });	
+	     function(reject) { deferred.reject(reject), console.debug("error",result); });	
 
 	     return deferred.promise;	
 	}

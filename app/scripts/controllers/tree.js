@@ -86,7 +86,8 @@ angular.module('angularjsAuthTutorialApp')
      * @return {[type]}            [description]
      */
     $scope.getFolder = function(modelValue) { 
-// console.debug("FOLDER", $filter('escape')(modelValue.id) );
+console.debug("FOLDER", $filter('escape')(modelValue.id) );
+console.debug("FOLDER", modelValue.id );
 
     	$scope.$parent.spin=true;
 		// Busca los files y folders del path
