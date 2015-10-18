@@ -36,6 +36,7 @@ angular.module('angularjsAuthTutorialApp', [
         'ngResource',
         'ngSanitize',
         'ngRoute',
+        'ngMaterial',
         'dfUserManagement',
         'ngDreamFactory',
         'smart-table',
