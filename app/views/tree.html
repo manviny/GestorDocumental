@@ -102,7 +102,7 @@
           <!-- breadcrumbs -->
           <div class="col-xs-9">
               <div id="bc2" class="btn-group btn-breadcrumb">
-                  <a href="#" class="btn btn-default"><i class="fa fa-home"></i></a>
+                  <a ng-click="bcToPath(0)" class="btn btn-default"><i class="fa fa-home"></i></a>
                   <!-- <div class="btn btn-success">...</div> -->
                   <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
               <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>

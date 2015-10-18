@@ -270,3 +270,18 @@ ol:nth-child(1).ng-scope.ng-pristine.ng-valid.angular-ui-tree-nodes {
 .container {
     width: 100%;
 }
+
+
+/*color del menu*/
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffa300;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #ffc55e;
+}
+.navbar-inverse .navbar-brand {
+    color: #00a43d;
+}
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #00d04d;
+}
