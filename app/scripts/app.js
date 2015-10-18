@@ -42,6 +42,7 @@ angular.module('angularjsAuthTutorialApp', [
         'ui.bootstrap',
         'ui.tree',
         'toastr'
+
     ])
     // Set our constants for our DreamFactory Modules
     .constant('DSP_URL', df_DSP_URL)
@@ -121,6 +122,11 @@ angular.module('angularjsAuthTutorialApp', [
             .when('/documentos', {
               templateUrl: 'views/tree.html',
               controller: 'TreeCtrl'
+            })
+            .when('/matree', {
+              templateUrl: 'views/matree.html',
+              controller: 'MatreeCtrl',
+              controllerAs: 'matree'
             })
             .otherwise({
                 redirectTo: '/'
