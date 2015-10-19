@@ -8,7 +8,7 @@
  * Controller of the angularjsAuthTutorialApp
  */
 angular.module('angularjsAuthTutorialApp')
-  .controller('MatreeCtrl', function () {
+  .controller('MatreeCtrl', function ($scope) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

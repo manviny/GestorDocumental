@@ -37,6 +37,7 @@ angular.module('angularjsAuthTutorialApp', [
         'ngSanitize',
         'ngRoute',
         'ngMaterial',
+        'ngAnimate', 'ngAria',
         'dfUserManagement',
         'ngDreamFactory',
         'smart-table',
@@ -127,7 +128,7 @@ angular.module('angularjsAuthTutorialApp', [
             .when('/matree', {
               templateUrl: 'views/matree.html',
               controller: 'MatreeCtrl',
-              controllerAs: 'matree'
+              // controllerAs: 'matree'
             })
             .otherwise({
                 redirectTo: '/'
