@@ -1,39 +1,38 @@
 
 
 
-<!-- Slider with Starting Value -->
-<input class="mdl-slider mdl-js-slider" type="range"
-  min="0" max="100" value="25" tabindex="0"/>
+<div layout="row" layout-margin>
 
-      <md-toolbar layout="row">
-      <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn">
-        <span class="visually-hidden">Menu</span>
-      </button>
-      <h1 class="md-toolbar-tools" layout-align-gt-sm="center">Hello World</h1>
-    </md-toolbar>
-    <div layout="row" flex>
-        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-          
-        </md-sidenav>
-        <div layout="column" flex id="content">
-            <md-content layout="column" flex class="md-padding">
+  <div flex="25">
+   <md-list>
+     <md-list-item>
+       <md-button class="md-fab md-mini">
+         <div align="center">A</div>
+       </md-button>
+     </md-list-item>
+   </md-list>
+  </div>
 
-            </md-content>
-        </div>
-    </div>
-    <!-- Angular Material Dependencies -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+ <div flex>
+   <md-content></md-content>
+ </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"></script>
 
-    <!-- Accent-colored raised button with ripple -->
-<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-  Button
-</button>
+ <div flex="75">
+   <md-list>
+     <md-list-item>
+       <md-button class="md-fab md-mini">
+          <div align="center">N</div>
+      </md-button>
+     </md-list-item>
+     <md-list-item>
+      <tbody>
+      <tr ng-repeat="row in rowCollection track by $index">
+        <td ng-repeat="title in tableTitles">{{row[title]}}</td>
+      </tr>
+      </tbody>
+     </md-list-item>
+   </md-list>
+ </div>
+</div>
 
-<!-- Colored FAB button -->
-<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-  <i class="material-icons">add</i>
-</button>

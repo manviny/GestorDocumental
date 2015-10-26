@@ -1,5 +1,48 @@
 
 
+
+<div layout="row" layout-margin>
+
+  <div flex="33">
+   <md-list>
+     <md-list-item>
+       <md-button class="md-fab md-mini">
+         <div align="center">A</div>
+       </md-button>
+     </md-list-item>
+     <md-list-item>
+        <div ui-tree="treeOptions" id="tree-root" >
+          <ol ui-tree-nodes="" ng-model="data">
+            <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+          </ol>
+        </div>
+     </md-list-item>
+   </md-list>
+  </div>
+
+ <div flex>
+   <md-content></md-content>
+ </div>
+
+
+ <div flex="64">
+   <md-list>
+     <md-list-item>
+       <md-button class="md-fab md-mini">
+          <div align="center">N</div>
+      </md-button>
+     </md-list-item>
+     <md-list-item>
+      <tbody>
+      <tr ng-repeat="row in rowCollection track by $index">
+        <td ng-repeat="title in tableTitles">{{row[title]}}</td>
+      </tr>
+      </tbody>
+     </md-list-item>
+   </md-list>
+ </div>
+</div>
+
 <div class="container">
 
 

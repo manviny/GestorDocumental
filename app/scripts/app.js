@@ -41,7 +41,6 @@ angular.module('angularjsAuthTutorialApp', [
         'dfUserManagement',
         'ngDreamFactory',
         'smart-table',
-        'ui.bootstrap',
         'ui.tree',
         'toastr'
 
