@@ -1,5 +1,6 @@
 
-
+<!-- https://github.com/daniel-nagy/md-data-table -->
+<!-- http://codepen.io/zavoloklom/pen/IGkDz -->
 
 <div layout="row" layout-margin>
 
@@ -11,37 +12,65 @@
        </md-button>
      </md-list-item>
      <md-list-item>
+
+        <!-- TREE -->
         <div ui-tree="treeOptions" id="tree-root" >
           <ol ui-tree-nodes="" ng-model="data">
             <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
           </ol>
         </div>
+        <!-- TREE -->
+
      </md-list-item>
    </md-list>
   </div>
 
- <div flex>
+<!--  <div flex>
    <md-content></md-content>
- </div>
+ </div> -->
 
 
- <div flex="64">
-   <md-list>
-     <md-list-item>
-       <md-button class="md-fab md-mini">
-          <div align="center">N</div>
-      </md-button>
-     </md-list-item>
-     <md-list-item>
+ <div flex>
+<div class="table-responsive-vertical shadow-z-1" style="width:100%">
+  <!-- Table starts here -->
+  <table id="table" class="table table-hover table-mc-light-blue" >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Tamaño</th>
+          <th>Fecha</th>
+          <th>Tipo</th>
+        </tr>
+      </thead>
       <tbody>
-      <tr ng-repeat="row in rowCollection track by $index">
-        <td ng-repeat="title in tableTitles">{{row[title]}}</td>
-      </tr>
+        <tr ng-repeat="fichero in ficheros">
+          <td data-title="ID">{{$index+1}}</td>
+          <td data-title="Name">{{fichero.title}}</td>
+          <td data-title="Name">{{fichero.content_length}}</td>
+          <td data-title="Name">{{fichero.last_modified}}</td>
+          <td data-title="Name"><i class="{{fichero.icon_type}}" style="font-size:1.5em;color:#C440CD"></i></td>
+<!--           <td data-title="Link">
+            <a href="https://github.com/zavoloklom/material-design-color-palette" target="_blank">GitHub</a>
+          </td> -->
+        </tr>
       </tbody>
-     </md-list-item>
-   </md-list>
+    </table>
+  </div>
+  
+
+
  </div>
+
+
 </div>
+
+
+
+
+
+
+
 
 <div class="container">
 

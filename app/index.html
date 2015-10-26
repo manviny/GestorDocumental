@@ -43,26 +43,17 @@
 
 <div layout="row" layout-padding class="bg-dark-blue nav-dark" layout-align="space-between center">
 <div>
-    <md-button>JRC Systems</md-button>
-    <md-button><a href="#/documentos">Documentos</a></md-button>
-    <md-button><a href="#/login">Entrar</a></md-button>
-    <md-button><a href="#/user-info">{{currentUser.display_name}}</a></md-button>
-    <md-button><a href="#/logout"><i style="font-size:1.6em" class="fa fa-sign-out"></i></a></md-button>
-    <md-menu>
-        <md-button md-menu-origin ng-click="$mdOpenMenu()">Help</md-button>
-        <md-menu-content width="2">
-            <md-menu-item>
-                <md-button>Help</md-button>
-            </md-menu-item>
-            <md-menu-item>
-                <md-button>About</md-button>
-            </md-menu-item>
-        </md-menu-content>
-    </md-menu>
+
+    <md-button ng-href="#/">JRC Systems</md-button>
+    <md-button ng-href="#/user-info">{{currentUser.display_name}}</md-button>
 </div>
 <div class="nav-buttons">
-    <md-button class="md-raised md-accent">My profile</md-button>
-    <md-button class="md-raised md-warn">Log Out</md-button>
+    <md-button class="md-raised" ng-href="#/documentos">Documentos</md-button>
+    <md-button class="md-raised" ng-href="#/user-info">Usuario</md-button>
+    <md-button class="md-raised" ng-href="#/login">Entrar</md-button>
+    <!-- <md-button class="md-raised md-accent" ng-href="#/user-info">Subir archivo</md-button> -->
+    <md-button class="md-raised md-warn" ng-href="#/logout">Salir <i style="font-size:1.6em" class="fa fa-sign-out"></i></md-button>
+    
 </div>
 </div>
 

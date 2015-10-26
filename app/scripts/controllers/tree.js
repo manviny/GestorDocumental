@@ -5,6 +5,7 @@ angular.module('angularjsAuthTutorialApp')
 
   	// informacion del usuario
 	console.debug("", $scope.$parent.currentUser);
+	$scope.ficheros = [];
 
 	$scope.actualFile;
 
@@ -134,7 +135,8 @@ console.debug("FOLDER", modelValue.id );
 					})
 				}
 
-	   			modelValue.nodes.push({ 
+	   			// modelValue.nodes.push({ 
+	   			$scope.ficheros.push({ 
 	   				"id": item.path, 
 	   				"title": item.name, 
 	   				"access": item.access, 
@@ -200,7 +202,7 @@ console.debug("FOLDER", modelValue.id );
     };
 
     $scope.toggleBranch = function(scope) {
-
+console.debug("XXXXXX",scope)
 		$scope.actualFolder = scope.$modelValue.id;														// folder abierto
 
     	// set breadcrumbs
