@@ -4,63 +4,71 @@
 
 <div layout="row" layout-margin>
 
-  <div flex="33">
-   <md-list>
-     <md-list-item>
-       <md-button class="md-fab md-mini">
-         <div align="center">A</div>
-       </md-button>
-     </md-list-item>
-     <md-list-item>
+    <div flex="25" id="arbol">
+        <md-input-container md-no-float class="md-accent" flex="50" style="padding-bottom:0px;margin-left:25px">
+           <md-icon style="color:darkcyan" class="material-icons">&#xE8B6;</md-icon>
+           <input ng-model="searchInput" placeholder="buscar" style="color:darkcyan;padding-left:25px;margin-left:5px">
+        </md-input-container>
+        <md-list>
+            <!-- TREE -->
+            <md-list-item>
+                <div ui-tree="treeOptions" id="tree-root" >
+                    <ol ui-tree-nodes="" ng-model="data">
+                        <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                    </ol>
+                </div>
+            </md-list-item>
+            <!-- TREE -->
+        </md-list>
+    </div>
 
-        <!-- TREE -->
-        <div ui-tree="treeOptions" id="tree-root" >
-          <ol ui-tree-nodes="" ng-model="data">
-            <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
-          </ol>
+
+
+    <div flex>
+        <div class="row" id="breadcrumbs" style="height:50px; background-color:#f5f5f5">
+
+            <md-button class="md-fab md-mini" ng-click="bcToPath(0)">
+            <div align="center"><i class="fa fa-home"></i></div>
+            </md-button>
+
+            <div id="bc2" class="btn-group btn-breadcrumb">      
+                <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn "><div><i class="glyphicon glyphicon-folder-open" style="padding:0 10px"></i>{{item}} &nbsp/ </div></a>
+                <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>
+            </div>  
+
         </div>
-        <!-- TREE -->
 
-     </md-list-item>
-   </md-list>
-  </div>
+        <div class="table-responsive-vertical shadow-z-1" style="width:100%">
+            <!-- Table starts here -->
+            <table id="table" class="table table-hover table-mc-light-blue" >
+                <thead>
+                    <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Tamaño</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="fichero in ficheros">
+                    <td data-title="ID">{{$index+1}}</td>
+                    <td data-title="Name">{{fichero.title}}</td>
+                    <td data-title="Name">{{fichero.content_length}}</td>
+                    <td data-title="Name">{{fichero.last_modified}}</td>
+                    <td data-title="Name"><i class="{{fichero.icon_type}}" style="font-size:1.5em;color:#C440CD"></i></td>
+                    <!--           <td data-title="Link">
+                    <a href="https://github.com/zavoloklom/material-design-color-palette" target="_blank">GitHub</a>
+                    </td> -->
+                    </tr>
+                </tbody>
+            </table>
 
-<!--  <div flex>
-   <md-content></md-content>
- </div> -->
-
-
- <div flex>
-<div class="table-responsive-vertical shadow-z-1" style="width:100%">
-  <!-- Table starts here -->
-  <table id="table" class="table table-hover table-mc-light-blue" >
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Tamaño</th>
-          <th>Fecha</th>
-          <th>Tipo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="fichero in ficheros">
-          <td data-title="ID">{{$index+1}}</td>
-          <td data-title="Name">{{fichero.title}}</td>
-          <td data-title="Name">{{fichero.content_length}}</td>
-          <td data-title="Name">{{fichero.last_modified}}</td>
-          <td data-title="Name"><i class="{{fichero.icon_type}}" style="font-size:1.5em;color:#C440CD"></i></td>
-<!--           <td data-title="Link">
-            <a href="https://github.com/zavoloklom/material-design-color-palette" target="_blank">GitHub</a>
-          </td> -->
-        </tr>
-      </tbody>
-    </table>
-  </div>
+        </div>
   
 
 
- </div>
+    </div>
 
 
 </div>

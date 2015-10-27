@@ -111,6 +111,7 @@ console.debug("FOLDER", modelValue.id );
 	   		})
 			$scope.$parent.spin=false;
     	    // FILES
+    	    $scope.ficheros = [];
 	   		_.forEach(data.file, function(item) { 
 			    console.debug("TIPO",item.name.split('.').pop());
 				var icono ; var color ; 
@@ -286,6 +287,8 @@ console.debug("XXXXXX",scope)
 
 
 	$scope.bcToPath = function(index) {
+
+		$scope.bc.splice(index+1, $scope.bc.length-1);		// quita del breadcrumb los sobrantes
 
 		if(index==0){ $scope.collapseAll()}
 

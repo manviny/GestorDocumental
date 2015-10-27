@@ -3,7 +3,7 @@
     color: #fff;
 }
 
-.flex-33{
+#arbol{
     border-left: 1px solid #ddd;
     padding-left: 4px;
      background-color: #f5f5f5;
@@ -16,7 +16,7 @@
     border-left: 1px solid #ddd;
     padding-left: 4px;
     background-color: #f5f5f5;
-    overflow-y: scroll;
+    overflow-y: auto;
     position: relative;
 height: 510px;
 overflow-y: scroll;
@@ -35,8 +35,12 @@ overflow-y: scroll;
     color: #0a6ebd;
 }
 
+.layout-margin {
+     margin: 0px; 
+}
 
-
-
+#breadcrumbs{
+  margin: -8px;
+}
 
 /*TABLE*/
