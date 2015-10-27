@@ -5,9 +5,11 @@
 <div layout="row" layout-margin>
 
     <div flex="25" id="arbol">
+
+        <!-- SEARCH -->
         <md-input-container md-no-float class="md-accent" flex="50" style="padding-bottom:0px;margin-left:25px">
-           <md-icon style="color:darkcyan" class="material-icons">&#xE8B6;</md-icon>
-           <input ng-model="searchInput" placeholder="buscar" style="color:darkcyan;padding-left:25px;margin-left:5px">
+           <md-icon style="color:darkcyan" class="material-icons" ng-click="busca()">&#xE8B6;</md-icon>
+           <input ng-model="termino" placeholder="buscar" style="color:darkcyan;padding-left:25px;margin-left:5px">
         </md-input-container>
         <md-list>
             <!-- TREE -->
@@ -23,24 +25,57 @@
     </div>
 
 
-
     <div flex>
-        <div class="row" id="breadcrumbs" style="height:50px; background-color:#f5f5f5">
 
-            <md-button class="md-fab md-mini" ng-click="bcToPath(0)">
-            <div align="center"><i class="fa fa-home"></i></div>
-            </md-button>
+        <!-- ENCONTRADOS -->
+        <div class="col-xs-12"  ng-show="verEncontrados" >
+          <div class="alert alert-success" role="alert">
+            <button type="button" ng-click="verEncontrados=false" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span ><i class="fa fa-search"> Encontrados</i></span> <span class="badge">{{encontrados.length}}</span>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="item in encontrados">
+              <a href="https://s3-eu-west-1.amazonaws.com/{{item.path | escape}}" target="_blank">
+                <span ng-class="item.icon_type" style="color:{{item.icon_color}};font-size:1.5em;"></span>
+                #{{$index+1}} - {{item.name.split('/').pop()}}
+                <i class="fa fa-cloud-download  pull-right" style="font-size:1.5em;color:#C440CD"></i>
+                <span class="badge pull-right">{{item.content_length/1000}} KB </span>
+              </a>
+            </li>
+          </ul>
+        </div>  
 
-            <div id="bc2" class="btn-group btn-breadcrumb">      
-                <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn "><div><i class="glyphicon glyphicon-folder-open" style="padding:0 10px"></i>{{item}} &nbsp/ </div></a>
-                <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>
-            </div>  
+        <!-- BREADCRUMBS -->
+        <div ng-show="!verEncontrados" class="row" id="breadcrumbs" style="height:50px; background-color:#f5f5f5">
+
+            <div layout="row" layout-margin>
+            
+                <div flex="85">
+                    <md-button class="md-fab md-mini" ng-click="bcToPath(0)">
+                        <div align="center"><i class="fa fa-home"></i></div>
+                    </md-button>
+
+                    <div id="bc2" class="btn-group btn-breadcrumb">      
+                        <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn "><div><i class="glyphicon glyphicon-folder-open" style="padding:0 10px"></i>{{item}} &nbsp/ </div></a>
+                        <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>
+                    </div>                  
+                </div>
+                <div flex="5">
+                    <md-button class="md-raised" ng-click="verThumbs()"><i class="fa fa-th"></i></md-button>
+                </div>
+            </div>
+
 
         </div>
 
-        <div class="table-responsive-vertical shadow-z-1" style="width:100%">
+
+
+
+
+        <!-- FILES TABLE -->
+        <div ng-show="!verEncontrados" class="table-responsive-vertical shadow-z-1" style="width:100%">
             <!-- Table starts here -->
-            <table id="table" class="table table-hover table-mc-light-blue" >
+            <table id="table" class="table table-hover table-mc-light-blue" ng-show="verThumbs">
                 <thead>
                     <tr>
                     <th>#</th>
@@ -64,6 +99,32 @@
                 </tbody>
             </table>
 
+
+            <!-- FILES GRID -->
+            <div layout="row" layout-margin ng-hide="verThumbs">
+            
+<!--               <div flex ng-repeat="fichero in ficheros">
+                <div ng-if="$index % 3 === 0" ng-init="group = ficheros.slice($index, $index + 3)">
+                    <div  ng-repeat="grItem in group">
+                        <div style="float:left; margin-right:10px">
+                            <img src="https://s3-eu-west-1.amazonaws.com/{{grItem.path}}" width="90px" >
+                            <p>{{grItem.title}}</p>
+                            
+                        </div>
+                    </div>
+                </div>
+              </div>  -->           
+                <div flex ng-repeat="fichero in ficheros">
+                    <div style="float:left; margin-right:10px">
+                        <img  src="https://s3-eu-west-1.amazonaws.com/{{fichero.path}}" width="90px" >
+                        <p>{{fichero.title}}</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+
         </div>
   
 
@@ -75,16 +136,7 @@
 
 
 
-
-
-
-
-
-<div class="container">
-
-
-
-    <div class="row" ng-show="destaca"  style="background-color: whitesmoke; padding: 20px 0 20px 0">
+<!--     <div class="row" ng-show="destaca"  style="background-color: whitesmoke; padding: 20px 0 20px 0">
       <div class="col-xs-12">
         <div class="alert alert-success" role="alert"><span style="font-size:1.2em;"><i class="fa fa-th-list"> Documentos recientes</i></span> <span class="badge">{{destacados.length}}</span></div>
         <ul class="list-group">
@@ -98,47 +150,9 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
 
 
-
-    <div class="row"  style="background-color: whitesmoke; padding: 4px 0 20px 0;">
-      <div class="col-xs-12">
-<!--         <h3>Tree view
-          <a href="" class="btn btn-default pull-right" ng-click="getTree()">refresca</a>
-          <a href="" class="btn btn-default pull-right" ng-click="collapseAll()">Collapse all</a>
-          <a href="" class="btn btn-default pull-right" ng-click="expandAll()">Expand all</a>
-          <a href="" class="btn btn-default btn-warning pull-right" ng-click="moveLastToTheBegginig()">Move Last To The Beginning</a>
-        </h3> -->
-
-        <div class="row">
-
-        <!-- encontrados en busqueda -->
-        <div class="col-xs-12"  ng-show="verEncontrados" style="background-color: whitesmoke;">
-          <div class="alert alert-success" role="alert">
-            <button type="button" ng-click="verEncontrados=false" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <span ><i class="fa fa-search"> Encontrados</i></span> <span class="badge">{{encontrados.length}}</span>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item" ng-repeat="item in encontrados">
-              <a href="https://s3-eu-west-1.amazonaws.com/{{item.path | escape}}" target="_blank">
-                <span ng-class="item.icon_type" style="color:{{item.icon_color}};font-size:1.5em;"></span>
-                #{{$index+1}} - {{item.name.split('/').pop()}}
-                <i class="fa fa-cloud-download  pull-right" style="font-size:1.5em;color:#C440CD"></i>
-                <span class="badge pull-right">{{item.content_length/1000}} KB </span>
-              </a>
-            </li>
-          </ul>
-        </div>    
-
-
-      </div>
-
-      <!-- <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/> -->
-
-
-
-        <!-- Nested node template -->
         <script type="text/ng-template" id="nodes_renderer.html">
 
           <div ui-tree-handle class="tree-node tree-node-content" >
@@ -175,71 +189,4 @@
           </ol>
 
         </script>
-        <div class="alert alert-info" role="alert">
-          <!-- <span style="font-size:1.2em;"><i class="fa fa-th-list"> Documentación</i></span> -->
-        <div class="row">
 
-          <!-- breadcrumbs -->
-          <div class="col-xs-9">
-              <div id="bc2" class="btn-group btn-breadcrumb">
-                  <a ng-click="bcToPath(0)" class="btn btn-default"><i class="fa fa-home"></i></a>
-                  <!-- <div class="btn btn-success">...</div> -->
-                  <a href="" ng-repeat="item in bc" ng-click="bcToPath($index)" class="btn btn-default"><div>{{item}}</div></a>
-              <i ng-show="spin" class="fa fa-spinner fa-pulse fa-2x pull-right" style="color:darkorchid; margin-left:20px"></i>
-              </div>
-          </div>
-
-          <!-- search -->
-          <div class="col-xs-3">
-
-            <form class="navbar-form" role="search">
-            <div class="input-group" style="margin-top: -8px;">
-                <input type="text" class="form-control" placeholder="Buscar" ng-model="termino" name="srch-term" id="srch-term">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit" ng-click="busca()"><i class="glyphicon glyphicon-search"></i></button>
-                </div>
-            </div>
-            </form>
-
-          </div>
-          </div>
-        </div>
-        <div ui-tree="treeOptions" id="tree-root" style="background-color:white; min-height:480px;">
-          <ol ui-tree-nodes="" ng-model="data">
-            <li ng-repeat="node in data" data-nodrag collapsed="true" ui-tree-node ng-include="'nodes_renderer.html'"></li>
-          </ol>
-        </div>
-
-      </div>
-      </div>
-  <hr>
-
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">{{actualFile.title}}</h4>
-      </div>
-      <div class="modal-body">
-        <p>tamaño: {{actualFile.content_length/1000}} KB</p>
-        <p>fecha modificación: {{actualFile.last_modified}}</p>
-        <button type="button" class="btn btn-default" data-dismiss="modal">cambiar nombre</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">previsualizar</button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Compartir</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-</div>

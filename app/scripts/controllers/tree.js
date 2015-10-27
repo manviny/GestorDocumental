@@ -6,7 +6,7 @@ angular.module('angularjsAuthTutorialApp')
   	// informacion del usuario
 	console.debug("", $scope.$parent.currentUser);
 	$scope.ficheros = [];
-
+	
 	$scope.actualFile;
 
 	// toastr.info('estamos buscando tus documentos', 'Un momento');
@@ -140,6 +140,7 @@ console.debug("FOLDER", modelValue.id );
 	   			$scope.ficheros.push({ 
 	   				"id": item.path, 
 	   				"title": item.name, 
+	   				"path": item.path, 
 	   				"access": item.access, 
 	   				"content_type": item.content_type, 
 	   				"content_length": item.content_length, 
@@ -179,6 +180,12 @@ console.debug("FOLDER", modelValue.id );
     	    $scope.$parent.spin=false;
     	})
 	}
+
+
+    $scope.verThumbs = function() {
+
+      $scope.verThumbs = $scope.verThumbs ? false : '';
+    };
 
 
     $scope.setFile = function(node) {
