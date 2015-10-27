@@ -3,7 +3,7 @@
     color: #fff;
 }
 
-.flex-25{
+.flex-33{
     border-left: 1px solid #ddd;
     padding-left: 4px;
      background-color: #f5f5f5;
@@ -66,6 +66,7 @@ html, body {
 html {
   position: relative;
   overflow-x: hidden;
+  margin: 16px;
   padding: 0;
   min-height: 100%;
   font-size: 62.5%; // For rem units support
@@ -112,14 +113,6 @@ body {
   color: #212121;
   text-align: center;
 }
-
-
-
-.layout-margin, .layout-margin > .flex, .layout-margin > .flex-gt-sm, .layout-margin > .flex-md, .layout-margin > .flex-lt-lg {
-     margin: 0px; 
-}
-
-
 
 // Material Design shadows
 // 
