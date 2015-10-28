@@ -49,11 +49,11 @@
     <md-button ng-href="#/user-info">{{currentUser.display_name}}</md-button>
 </div>
 <div class="nav-buttons">
-    <md-button class="md-raised" ng-href="#/documentos">Documentos</md-button>
-    <md-button class="md-raised" ng-href="#/user-info">Usuario</md-button>
-    <md-button class="md-raised" ng-href="#/login">Entrar</md-button>
+    <!-- <md-button class="md-raised" ng-href="#/documentos" ng-show="currentUser">Documentos</md-button> -->
+    <!-- <md-button class="md-raised" ng-href="#/user-info">Usuario</md-button> -->
+    <md-button class="md-raised" ng-href="#/login" ng-hide="currentUser">Entrar</md-button>
     <!-- <md-button class="md-raised md-accent" ng-href="#/user-info">Subir archivo</md-button> -->
-    <md-button class="md-raised md-warn" ng-href="#/logout">Salir <i style="font-size:1.6em" class="fa fa-sign-out"></i></md-button>
+    <md-button class="md-raised md-warn" ng-href="#/logout" ng-show="currentUser">Salir <i style="font-size:1.6em" class="fa fa-sign-out"></i></md-button>
     
 </div>
 </div>

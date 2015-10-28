@@ -8,7 +8,7 @@ angular.module('angularjsAuthTutorialApp')
 	$scope.ficheros = [];
 	
 	$scope.actualFile;
-
+	$scope.thumbsVisibles = false;
 	// toastr.info('estamos buscando tus documentos', 'Un momento');
 
     $scope.$watch('apiReady', function() { 
@@ -181,10 +181,10 @@ console.debug("FOLDER", modelValue.id );
     	})
 	}
 
-
-    $scope.verThumbs = function() {
-
-      $scope.verThumbs = $scope.verThumbs ? false : '';
+	// switch between list and thumbs view
+    $scope.verThumbs = function(tipo) {
+    	if(tipo=='list')  $scope.thumbsVisibles = false;
+    	if(tipo=='thumb')  $scope.thumbsVisibles = true;
     };
 
 
