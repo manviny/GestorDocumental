@@ -49,3 +49,18 @@ overflow-y: scroll;
     min-width: 40px;
 }
 /*TABLE*/
+
+
+
+/*grid*/
+.gridListdemoBasicUsage md-grid-list {
+  margin: 8px;
+}
+
+.gridListdemoBasicUsage .gray {
+  background: #f5f5f5;
+}
+
+.gridListdemoBasicUsage md-grid-tile {
+  transition: all 400ms ease-out 50ms;
+}
