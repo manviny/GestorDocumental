@@ -110,13 +110,14 @@
                     <md-card style="width: 300px;" ng-repeat="fichero in ficheros" ng-switch="fichero.title.split('.')[1]">
 
                         <img ng-switch-when="jpg" src="https://s3-eu-west-1.amazonaws.com/{{fichero.path}}" class="md-card-image" alt="user avatar">
+                        <img ng-switch-when="png" src="https://s3-eu-west-1.amazonaws.com/{{fichero.path}}" class="md-card-image" alt="user avatar">
                         <i ng-switch-when="pdf" class="fa fa-file-pdf-o fa-4x" style="color:#E45656;margin:auto"></i>
                         <i ng-switch-default class="fa fa-sticky-note-o fa-4x" style="color:darkblue;margin:auto"></i>
 
                         <md-card-content>
                             <h5 style="color:#666;margin:auto">{{fichero.title}}</h5>
                         </md-card-content>
-                        
+
                         <div class="md-actions" layout="row" layout-align="end center">
                             <md-button><i class="fa fa-download"></i></md-button>
                             <md-button><i class="fa fa-eye"></i></md-button>
@@ -129,16 +130,11 @@
             </div>
             <!-- FILES GRID -->        
 
-
             </div>
-
 
         </div>
   
-
-
     </div>
-
 
 </div>
 
