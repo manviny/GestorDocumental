@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularjsAuthTutorialApp')
-  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter, $http, DreamFactory, toastr) { 
+  .controller('TreeCtrl', function ($scope, dfapi, $q, $filter, $http, DreamFactory, toastr, fileUpload) { 
 
   	// informacion del usuario
 	console.debug("", $scope.$parent.currentUser);
@@ -20,6 +20,19 @@ angular.module('angularjsAuthTutorialApp')
     	else { $scope.getClientRoot(); }
 
     });
+
+
+
+
+
+    
+    $scope.uploadFileOLDWAY = function(){
+        var file = $scope.myFile;
+        console.log('file is ' + JSON.stringify(file));
+        var uploadUrl = "http://indinet.es/rest/S3/mny-tmp/folder_0/";
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+    };
+    
 
 
 
